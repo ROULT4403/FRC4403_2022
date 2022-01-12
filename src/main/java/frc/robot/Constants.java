@@ -24,4 +24,8 @@ public final class Constants {
         public static final double driveLimiter = 0.9;
         public static final double rotLimiter = 0.8; 
     }
+
+    public static final class IntakeConstants{
+        public static final int portIntake = 4;
+    }
 }
