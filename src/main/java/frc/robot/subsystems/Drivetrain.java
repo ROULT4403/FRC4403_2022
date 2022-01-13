@@ -11,17 +11,23 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Drivetrain extends SubsystemBase {
   
-  final VictorSPX topRight = new VictorSPX(DrivetrainConstants.portRightTop);
-  final VictorSPX topLeft = new VictorSPX(DrivetrainConstants.portLeftTop);
-  final VictorSPX bottomRight = new VictorSPX(DrivetrainConstants.portRightBottom);
-  final VictorSPX bottomLeft = new VictorSPX(DrivetrainConstants.portLeftBottom);
+  public final VictorSPX topRight = new VictorSPX(DrivetrainConstants.portRightTop);
+  public final VictorSPX topLeft = new VictorSPX(DrivetrainConstants.portLeftTop);
+  public final VictorSPX bottomRight = new VictorSPX(DrivetrainConstants.portRightBottom);
+  public final VictorSPX bottomLeft = new VictorSPX(DrivetrainConstants.portLeftBottom);
   
-  final SlewRateLimiter filterDrive = new SlewRateLimiter(10);
-  final SlewRateLimiter filterRot = new SlewRateLimiter(10);
+  public final SlewRateLimiter filterDrive = new SlewRateLimiter(10);
+  public final SlewRateLimiter filterRot = new SlewRateLimiter(10);
 
+  public final DoubleSolenoid DockShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.DockShiftPort[0], DrivetrainConstants.DockShiftPort[1]);
+
+  private boolean shift = DrivetrainConstants.DockShiftDefault;
 
   public Drivetrain() {
 
@@ -39,6 +45,16 @@ public class Drivetrain extends SubsystemBase {
     topLeft.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, filterTurn * DrivetrainConstants.rotLimiter);
     topRight.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, -filterTurn * DrivetrainConstants.rotLimiter);
 
+  }
+  public void DockShift() {
+    if (!shift) {
+      DockShift.set(Value.kForward);
+    } else if (shift) {
+      DockShift.set(Value.kReverse);
+    } else {
+      DockShift.set(Value.kOff);
+    }
+    shift = !shift;
   }
 
   @Override

@@ -21,7 +21,11 @@ public final class Constants {
         public static final int portLeftTop = 0;
         public static final int portLeftBottom = 2;
 
-        public static final double driveLimiter = 0.9;
-        public static final double rotLimiter = 0.8; 
+        public static final double driveLimiter = 0.9; 
+        public static final double rotLimiter = 0.8;
+        
+        public static final int[] DockShiftPort = {0, 0};
+
+        public static final boolean DockShiftDefault = false;
     }
 }
