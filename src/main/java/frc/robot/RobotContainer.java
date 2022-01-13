@@ -69,8 +69,8 @@ public class RobotContainer {
     d_Select.whenPressed(new InstantCommand(s_drive::DockShift, s_drive));
 
     // Intake Commands
-    c_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
-    c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
+    d_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
+    d_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
   }
 
 

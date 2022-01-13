@@ -30,11 +30,18 @@ public class Drivetrain extends SubsystemBase {
   public final DifferentialDrive drive = new DifferentialDrive(topLeft, topRight);
 
   // Instantiate Acceleration Filters
-  public final SlewRateLimiter filterDrive = new SlewRateLimiter(10);
+  public final SlewRateLimiter filterDrive = new SlewRateLimiter(0.5);
   public final SlewRateLimiter filterRot = new SlewRateLimiter(10);
 
   // Instantiate Pneumatics
   public final DoubleSolenoid DockShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.DockShiftPort[0], DrivetrainConstants.DockShiftPort[1]);
+
+  // Acceleration Variables
+  private double previousX = 0;
+	private double dx = 0.2;
+
+	private double previousY = 0;
+	private double dy = 0.2;
 
   // Instantiate Sensors
   public final AHRS navx = new AHRS(Port.kMXP); // NavX Gyro
@@ -57,15 +64,27 @@ public class Drivetrain extends SubsystemBase {
     bottomRight.setInverted(true);
     topRight.setInverted(true);
 
+    drive.setDeadband(0.05);
+
   }
-  public void drive (double velocidad, double velocidadRot) {
-    double filterSpeed = filterDrive.calculate(velocidad * DrivetrainConstants.driveLimiter);
-    double filterTurn = filterRot.calculate(velocidadRot * DrivetrainConstants.rotLimiter);
+  public void drive (double speed, double rot) {
+    double y = speed * DrivetrainConstants.driveLimiter;
+    if (y > previousY + dy) {
+      y = previousY + dy;
+    } else if (y < previousY - dy) {
+      y = previousY - dy;
+    }
+    previousY = y;
+    // Restrict X
+    double x = rot * DrivetrainConstants.rotLimiter;
+    if (x > previousX + dx) {
+      x = previousX + dx;
+    } else if (x < previousX - dx) {
+      x = previousX - dx;
+    }
+    previousX = x;
 
-    //topLeft.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, filterTurn * DrivetrainConstants.rotLimiter);
-    //topRight.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, -filterTurn * DrivetrainConstants.rotLimiter);
-
-    drive.arcadeDrive(filterSpeed, filterTurn);
+    drive.arcadeDrive(y, x);
   }
 
   public void DockShift() {

@@ -30,6 +30,7 @@ public final class Constants {
         public static final int[] EncoderRightPort = {0, 0};
 
         public static final boolean DockShiftDefault = false;
+        
     }
 
     public static final class IntakeConstants{
