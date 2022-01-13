@@ -58,7 +58,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     // Default Drive Command
-    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
+    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
   }
 
   /**
@@ -66,7 +66,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    d_LSClick.whenPressed(new InstantCommand(s_drive::DockShift, s_drive));
+    d_Select.whenPressed(new InstantCommand(s_drive::DockShift, s_drive));
 
     // Intake Commands
     c_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));

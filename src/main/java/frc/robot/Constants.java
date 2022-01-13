@@ -16,15 +16,18 @@ public final class Constants {
 
     public static final class DrivetrainConstants{
 
-        public static final int portRightTop = 1;
-        public static final int portRightBottom = 3; 
-        public static final int portLeftTop = 0;
-        public static final int portLeftBottom = 2;
+        public static final int portRightTop = 5;
+        public static final int portRightBottom = 2; 
+        public static final int portLeftTop = 6;
+        public static final int portLeftBottom = 8;
 
         public static final double driveLimiter = 0.9; 
         public static final double rotLimiter = 0.8;
         
-        public static final int[] DockShiftPort = {0, 0};
+        public static final int[] DockShiftPort = {3, 4};
+
+        public static final int[] EncoderLeftPort = {0, 0};
+        public static final int[] EncoderRightPort = {0, 0};
 
         public static final boolean DockShiftDefault = false;
     }

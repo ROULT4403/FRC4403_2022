@@ -4,28 +4,37 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drivetrain extends SubsystemBase {
   
-  public final VictorSPX topRight = new VictorSPX(DrivetrainConstants.portRightTop);
-  public final VictorSPX topLeft = new VictorSPX(DrivetrainConstants.portLeftTop);
-  public final VictorSPX bottomRight = new VictorSPX(DrivetrainConstants.portRightBottom);
-  public final VictorSPX bottomLeft = new VictorSPX(DrivetrainConstants.portLeftBottom);
+  public final WPI_VictorSPX topRight = new WPI_VictorSPX(DrivetrainConstants.portRightTop);
+  public final WPI_VictorSPX topLeft = new WPI_VictorSPX(DrivetrainConstants.portLeftTop);
+  public final WPI_VictorSPX bottomRight = new WPI_VictorSPX(DrivetrainConstants.portRightBottom);
+  public final WPI_VictorSPX bottomLeft = new WPI_VictorSPX(DrivetrainConstants.portLeftBottom);
   
   public final SlewRateLimiter filterDrive = new SlewRateLimiter(10);
   public final SlewRateLimiter filterRot = new SlewRateLimiter(10);
 
   public final DoubleSolenoid DockShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.DockShiftPort[0], DrivetrainConstants.DockShiftPort[1]);
+  public final DifferentialDrive drive = new DifferentialDrive(topLeft, topRight);
+
+  public final AHRS navx = new AHRS(Port.kMXP);
+
+  //public final Encoder encoderLeft = new Encoder(DrivetrainConstants.EncoderLeftPort[0], DrivetrainConstants.EncoderLeftPort[1], false, EncodingType.k4X);
+  //public final Encoder encoderRight = new Encoder(DrivetrainConstants.EncoderRightPort[0], DrivetrainConstants.EncoderRightPort[1], true, EncodingType.k4X);
 
   private boolean shift = DrivetrainConstants.DockShiftDefault;
 
@@ -42,10 +51,12 @@ public class Drivetrain extends SubsystemBase {
     double filterSpeed = filterDrive.calculate(velocidad);
     double filterTurn = filterRot.calculate(velocidadRot);
 
-    topLeft.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, filterTurn * DrivetrainConstants.rotLimiter);
-    topRight.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, -filterTurn * DrivetrainConstants.rotLimiter);
+    //topLeft.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, filterTurn * DrivetrainConstants.rotLimiter);
+    //topRight.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, -filterTurn * DrivetrainConstants.rotLimiter);
 
+    drive.arcadeDrive(filterSpeed, filterTurn);
   }
+
   public void DockShift() {
     if (!shift) {
       DockShift.set(Value.kForward);
