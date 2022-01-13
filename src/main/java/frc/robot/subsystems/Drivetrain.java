@@ -20,36 +20,47 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drivetrain extends SubsystemBase {
   
+  // Instantiate Motor Controllers
   public final WPI_VictorSPX topRight = new WPI_VictorSPX(DrivetrainConstants.portRightTop);
   public final WPI_VictorSPX topLeft = new WPI_VictorSPX(DrivetrainConstants.portLeftTop);
   public final WPI_VictorSPX bottomRight = new WPI_VictorSPX(DrivetrainConstants.portRightBottom);
   public final WPI_VictorSPX bottomLeft = new WPI_VictorSPX(DrivetrainConstants.portLeftBottom);
   
+  // Instantiate DifferentialDrive
+  public final DifferentialDrive drive = new DifferentialDrive(topLeft, topRight);
+
+  // Instantiate Acceleration Filters
   public final SlewRateLimiter filterDrive = new SlewRateLimiter(10);
   public final SlewRateLimiter filterRot = new SlewRateLimiter(10);
 
+  // Instantiate Pneumatics
   public final DoubleSolenoid DockShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.DockShiftPort[0], DrivetrainConstants.DockShiftPort[1]);
-  public final DifferentialDrive drive = new DifferentialDrive(topLeft, topRight);
 
-  public final AHRS navx = new AHRS(Port.kMXP);
+  // Instantiate Sensors
+  public final AHRS navx = new AHRS(Port.kMXP); // NavX Gyro
+  // public final Encoder encoderLeft = new Encoder(DrivetrainConstants.EncoderLeftPort[0], DrivetrainConstants.EncoderLeftPort[1], 
+  //                                                false, EncodingType.k4X);
+  // public final Encoder encoderRight = new Encoder(DrivetrainConstants.EncoderRightPort[0], DrivetrainConstants.EncoderRightPort[1], 
+  //                                                 true, EncodingType.k4X);
 
-  //public final Encoder encoderLeft = new Encoder(DrivetrainConstants.EncoderLeftPort[0], DrivetrainConstants.EncoderLeftPort[1], false, EncodingType.k4X);
-  //public final Encoder encoderRight = new Encoder(DrivetrainConstants.EncoderRightPort[0], DrivetrainConstants.EncoderRightPort[1], true, EncodingType.k4X);
 
+  // Instantiate Class Variables
   private boolean shift = DrivetrainConstants.DockShiftDefault;
 
   public Drivetrain() {
 
+    // Setup Follower Motors
     bottomRight.follow(topRight);
     bottomLeft.follow(topLeft);
 
+    // Setup Inverted Motors
     bottomRight.setInverted(true);
     topRight.setInverted(true);
 
   }
   public void drive (double velocidad, double velocidadRot) {
-    double filterSpeed = filterDrive.calculate(velocidad);
-    double filterTurn = filterRot.calculate(velocidadRot);
+    double filterSpeed = filterDrive.calculate(velocidad * DrivetrainConstants.driveLimiter);
+    double filterTurn = filterRot.calculate(velocidadRot * DrivetrainConstants.rotLimiter);
 
     //topLeft.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, filterTurn * DrivetrainConstants.rotLimiter);
     //topRight.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, -filterTurn * DrivetrainConstants.rotLimiter);
