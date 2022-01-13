@@ -28,4 +28,8 @@ public final class Constants {
 
         public static final boolean DockShiftDefault = false;
     }
+
+    public static final class IntakeConstants{
+        public static final int portIntake = 4;
+    }
 }

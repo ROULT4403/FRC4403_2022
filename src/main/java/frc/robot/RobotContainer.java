@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain s_drive = new Drivetrain();
+  private final Intake s_intake = new Intake();
 
   Joystick driver = new Joystick(0);
   Joystick controller = new Joystick(1);  
@@ -56,6 +57,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    // Default Drive Command
     s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
   }
 
@@ -66,6 +68,9 @@ public class RobotContainer {
 
     d_LSClick.whenPressed(new InstantCommand(s_drive::DockShift, s_drive));
 
+    // Intake Commands
+    c_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
+    c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
   }
 
 
