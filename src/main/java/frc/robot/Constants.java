@@ -16,11 +16,11 @@ public final class Constants {
 
     public static final class DrivetrainConstants{
 
-        public static final int portRightTop = 5;
-        public static final int portRightBottom = 2; 
+        public static final int portRightTop = 2;
+        public static final int portRightBottom = 5; 
         public static final int portLeftTop = 6;
         public static final int portLeftBottom = 8;
-
+        
         public static final double driveLimiter = 0.9; 
         public static final double rotLimiter = 0.8;
         
