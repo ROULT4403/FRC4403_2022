@@ -9,13 +9,13 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class Defaultdrive extends CommandBase {
+public class DefaultDrive extends CommandBase {
 
   private final Drivetrain s_Drive;
   private final DoubleSupplier v_speed;
   private final DoubleSupplier v_rot;
 
-  public Defaultdrive(Drivetrain subsystem, DoubleSupplier speed, DoubleSupplier rot){
+  public DefaultDrive(Drivetrain subsystem, DoubleSupplier speed, DoubleSupplier rot){
     s_Drive = subsystem;
     v_speed = speed;
     v_rot = rot;
