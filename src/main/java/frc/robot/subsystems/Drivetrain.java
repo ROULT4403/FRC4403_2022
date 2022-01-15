@@ -56,6 +56,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void drive(double velocidad, double velocidadRot) {
     drive.arcadeDrive(velocidad, velocidadRot);
+    drive.feed();
   }
 
   public double getHeading() {
