@@ -18,29 +18,28 @@ public final class Constants {
 
     public static final class DrivetrainConstants{
 
-        public static final int portRightTop = 1;
-        public static final int portRightBottom = 3; 
-        public static final int portLeftTop = 0;
-        public static final int portLeftBottom = 2;
+        public static final int portRightTop = 2;
+        public static final int portRightBottom = 5; 
+        public static final int portLeftTop = 6;
+        public static final int portLeftBottom = 8;
 
         public static final double driveLimiter = 0.9;
         public static final double rotLimiter = 0.8; 
 
         public static final double maxRot = 0.7;
-        public static final double maxFwd = 1;
+        public static final double maxFwd = 0.6;
 
-        public static final double kTrackwidthMeters = 0.69;
+        public static final double kTrackwidthMeters = 0.65;
 
-            public static final DifferentialDriveKinematics kDriveKinematics =
-        new DifferentialDriveKinematics(0.686);
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
         
         public static final boolean kGyroReversed = true;
         public static final boolean DockShiftDefault = false;
 
         public static final int[] DockShiftPort = {2, 3};
 
-        public static final int[] kLeftEncoderPorts = new int[]{0, 1};
-        public static final int[] kRightEncoderPorts = new int[]{2, 3};
+        public static final int[] kLeftEncoderPorts = {0,1};
+        public static final int[] kRightEncoderPorts = {2,3};
         public static final boolean kLeftEncoderReversed = false;
         public static final boolean kRightEncoderReversed = true;
 
@@ -51,9 +50,9 @@ public final class Constants {
         public static final double kaVoltSecondsSquaredPerMeter = 0.2;
 
     // Example value only - as above, this must be tuned for your drive!
-     public static final double kPDriveVel = 8.5;
+     public static final double kPDriveVel = 2;
 
-     public static final double kP = 0.1;
+     public static final double kP = 1.2;
      public static final double kI = 0.0;
      public static final double kD = 0.0;
      

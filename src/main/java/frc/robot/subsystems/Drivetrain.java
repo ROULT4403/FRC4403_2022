@@ -4,40 +4,38 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class Drivetrain extends SubsystemBase {
   
   //final WPI_VictorSPX topRight = new WPI_VictorSPX(DrivetrainConstants.portRightTop);
-  final WPI_VictorSPX topLeft = new WPI_VictorSPX(DrivetrainConstants.portLeftTop);
-  final WPI_VictorSPX bottomRight = new WPI_VictorSPX(DrivetrainConstants.portRightBottom);
-  final WPI_VictorSPX bottomLeft = new WPI_VictorSPX(DrivetrainConstants.portLeftBottom);
+  private final WPI_VictorSPX topLeft = new WPI_VictorSPX(DrivetrainConstants.portLeftTop);
+  private final WPI_VictorSPX topRight = new WPI_VictorSPX(DrivetrainConstants.portRightTop);
+  private final WPI_VictorSPX bottomLeft = new WPI_VictorSPX(DrivetrainConstants.portLeftBottom);
+  private final WPI_VictorSPX bottomRight = new WPI_VictorSPX(DrivetrainConstants.portRightBottom);
 
-  final WPI_VictorSPX topRight = new WPI_VictorSPX(DrivetrainConstants.portRightTop);
-  
-  public static DifferentialDrive Drive = new DifferentialDrive(topLeft, topRight);
+  private final DifferentialDrive drive = new DifferentialDrive(topLeft, topRight);
+  private final DifferentialDriveOdometry odom;
 
-  
   // Sensors
   private final AHRS NavX = new AHRS(Port.kMXP);
-
-  final SlewRateLimiter filterDrive = new SlewRateLimiter(10);
-  final SlewRateLimiter filterRot = new SlewRateLimiter(10);
-
-  private final DifferentialDriveOdometry odom;
+  private final Encoder driveLeftEncoder = new Encoder(DrivetrainConstants.kLeftEncoderPorts[0], 
+    DrivetrainConstants.kLeftEncoderPorts[1], DrivetrainConstants.kLeftEncoderReversed, EncodingType.k4X);
+  private final Encoder driveRightEncoder = new Encoder(DrivetrainConstants.kRightEncoderPorts[0], 
+    DrivetrainConstants.kRightEncoderPorts[1], DrivetrainConstants.kRightEncoderReversed, EncodingType.k4X);
   
   public Drivetrain() {
 
@@ -49,12 +47,14 @@ public class Drivetrain extends SubsystemBase {
 
     odom = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));  
 
+    driveRightEncoder.setDistancePerPulse(10);
+    driveLeftEncoder.setDistancePerPulse(10);
+
+    NavX.reset();
+    resetEncoders();
   }
+
   public void drive(double velocidad, double velocidadRot) {
-
-    //topLeft.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, filterTurn * DrivetrainConstants.rotLimiter);
-    //topRight.set(ControlMode.PercentOutput, DrivetrainConstants.driveLimiter * filterSpeed, DemandType.ArbitraryFeedForward, -filterTurn * DrivetrainConstants.rotLimiter);
-
     drive.arcadeDrive(velocidad, velocidadRot);
   }
 
@@ -63,8 +63,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void resetEncoders(){
-    topLeft.setSelectedSensorPosition(0);
-    topRight.setSelectedSensorPosition(0);
+    driveLeftEncoder.reset();
+    driveLeftEncoder.reset();
   }
 
   public Pose2d getPose(){
@@ -72,8 +72,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds(){
-    return new DifferentialDriveWheelSpeeds(topRight.getSelectedSensorVelocity(),
-                                topRight.getSelectedSensorVelocity());
+    return new DifferentialDriveWheelSpeeds(driveLeftEncoder.getRate(),
+                                driveRightEncoder.getRate());
   }
 
   public void resetOdometry(Pose2d pose){
@@ -84,23 +84,29 @@ public class Drivetrain extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts){
     topLeft.setVoltage(leftVolts);
     topRight.setVoltage(rightVolts);
-    Drive.feed();
+    drive.feed();
+    if(leftVolts == 0 && rightVolts == 0) {
+      SmartDashboard.putString("Error", "Finished");
+    }
   }
 
   public double getAverageEncoderDistance(){
-    return (topLeft.getSelectedSensorPosition() + topRight.getSelectedSensorPosition()) / 2.0;
+    SmartDashboard.putString("Error", "Getting Distance");
+    return (driveLeftEncoder.getDistance() + driveRightEncoder.getDistance()) / 2.0;
   }
 
   public double getTurnRate(){
-    return NavX.getRate()* (DrivetrainConstants.kGyroReversed ? -1.0 : 1.0);
+    return NavX.getRate() * (DrivetrainConstants.kGyroReversed ? -1.0 : 1.0);
   }
-
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-     // Update the odometry in the periodic block
-     odom.update(Rotation2d.fromDegrees(getHeading()), topLeft.getSelectedSensorPosition(),
-     topRight.getSelectedSensorPosition());
+    // Update the odometry in the periodic block
+    odom.update(Rotation2d.fromDegrees(getHeading()), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
+    SmartDashboard.putNumber("Angle", NavX.getYaw());
+    SmartDashboard.putNumber("Distance", getAverageEncoderDistance());
+    SmartDashboard.putNumber("RawR", driveRightEncoder.getRaw());
+    SmartDashboard.putNumber("RawL", driveLeftEncoder.getRaw());
   }
 }

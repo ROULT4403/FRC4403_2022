@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj.Joystick;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Filesystem;
 
@@ -70,9 +70,6 @@ public class RobotContainer {
   POVButton c_Pad180 = new POVButton(controller, 180);
   POVButton c_Pad270 = new POVButton(controller, 270);
 
-
-  
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -84,9 +81,6 @@ public class RobotContainer {
 
   }
 
-
-  
-
   /**
    * Use this method to define your button->command mappings. 
    */
@@ -96,14 +90,13 @@ public class RobotContainer {
     c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
   }
 
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() throws IOException {
-
+  public Command getAutonomousCommand() {
+    SmartDashboard.putString("Error", "Getting Command");
     var autoVoltageConstraint=
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
@@ -111,39 +104,42 @@ public class RobotContainer {
                                        DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
             DrivetrainConstants.kDriveKinematics,
             10);
-      String trajectoryJSON = "paths/Unnamed.wpilib.json";
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+    String trajectoryJSON = "paths/Unnamed.wpilib.json";
+    Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+    try {
+      SmartDashboard.putString("Error", "Trying for Path");
       Trajectory patth = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-
-    //Create config for trajectory
-    TrajectoryConfig config =
-      new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
-                            AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-    // Add kinematics to ensure max speed is actually obeyed
-        .setKinematics(DrivetrainConstants.kDriveKinematics)
-    // Apply the voltage constraint
-        .addConstraint(autoVoltageConstraint);
-
-    RamseteCommand ramseteCommand = new RamseteCommand(
-      patth,
-      s_drive::getPose,
-      new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-      new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
-                                 DrivetrainConstants.kvVoltSecondsPerMeter,
-                                 DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
-      DrivetrainConstants.kDriveKinematics,
-      s_drive::getWheelSpeeds,
-      new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
-      new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
-    // RamseteCommand passes volts to the callback
-      s_drive::tankDriveVolts,
-      s_drive
-    );
-
-    
-
-    // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> s_drive.tankDriveVolts(0, 0));
+      //Create config for trajectory
+      TrajectoryConfig config =
+        new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
+                              AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+      // Add kinematics to ensure max speed is actually obeyed
+          .setKinematics(DrivetrainConstants.kDriveKinematics)
+      // Apply the voltage constraint
+          .addConstraint(autoVoltageConstraint);
+  
+      RamseteCommand ramseteCommand = new RamseteCommand(
+        patth,
+        s_drive::getPose,
+        new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
+        new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
+                                    DrivetrainConstants.kvVoltSecondsPerMeter,
+                                    DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
+        DrivetrainConstants.kDriveKinematics,
+        s_drive::getWheelSpeeds,
+        new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
+        new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
+      // RamseteCommand passes volts to the callback
+        s_drive::tankDriveVolts,
+        s_drive);
+        // Run path following command, then stop at the end.
+        SmartDashboard.putString("Error", "Running Path");
+        return ramseteCommand.andThen(() -> s_drive.tankDriveVolts(0, 0));
+    } catch (IOException e) {
+      System.out.println("Error loading path");
+      System.out.println(e);
+      SmartDashboard.putString("Error", "Error Loading Path");
+      return null;
+    }
   }
-
 }
