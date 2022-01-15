@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,6 +15,21 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj.Joystick;
+
+import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj.Filesystem;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DrivetrainConstants;
 
 
 public class RobotContainer {
@@ -52,13 +70,22 @@ public class RobotContainer {
   POVButton c_Pad180 = new POVButton(controller, 180);
   POVButton c_Pad270 = new POVButton(controller, 270);
 
+
+  
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
     // Default Drive Command
     s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
+      // A split-stick arcade command, with forward/backward controlled by the left
+      // hand, and turning controlled by the right.
+
   }
+
+
+  
 
   /**
    * Use this method to define your button->command mappings. 
@@ -75,9 +102,48 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
-    // return m_autoCommand;
+  public Command getAutonomousCommand() throws IOException {
+
+    var autoVoltageConstraint=
+        new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
+                                       DrivetrainConstants.kvVoltSecondsPerMeter,
+                                       DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
+            DrivetrainConstants.kDriveKinematics,
+            10);
+      String trajectoryJSON = "paths/Unnamed.wpilib.json";
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      Trajectory patth = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+
+    //Create config for trajectory
+    TrajectoryConfig config =
+      new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
+                            AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+    // Add kinematics to ensure max speed is actually obeyed
+        .setKinematics(DrivetrainConstants.kDriveKinematics)
+    // Apply the voltage constraint
+        .addConstraint(autoVoltageConstraint);
+
+    RamseteCommand ramseteCommand = new RamseteCommand(
+      patth,
+      s_drive::getPose,
+      new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
+      new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
+                                 DrivetrainConstants.kvVoltSecondsPerMeter,
+                                 DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
+      DrivetrainConstants.kDriveKinematics,
+      s_drive::getWheelSpeeds,
+      new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
+      new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
+    // RamseteCommand passes volts to the callback
+      s_drive::tankDriveVolts,
+      s_drive
+    );
+
+    
+
+    // Run path following command, then stop at the end.
+    return ramseteCommand.andThen(() -> s_drive.tankDriveVolts(0, 0));
   }
+
 }

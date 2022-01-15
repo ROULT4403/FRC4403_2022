@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -23,9 +25,55 @@ public final class Constants {
 
         public static final double driveLimiter = 0.9;
         public static final double rotLimiter = 0.8; 
+
+        public static final double maxRot = 0.7;
+        public static final double maxFwd = 1;
+
+        public static final double kTrackwidthMeters = 0.69;
+
+            public static final DifferentialDriveKinematics kDriveKinematics =
+        new DifferentialDriveKinematics(0.686);
+        
+        public static final boolean kGyroReversed = true;
+        public static final boolean DockShiftDefault = false;
+
+        public static final int[] DockShiftPort = {2, 3};
+
+        public static final int[] kLeftEncoderPorts = new int[]{0, 1};
+        public static final int[] kRightEncoderPorts = new int[]{2, 3};
+        public static final boolean kLeftEncoderReversed = false;
+        public static final boolean kRightEncoderReversed = true;
+
+    // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
+    // values for your robot.
+        public static final double ksVolts = 0.22;
+        public static final double kvVoltSecondsPerMeter = 1.98;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+
+    // Example value only - as above, this must be tuned for your drive!
+     public static final double kPDriveVel = 8.5;
+
+     public static final double kP = 0.1;
+     public static final double kI = 0.0;
+     public static final double kD = 0.0;
+     
     }
 
     public static final class IntakeConstants{
         public static final int portIntake = 4;
     }
+
+    public static final class AutoConstants {
+        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+    
+      // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+        public static final double kRamseteB = 2;
+        public static final double kRamseteZeta = 0.7;
+  
+      }
+  
+  
+  
+  
 }
