@@ -105,7 +105,7 @@ public class RobotContainer {
                                        DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
             DrivetrainConstants.kDriveKinematics,
             10);
-    String trajectoryJSON = "paths/Unnamed.wpilib.json";
+    String trajectoryJSON = "output/Unnamed.wpilib.json";
     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
     try {
       SmartDashboard.putString("Error", "Trying for Path");

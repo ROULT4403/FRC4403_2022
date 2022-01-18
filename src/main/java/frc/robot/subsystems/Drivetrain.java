@@ -11,8 +11,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +39,7 @@ public class Drivetrain extends SubsystemBase {
     DrivetrainConstants.kLeftEncoderPorts[1], DrivetrainConstants.kLeftEncoderReversed, EncodingType.k4X);
   private final Encoder driveRightEncoder = new Encoder(DrivetrainConstants.kRightEncoderPorts[0], 
     DrivetrainConstants.kRightEncoderPorts[1], DrivetrainConstants.kRightEncoderReversed, EncodingType.k4X);
+  //private final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 4);
   
   public Drivetrain() {
 
@@ -47,15 +51,15 @@ public class Drivetrain extends SubsystemBase {
 
     odom = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));  
 
-    driveRightEncoder.setDistancePerPulse(10);
-    driveLeftEncoder.setDistancePerPulse(10);
+    driveRightEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
+    driveLeftEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
 
     NavX.reset();
     resetEncoders();
   }
 
   public void drive(double velocidad, double velocidadRot) {
-    drive.arcadeDrive(velocidad, velocidadRot);
+    drive.arcadeDrive(velocidad * DrivetrainConstants.driveLimiter, velocidadRot * DrivetrainConstants.rotLimiter);
     drive.feed();
   }
 
@@ -83,8 +87,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts){
-    topLeft.setVoltage(leftVolts);
-    topRight.setVoltage(rightVolts);
+    topLeft.setVoltage(leftVolts * DrivetrainConstants.driveLimiter);
+    topRight.setVoltage(rightVolts * DrivetrainConstants.driveLimiter);
     drive.feed();
     if(leftVolts == 0 && rightVolts == 0) {
       SmartDashboard.putString("Error", "Finished");
@@ -107,7 +111,7 @@ public class Drivetrain extends SubsystemBase {
     odom.update(Rotation2d.fromDegrees(getHeading()), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
     SmartDashboard.putNumber("Angle", NavX.getYaw());
     SmartDashboard.putNumber("Distance", getAverageEncoderDistance());
-    SmartDashboard.putNumber("RawR", driveRightEncoder.getRaw());
-    SmartDashboard.putNumber("RawL", driveLeftEncoder.getRaw());
+    SmartDashboard.putNumber("ER", driveRightEncoder.getDistance());
+    SmartDashboard.putNumber("EL", driveLeftEncoder.getDistance());
   }
 }
