@@ -11,11 +11,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,7 +41,12 @@ public class Drivetrain extends SubsystemBase {
     DrivetrainConstants.kLeftEncoderPorts[1], DrivetrainConstants.kLeftEncoderReversed, EncodingType.k4X);
   private final Encoder driveRightEncoder = new Encoder(DrivetrainConstants.kRightEncoderPorts[0], 
     DrivetrainConstants.kRightEncoderPorts[1], DrivetrainConstants.kRightEncoderReversed, EncodingType.k4X);
-  //private final DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 4);
+
+    NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
+    NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
+
+  private final DoubleSolenoid DockShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 4);
+  private boolean shift = DrivetrainConstants.DockShiftDefault;
   
   public Drivetrain() {
 
@@ -54,13 +61,28 @@ public class Drivetrain extends SubsystemBase {
     driveRightEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
     driveLeftEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
 
-    NavX.reset();
+    NavX.zeroYaw();
     resetEncoders();
   }
 
   public void drive(double velocidad, double velocidadRot) {
     drive.arcadeDrive(velocidad * DrivetrainConstants.driveLimiter, velocidadRot * DrivetrainConstants.rotLimiter);
     drive.feed();
+  }
+
+  public void DockShift(){
+    if (!shift) {
+      DockShift.set(Value.kForward);
+    } else if (shift) {
+      DockShift.set(Value.kReverse);
+    } else {
+      DockShift.set(Value.kOff);
+    }
+    shift = !shift;
+  }
+
+  public void resetGyro(){
+    NavX.zeroYaw();
   }
 
   public double getHeading() {
@@ -90,9 +112,6 @@ public class Drivetrain extends SubsystemBase {
     topLeft.setVoltage(leftVolts * DrivetrainConstants.driveLimiter);
     topRight.setVoltage(rightVolts * DrivetrainConstants.driveLimiter);
     drive.feed();
-    if(leftVolts == 0 && rightVolts == 0) {
-      SmartDashboard.putString("Error", "Finished");
-    }
   }
 
   public double getAverageEncoderDistance(){
@@ -108,8 +127,15 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // Update the odometry in the periodic block
+
     odom.update(Rotation2d.fromDegrees(getHeading()), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
-    SmartDashboard.putNumber("Angle", NavX.getYaw());
+    
+    var translation = odom.getPoseMeters().getTranslation();
+    m_xEntry.setNumber(translation.getX());
+    m_yEntry.setNumber(translation.getY());
+
+    SmartDashboard.putNumber("Angle", getHeading());
+    SmartDashboard.putNumber("Angle2", NavX.getYaw());
     SmartDashboard.putNumber("Distance", getAverageEncoderDistance());
     SmartDashboard.putNumber("ER", driveRightEncoder.getDistance());
     SmartDashboard.putNumber("EL", driveLeftEncoder.getDistance());

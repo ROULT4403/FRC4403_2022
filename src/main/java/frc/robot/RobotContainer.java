@@ -4,12 +4,11 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.nio.file.Path;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -17,15 +16,10 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.wpilibj.Filesystem;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants.AutoConstants;
@@ -89,6 +83,8 @@ public class RobotContainer {
     // Intake Commands
     c_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
     c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
+    d_Y.whenPressed(new InstantCommand(s_drive::resetGyro));
+    d_A.whenPressed(new InstantCommand());
   }
 
   /**
@@ -97,30 +93,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    SmartDashboard.putString("Error", "Getting Command");
-    var autoVoltageConstraint=
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
-                                       DrivetrainConstants.kvVoltSecondsPerMeter,
-                                       DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
-            DrivetrainConstants.kDriveKinematics,
-            10);
-    String trajectoryJSON = "output/Unnamed.wpilib.json";
-    Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-    try {
-      SmartDashboard.putString("Error", "Trying for Path");
-      Trajectory patth = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      //Create config for trajectory
-      TrajectoryConfig config =
-        new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
-                              AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-      // Add kinematics to ensure max speed is actually obeyed
-          .setKinematics(DrivetrainConstants.kDriveKinematics)
-      // Apply the voltage constraint
-          .addConstraint(autoVoltageConstraint);
-  
       RamseteCommand ramseteCommand = new RamseteCommand(
-        patth,
+        Robot.patth,
         s_drive::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
         new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
@@ -134,13 +108,10 @@ public class RobotContainer {
         s_drive::tankDriveVolts,
         s_drive);
         // Run path following command, then stop at the end.
-        SmartDashboard.putString("Error", "Running Path");
+
+        s_drive.resetGyro();
+        s_drive.resetOdometry(Robot.patth.getInitialPose());
+
         return ramseteCommand.andThen(() -> s_drive.tankDriveVolts(0, 0));
-    } catch (IOException e) {
-      System.out.println("Error loading path");
-      System.out.println(e);
-      SmartDashboard.putString("Error", "Error Loading Path");
-      return null;
     }
   }
-}

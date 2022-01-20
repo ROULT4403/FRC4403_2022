@@ -4,14 +4,29 @@
 
 package frc.robot;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DrivetrainConstants;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
   private RobotContainer m_robotContainer;
+  public static Trajectory patth;
+  public static Trajectory patth2;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -22,6 +37,43 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    var autoVoltageConstraint=
+        new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
+                                       DrivetrainConstants.kvVoltSecondsPerMeter,
+                                       DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
+            DrivetrainConstants.kDriveKinematics,
+            8);
+    String trajectoryJSON = "output/Unnamed.wpilib.json";
+    Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+    try {
+      SmartDashboard.putString("Error", "Trying for Path");
+      patth = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      //Create config for trajectory
+      // TrajectoryConfig config =
+      //   new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
+      //                         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+      // // Add kinematics to ensure max speed is actually obeyed
+      //     .setKinematics(DrivetrainConstants.kDriveKinematics)
+      // // Apply the voltage constraint
+      //     .addConstraint(autoVoltageConstraint);
+    } catch (IOException e) {
+      System.out.println("Error loading path");
+      System.out.println(e);
+      SmartDashboard.putString("Error", "Error Loading Path");
+    }
+    
+    String trajectoryJSON2 = "output/Unnamed2.wpilib.json";
+    Path trajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON2);
+    try {
+      SmartDashboard.putString("Error", "Trying for Path");
+      patth2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
+    } catch (IOException e) {
+      System.out.println("Error loading path");
+      System.out.println(e);
+      SmartDashboard.putString("Error", "Error Loading Path");
+    }
   }
 
   /**

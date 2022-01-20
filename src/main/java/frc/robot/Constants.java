@@ -18,12 +18,12 @@ public final class Constants {
 
     public static final class DrivetrainConstants{
 
-        public static final int portRightTop = 2;
-        public static final int portRightBottom = 5; 
+        public static final int portRightTop = 5;
+        public static final int portRightBottom = 2; 
         public static final int portLeftTop = 6;
         public static final int portLeftBottom = 8;
 
-        public static final double driveLimiter = 0.8;
+        public static final double driveLimiter = 0.6;
         public static final double rotLimiter = 0.7; 
 
         public static final double kTrackwidthMeters = 0.65;
@@ -37,8 +37,8 @@ public final class Constants {
 
         public static final int[] kLeftEncoderPorts = {2,3};
         public static final int[] kRightEncoderPorts = {0,1};
-        public static final boolean kLeftEncoderReversed = false;
-        public static final boolean kRightEncoderReversed = true;
+        public static final boolean kLeftEncoderReversed = true;
+        public static final boolean kRightEncoderReversed = false;
 
     // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
     // values for your robot.
@@ -47,7 +47,7 @@ public final class Constants {
         public static final double kaVoltSecondsSquaredPerMeter = 1.2979;
 
     // Example value only - as above, this must be tuned for your drive!
-     public static final double kPDriveVel = 2;
+     public static final double kPDriveVel = 3.5609;
 
      public static final double kP = 3.5609;
      public static final double kI = 0.0;
@@ -60,8 +60,8 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = 3;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxSpeedMetersPerSecond = 5.5;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
     
       // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double kRamseteB = 2;
