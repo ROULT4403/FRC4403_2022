@@ -15,7 +15,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
+//TO DO'S
+//Cambiar medidas de track width y diametro
     public static final class DrivetrainConstants{
 
         public static final int portRightTop = 5;
@@ -23,7 +24,7 @@ public final class Constants {
         public static final int portLeftTop = 6;
         public static final int portLeftBottom = 8;
 
-        public static final double driveLimiter = 0.6;
+        public static final double driveLimiter = 0.8;
         public static final double rotLimiter = 0.7; 
 
         public static final double kTrackwidthMeters = 0.65;

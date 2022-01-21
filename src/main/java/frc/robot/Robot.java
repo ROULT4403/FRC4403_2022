@@ -15,7 +15,9 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -25,8 +27,9 @@ import frc.robot.Constants.DrivetrainConstants;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  public static Trajectory patth;
-  public static Trajectory patth2;
+  public static Trajectory path;
+  public static Trajectory path2;
+  private PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -49,7 +52,7 @@ public class Robot extends TimedRobot {
     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
     try {
       SmartDashboard.putString("Error", "Trying for Path");
-      patth = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      path = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
       //Create config for trajectory
       // TrajectoryConfig config =
       //   new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
@@ -58,17 +61,18 @@ public class Robot extends TimedRobot {
       //     .setKinematics(DrivetrainConstants.kDriveKinematics)
       // // Apply the voltage constraint
       //     .addConstraint(autoVoltageConstraint);
+    SmartDashboard.putString("PathStatus", "Succes");
     } catch (IOException e) {
       System.out.println("Error loading path");
       System.out.println(e);
-      SmartDashboard.putString("Error", "Error Loading Path");
+      SmartDashboard.putString("PathStatus", "Error Loading Path");
     }
     
-    String trajectoryJSON2 = "output/Unnamed2.wpilib.json";
+    String trajectoryJSON2 = "output/Unnamed_0.wpilib.json";
     Path trajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON2);
     try {
       SmartDashboard.putString("Error", "Trying for Path");
-      patth2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
+      path2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
     } catch (IOException e) {
       System.out.println("Error loading path");
       System.out.println(e);
@@ -86,6 +90,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("Voltage", pdp.getVoltage());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

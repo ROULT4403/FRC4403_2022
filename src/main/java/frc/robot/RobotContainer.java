@@ -14,16 +14,8 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Drivetrain;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DrivetrainConstants;
 
 
 public class RobotContainer {
@@ -84,7 +76,7 @@ public class RobotContainer {
     c_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
     c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
     d_Y.whenPressed(new InstantCommand(s_drive::resetGyro));
-    d_A.whenPressed(new InstantCommand());
+    d_A.whenPressed(new InstantCommand(s_drive::DockShift));
   }
 
   /**
@@ -93,25 +85,26 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-      RamseteCommand ramseteCommand = new RamseteCommand(
-        Robot.patth,
-        s_drive::getPose,
-        new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-        new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
-                                    DrivetrainConstants.kvVoltSecondsPerMeter,
-                                    DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
-        DrivetrainConstants.kDriveKinematics,
-        s_drive::getWheelSpeeds,
-        new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
-        new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
-      // RamseteCommand passes volts to the callback
-        s_drive::tankDriveVolts,
-        s_drive);
-        // Run path following command, then stop at the end.
+      // RamseteCommand ramseteCommand = new RamseteCommand(
+      //   Robot.patth,
+      //   s_drive::getPose,
+      //   new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
+      //   new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
+      //                               DrivetrainConstants.kvVoltSecondsPerMeter,
+      //                               DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
+      //   DrivetrainConstants.kDriveKinematics,
+      //   s_drive::getWheelSpeeds,
+      //   new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
+      //   new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
+      // // RamseteCommand passes volts to the callback
+      //   s_drive::tankDriveVolts,
+      //   s_drive);
+      //   // Run path following command, then stop at the end.
 
         s_drive.resetGyro();
-        s_drive.resetOdometry(Robot.patth.getInitialPose());
+        s_drive.resetOdometry(Robot.path.getInitialPose());
 
-        return ramseteCommand.andThen(() -> s_drive.tankDriveVolts(0, 0));
+        //return ramseteCommand.andThen(() -> s_drive.tankDriveVolts(0, 0));
+        return new Auto1(s_drive);
     }
   }
