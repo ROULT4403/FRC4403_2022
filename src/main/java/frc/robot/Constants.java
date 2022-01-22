@@ -34,7 +34,7 @@ public final class Constants {
         public static final boolean kGyroReversed = true;
         public static final boolean DockShiftDefault = false;
 
-        public static final int[] DockShiftPort = {2, 3};
+        public static final int[] DogShiftPort = {2, 3};
 
         public static final int[] kLeftEncoderPorts = {2,3};
         public static final int[] kRightEncoderPorts = {0,1};
@@ -53,7 +53,7 @@ public final class Constants {
      public static final double kP = 3.5609;
      public static final double kI = 0.0;
      public static final double kD = 0.0;
-     
+
     }
 
     public static final class IntakeConstants{

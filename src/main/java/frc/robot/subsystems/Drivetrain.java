@@ -23,6 +23,13 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drivetrain extends SubsystemBase {
   
@@ -42,21 +49,34 @@ public class Drivetrain extends SubsystemBase {
   private final Encoder driveRightEncoder = new Encoder(DrivetrainConstants.kRightEncoderPorts[0], 
     DrivetrainConstants.kRightEncoderPorts[1], DrivetrainConstants.kRightEncoderReversed, EncodingType.k4X);
 
+  // Instantiate Pneumatics
+  public final DoubleSolenoid dogShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.DockShiftPort[0], 
+                                                             DrivetrainConstants.DockShiftPort[1]);
+
+  // Instantiate Class Variables
+  private boolean isHighGear = DrivetrainConstants.DockShiftDefault;
+  // Acceleration Variables
+  private double previousX = 0;
+	private double dx = 0.2;
+	private double previousY = 0;
+	private double dy = 0.2;
+
+
     NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
     NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
-
-  private final DoubleSolenoid DockShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 3, 4);
-  private boolean shift = DrivetrainConstants.DockShiftDefault;
   
   public Drivetrain() {
 
+    // Setup Follower Motors
     bottomRight.follow(topRight);
     bottomLeft.follow(topLeft);
 
+    // Setup Inverted Motors
     bottomRight.setInverted(true);
     topRight.setInverted(true);
 
-    odom = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));  
+    odom = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())); 
+    drive.setDeadband(0.05);
 
     driveRightEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
     driveLeftEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
@@ -65,20 +85,15 @@ public class Drivetrain extends SubsystemBase {
     resetEncoders();
   }
 
-  public void drive(double velocidad, double velocidadRot) {
-    drive.arcadeDrive(velocidad * DrivetrainConstants.driveLimiter, velocidadRot * DrivetrainConstants.rotLimiter);
-    drive.feed();
-  }
-
-  public void DockShift(){
-    if (!shift) {
-      DockShift.set(Value.kForward);
-    } else if (shift) {
-      DockShift.set(Value.kReverse);
+  public void toggleDogShift(){
+    if (!isHighGear) {
+      dogShift.set(Value.kForward);
+    } else if (isHighGear) {
+      dogShift.set(Value.kReverse);
     } else {
-      DockShift.set(Value.kOff);
+      dogShift.set(Value.kOff);
     }
-    shift = !shift;
+    isHighGear = !isHighGear;
   }
 
   public void resetGyro(){
@@ -121,6 +136,26 @@ public class Drivetrain extends SubsystemBase {
 
   public double getTurnRate(){
     return NavX.getRate() * (DrivetrainConstants.kGyroReversed ? -1.0 : 1.0);
+
+  }
+  public void drive (double speed, double rot) {
+    double y = speed * DrivetrainConstants.driveLimiter;
+    if (y > previousY + dy) {
+      y = previousY + dy;
+    } else if (y < previousY - dy) {
+      y = previousY - dy;
+    }
+    previousY = y;
+    // Restrict X
+    double x = rot * DrivetrainConstants.rotLimiter;
+    if (x > previousX + dx) {
+      x = previousX + dx;
+    } else if (x < previousX - dx) {
+      x = previousX - dx;
+    }
+    previousX = x;
+
+    drive.arcadeDrive(y, x);
   }
 
   @Override
