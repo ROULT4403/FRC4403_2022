@@ -61,7 +61,6 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     // Default Drive Command
-    // s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
     s_drive.setDefaultCommand(new DefaultDrive(s_drive, () -> driver.getRawAxis(1), ()->driver.getRawAxis(4)));
       // A split-stick arcade command, with forward/backward controlled by the left
       // hand, and turning controlled by the right.
@@ -75,7 +74,9 @@ public class RobotContainer {
     // Intake Commands
     c_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
     c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
+    //Reset Gyro
     d_Y.whenPressed(new InstantCommand(s_drive::resetGyro));
+    //DockShift
     d_A.whenPressed(new InstantCommand(s_drive::DockShift));
   }
 
@@ -85,26 +86,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-      // RamseteCommand ramseteCommand = new RamseteCommand(
-      //   Robot.patth,
-      //   s_drive::getPose,
-      //   new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-      //   new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
-      //                               DrivetrainConstants.kvVoltSecondsPerMeter,
-      //                               DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
-      //   DrivetrainConstants.kDriveKinematics,
-      //   s_drive::getWheelSpeeds,
-      //   new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
-      //   new PIDController(DrivetrainConstants.kPDriveVel, 0, 0),
-      // // RamseteCommand passes volts to the callback
-      //   s_drive::tankDriveVolts,
-      //   s_drive);
-      //   // Run path following command, then stop at the end.
-
-        s_drive.resetGyro();
-        s_drive.resetOdometry(Robot.path.getInitialPose());
-
-        //return ramseteCommand.andThen(() -> s_drive.tankDriveVolts(0, 0));
-        return new Auto1(s_drive);
+      return new Auto1(s_drive);
     }
   }
+  

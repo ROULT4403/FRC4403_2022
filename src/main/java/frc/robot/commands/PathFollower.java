@@ -18,7 +18,7 @@ public class PathFollower extends RamseteCommand{
     private Drivetrain s_drive;
     private Trajectory path;
     public PathFollower(Drivetrain s_drive, Trajectory path){
-        super(path, 
+    super(path, 
       s_drive::getPose, 
       new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta), 
       new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
@@ -33,6 +33,8 @@ public class PathFollower extends RamseteCommand{
 
       this.s_drive = s_drive;
       this.path = path;
+
+      addRequirements(s_drive);
     }
     @Override
     public void initialize(){

@@ -13,12 +13,13 @@ import frc.robot.subsystems.Drivetrain;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto1 extends SequentialCommandGroup {
   /** Creates a new Auto1. */
+
   public Auto1(Drivetrain s_drive) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new PathFollower(s_drive , Robot.path).withTimeout(Robot.path.getTotalTimeSeconds()).andThen(() -> s_drive.tankDriveVolts(0,0)),
-      new PathFollower(s_drive , Robot.path2).withTimeout(Robot.path.getTotalTimeSeconds()).andThen(() -> s_drive.tankDriveVolts(0,0))
+      new LineFollower(s_drive , Robot.path),
+      new LineFollower(s_drive , Robot.path2).andThen(() -> s_drive.tankDriveVolts(0,0))
       );
   }
 }

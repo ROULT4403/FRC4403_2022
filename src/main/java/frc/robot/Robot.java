@@ -4,16 +4,11 @@
 
 package frc.robot;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -21,8 +16,6 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DrivetrainConstants;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -41,43 +34,20 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    var autoVoltageConstraint=
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
-                                       DrivetrainConstants.kvVoltSecondsPerMeter,
-                                       DrivetrainConstants.kaVoltSecondsSquaredPerMeter),
-            DrivetrainConstants.kDriveKinematics,
-            8);
-    String trajectoryJSON = "output/Unnamed.wpilib.json";
+    String trajectoryJSON = "pathplanner/generatedJSON/PathPlannerTest1.wpilib.json";
+    String trajectoryJSON2 = "pathplanner/generatedJSON/PathPlannerTest2.wpilib.json";
     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+    Path trajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON2);
     try {
-      SmartDashboard.putString("Error", "Trying for Path");
       path = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      //Create config for trajectory
-      // TrajectoryConfig config =
-      //   new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
-      //                         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-      // // Add kinematics to ensure max speed is actually obeyed
-      //     .setKinematics(DrivetrainConstants.kDriveKinematics)
-      // // Apply the voltage constraint
-      //     .addConstraint(autoVoltageConstraint);
-    SmartDashboard.putString("PathStatus", "Succes");
+      path2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
+      SmartDashboard.putString("PathStatus", "Succes");
+    
     } catch (IOException e) {
       System.out.println("Error loading path");
       System.out.println(e);
       SmartDashboard.putString("PathStatus", "Error Loading Path");
-    }
-    
-    String trajectoryJSON2 = "output/Unnamed_0.wpilib.json";
-    Path trajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON2);
-    try {
-      SmartDashboard.putString("Error", "Trying for Path");
-      path2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
-    } catch (IOException e) {
-      System.out.println("Error loading path");
-      System.out.println(e);
-      SmartDashboard.putString("Error", "Error Loading Path");
-    }
+    }       
   }
 
   /**
@@ -138,3 +108,4 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {}
 }
+
