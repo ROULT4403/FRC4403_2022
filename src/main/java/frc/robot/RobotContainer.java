@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.subsystems.Drivetrain;
+
 
 
 public class RobotContainer {
@@ -69,10 +72,13 @@ public class RobotContainer {
     d_Select.whenPressed(new InstantCommand(s_drive::DockShift, s_drive));
 
     // Intake Commands
-    d_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
-    d_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
+    c_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
+    c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
+    //Reset Gyro
+    d_Y.whenPressed(new InstantCommand(s_drive::resetGyro));
+    //DockShift
+    d_A.whenPressed(new InstantCommand(s_drive::DockShift));
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -80,8 +86,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
-    // return m_autoCommand;
+      return new Auto1(s_drive);
+    }
   }
-}
+  
