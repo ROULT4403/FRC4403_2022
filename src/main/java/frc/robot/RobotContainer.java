@@ -1,11 +1,10 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
-
 import frc.robot.commands.*;
+import frc.robot.commands.Auto.Auto1;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -15,8 +14,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.subsystems.Drivetrain;
-
-
 
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
@@ -69,15 +66,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    d_Select.whenPressed(new InstantCommand(s_drive::DockShift, s_drive));
+    // Driver Controls
+    d_LSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
 
+    // Controller Controls
     // Intake Commands
     c_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
     c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
-    //Reset Gyro
-    d_Y.whenPressed(new InstantCommand(s_drive::resetGyro));
-    //DockShift
-    d_A.whenPressed(new InstantCommand(s_drive::DockShift));
   }
 
   /**

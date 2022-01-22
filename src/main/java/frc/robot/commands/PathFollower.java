@@ -13,7 +13,11 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.Drivetrain;
 
-/** Add your docs here. */
+  /**
+  * Uses RamseteCommand framework to follow a trajectory
+  * @param s_drive Drivetrain subsystem
+  * @param path Trajectory to be followed
+  */
 public class PathFollower extends RamseteCommand{
     private Drivetrain s_drive;
     private Trajectory path;

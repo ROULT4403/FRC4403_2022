@@ -16,11 +16,15 @@ import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.Drivetrain;
 
 public class LineFollower extends CommandBase {
-  /** Creates a new LineFollower. */
   Trajectory path;
   Drivetrain s_drive;
   RamseteCommand ramseteCommand;
   
+  /**
+  * Uses RamseteCommand framework to follow a trajectory
+  * @param s_drive Drivetrain subsystem
+  * @param path Trajectory to be followed
+  */
   public LineFollower(Drivetrain s_drive, Trajectory path) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.s_drive = s_drive;
@@ -31,6 +35,7 @@ public class LineFollower extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Creates RamseteCommand istance
     ramseteCommand = new RamseteCommand(
       path, 
       s_drive::getPose, 

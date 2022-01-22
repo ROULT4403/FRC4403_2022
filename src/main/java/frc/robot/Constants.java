@@ -15,8 +15,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-//TO DO'S
-//Cambiar medidas de track width y diametro
+    // TODO: Cambiar medidas de track width y diametro
     public static final class DrivetrainConstants{
 
         public static final int portRightTop = 5;
@@ -32,32 +31,34 @@ public final class Constants {
         public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
         
         public static final boolean kGyroReversed = true;
-        public static final boolean DockShiftDefault = false;
-
-        public static final int[] DogShiftPort = {2, 3};
+        
+        public static final int[] dogShiftPort = {2, 3};
+        public static final boolean dogShiftDefault = false;
 
         public static final int[] kLeftEncoderPorts = {2,3};
         public static final int[] kRightEncoderPorts = {0,1};
         public static final boolean kLeftEncoderReversed = true;
         public static final boolean kRightEncoderReversed = false;
 
-    // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
-    // values for your robot.
+        // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
+        // values for your robot.
         public static final double ksVolts = 1.9196;
         public static final double kvVoltSecondsPerMeter = 1.0988;
         public static final double kaVoltSecondsSquaredPerMeter = 1.2979;
 
-    // Example value only - as above, this must be tuned for your drive!
-     public static final double kPDriveVel = 3.5609;
+        // Example value only - as above, this must be tuned for your drive!
+        public static final double kPDriveVel = 3.5609;
 
-     public static final double kP = 3.5609;
-     public static final double kI = 0.0;
-     public static final double kD = 0.0;
-
+        public static final double kP = 3.5609;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
     }
 
     public static final class IntakeConstants{
         public static final int portIntake = 4;
+
+        public static final int[] intakeReleasePort = {0, 1};
+        public static final boolean intakeReleaseDefault = false;
     }
 
     public static final class AutoConstants {

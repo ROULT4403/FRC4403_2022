@@ -34,10 +34,13 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
+    // Creates trajectories to be used in autonomous
     String trajectoryJSON = "pathplanner/generatedJSON/PathPlannerTest1.wpilib.json";
     String trajectoryJSON2 = "pathplanner/generatedJSON/PathPlannerTest2.wpilib.json";
     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
     Path trajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON2);
+
+    // Uses try to catch IOException caused by inexistent file or wrong path
     try {
       path = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
       path2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
