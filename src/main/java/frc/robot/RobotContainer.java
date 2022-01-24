@@ -20,7 +20,9 @@ public class RobotContainer {
   private final Drivetrain s_drive = new Drivetrain();
   private final Intake s_intake = new Intake();
 
+  // Drivetrain Joystick
   Joystick driver = new Joystick(0);
+  // Mechanism Joystick
   Joystick controller = new Joystick(1);  
 
   Button d_A = new JoystickButton(driver, 1);
@@ -84,4 +86,3 @@ public class RobotContainer {
       return new Auto1(s_drive);
     }
   }
-  
