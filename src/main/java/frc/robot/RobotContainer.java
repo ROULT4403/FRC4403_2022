@@ -25,6 +25,7 @@ public class RobotContainer {
   // Mechanism Joystick
   Joystick controller = new Joystick(1);  
 
+  // Drivetrain Joystick Buttons
   Button d_A = new JoystickButton(driver, 1);
   Button d_B = new JoystickButton(driver, 2);
   Button d_X = new JoystickButton(driver, 3);
@@ -40,6 +41,7 @@ public class RobotContainer {
   POVButton d_Pad180 = new POVButton(driver, 180);
   POVButton d_Pad270 = new POVButton(driver, 270);
 
+  // Mechanism Joystick Buttons
   Button c_A = new JoystickButton(controller, 1);
   Button c_B = new JoystickButton(controller, 2);
   Button c_X = new JoystickButton(controller, 3);

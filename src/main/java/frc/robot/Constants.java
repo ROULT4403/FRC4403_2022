@@ -15,9 +15,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    // TODO: Cambiar medidas de track width y diametro
-    public static final class DrivetrainConstants{
-
+  public static final class DrivetrainConstants{
+    
         public static final int portRightTop = 5;
         public static final int portRightBottom = 2; 
         public static final int portLeftTop = 6;
@@ -25,9 +24,9 @@ public final class Constants {
 
         public static final double driveLimiter = 0.8;
         public static final double rotLimiter = 0.7; 
-
+        
+        // TODO: Verificar medidas de track width y diametro
         public static final double kTrackwidthMeters = 0.65;
-
         public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
         
         public static final boolean kGyroReversed = true;
@@ -49,7 +48,7 @@ public final class Constants {
         // Example value only - as above, this must be tuned for your drive!
         public static final double kPDriveVel = 3.5609;
 
-        public static final double kP = 3.5609;
+        public static final double kP = 0.0;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
     }
