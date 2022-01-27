@@ -4,15 +4,18 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ConveyorConstants;
 
 public class Conveyor extends SubsystemBase {
 
     // Motor controllers
-    private final WPI_VictorSPX mainMotor = new WPI_VictorSPX(ConveyorConstants.portMain);
+    private final VictorSPX mainMotor = new VictorSPX(ConveyorConstants.portMain);
 
     public void ConveyorControl (double speed) {
-        mainMotor.set(ControleMode.PercentOutput, speed);
+        mainMotor.set(ControlMode.PercentOutput, speed);
     }
 
     @Override
