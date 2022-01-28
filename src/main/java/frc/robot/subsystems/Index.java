@@ -9,7 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ConveyorConstants;
 
-public class Conveyor extends SubsystemBase {
+public class Index extends SubsystemBase {
 
     // Motor controllers
     private final VictorSPX mainMotor = new VictorSPX(ConveyorConstants.portMain);

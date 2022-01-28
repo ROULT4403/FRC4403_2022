@@ -19,7 +19,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain s_drive = new Drivetrain();
   private final Intake s_intake = new Intake();
-  private final Conveyor s_conveyor = new Conveyor();
+  private final Index s_conveyor = new Index();
 
   // Drivetrain Joystick
   Joystick driver = new Joystick(0);
