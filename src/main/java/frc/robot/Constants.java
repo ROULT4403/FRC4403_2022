@@ -15,66 +15,85 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  /** Constants used in Drivetrain Subsystem */
   public static final class DrivetrainConstants{
+    // Ports
+    // Motor Controller Ports
+    public static final int portRightTop = 5;
+    public static final int portRightBottom = 2; 
+    public static final int portLeftTop = 6;
+    public static final int portLeftBottom = 8;
+
+    // Solenoid Ports
+    public static final int[] dogShiftPort = {2, 3};
     
-        public static final int portRightTop = 5;
-        public static final int portRightBottom = 2; 
-        public static final int portLeftTop = 6;
-        public static final int portLeftBottom = 8;
+    // Sensor Ports
+    public static final int[] kLeftEncoderPorts = {2,3};
+    public static final int[] kRightEncoderPorts = {0,1};
 
-        public static final double driveLimiter = 0.8;
-        public static final double rotLimiter = 0.7; 
-        
-        // TODO: Verificar medidas de track width y diametro
-        public static final double kTrackwidthMeters = 0.65;
-        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
-        
-        public static final boolean kGyroReversed = true;
-        
-        public static final int[] dogShiftPort = {2, 3};
-        public static final boolean dogShiftDefault = false;
-
-        public static final int[] kLeftEncoderPorts = {2,3};
-        public static final int[] kRightEncoderPorts = {0,1};
-        public static final boolean kLeftEncoderReversed = true;
-        public static final boolean kRightEncoderReversed = false;
-
-        // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
-        // values for your robot.
-        public static final double ksVolts = 1.9196;
-        public static final double kvVoltSecondsPerMeter = 1.0988;
-        public static final double kaVoltSecondsSquaredPerMeter = 1.2979;
-
-        // Example value only - as above, this must be tuned for your drive!
-        public static final double kPDriveVel = 3.5609;
-
-        public static final double kP = 0.0;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
-    }
-
-    public static final class IntakeConstants{
-        public static final int portIntake = 4;
-
-        public static final int[] intakeReleasePort = {0, 1};
-        public static final boolean intakeReleaseDefault = false;
-    }
-
-    public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = 5.5;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+    // Constants
+    // Limiter Constants
+    public static final double driveLimiter = 0.8;
+    public static final double rotLimiter = 0.7; 
     
-      // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
-        public static final double kRamseteB = 2;
-        public static final double kRamseteZeta = 0.7;
-  
-      }
+    
+    // PID Constants
+    public static final double kP = 0.0;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
 
-    public static final class ConveyorConstants {
-        public static final int portMain = 3;
-    }
+    // Sensor Config Booleans
+    public static final boolean kGyroReversed = true;
+    public static final boolean kLeftEncoderReversed = true;
+    public static final boolean kRightEncoderReversed = false;
+    
+    // Default State Booleans
+    public static final boolean dogShiftDefault = true;
+  }
+  
+  /** Constants used in Intake Subsystem */
+  public static final class IntakeConstants{
+    // Ports
+    // Motor Controller Ports
+    public static final int portIntake = 4;
+    
+    // Solenoid Ports
+    public static final int[] intakeReleasePort = {0, 1};
+    
+    // Constants
+    // Default State Booleans
+    public static final boolean intakeReleaseDefault = false;
+  }
+  
+  /** Constants used in Index Subsystem */
+  public static final class IndexConstants {
+    // Ports
+    // Motor Controller Ports
+    public static final int portConveyor = 3;
+    
+    // Sensor Ports
+    public static final int ultrasonicPort = 1;
+  }
+  
+  /** Constants used RamseteCommand and Path Following */
+  public static final class AutoConstants {
+    // Robot Kinematics Constants
+    // TODO: Verificar medidas de track width y diametro
+    public static final double kTrackwidthMeters = 0.65;
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
+    public static final double kMaxSpeedMetersPerSecond = 5.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
 
-  
-  
-  
+    // Ramsete Controller Gains
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
+    
+    // Robot Characterization and Drivetrain Feedforward Constants
+    public static final double ksVolts = 1.9196;
+    public static final double kvVoltSecondsPerMeter = 1.0988;
+    public static final double kaVoltSecondsSquaredPerMeter = 1.2979;
+    
+    // RamseteController PID Gain Constants
+    public static final double kPDriveVel = 3.5609;
+  }
 }
