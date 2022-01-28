@@ -60,6 +60,24 @@ public final class Constants {
         public static final boolean intakeReleaseDefault = false;
     }
 
+    public static final class ShooterConstants{
+
+      public static final int portShooterMotor = 0;
+      public static final int portHoodMotor = 0;
+      public static final int portTurretMotor = 0;
+
+      public static final int[] hoodEncoderPorts = {0, 1};
+      public static final int[] turretEncoderPorts = {2, 3};
+
+      public static final double hoodkP = 0;
+      public static final double hoodkI = 0;
+      public static final double hoodkD = 0;
+
+      public static final double turretP = 0;
+      public static final double turretI = 0;
+      public static final double turretD = 0;
+    }
+
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = 5.5;
         public static final double kMaxAccelerationMetersPerSecondSquared = 1;
