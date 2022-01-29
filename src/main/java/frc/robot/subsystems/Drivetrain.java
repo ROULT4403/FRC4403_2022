@@ -110,7 +110,7 @@ public class Drivetrain extends SubsystemBase {
 
   /** Toggles the Drivetrain between high and low gear */
   /**
-   * Controls DifferentialDrive in tak drive mode using voltage to take voltage sag into account
+   * Controls DifferentialDrive in tank drive mode using voltage to take voltage sag into account
    * @param leftVolts Voltage for left side, -12 to 12
    * @param rightVolts Voltage for right side, -12 to 12
    */
