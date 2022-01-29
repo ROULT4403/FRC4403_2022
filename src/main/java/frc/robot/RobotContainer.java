@@ -19,6 +19,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain s_drive = new Drivetrain();
   private final Intake s_intake = new Intake();
+  private final Index s_conveyor = new Index();
 
   // Drivetrain Joystick
   Joystick driver = new Joystick(0);
@@ -77,6 +78,9 @@ public class RobotContainer {
     // Intake Commands
     c_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
     c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
+
+    // Conveyor Commands
+    c_Y.whenHeld(new RunCommand(() -> s_conveyor.ConveyorControl(0.3), s_conveyor));
   }
 
   /**
