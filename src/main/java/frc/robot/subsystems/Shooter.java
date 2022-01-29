@@ -26,20 +26,26 @@ public class Shooter extends SubsystemBase {
   private final Encoder turretEncoder = new Encoder(ShooterConstants.turretEncoderPorts[0], ShooterConstants.turretEncoderPorts[1]);
 
   //PID Controllers
-  private final PIDController hoodPID = new PIDController(ShooterConstants.hoodkP, ShooterConstants.hoodkI, ShooterConstants.hoodkD);
-  private final PIDController turretPID = new PIDController(ShooterConstants.turretP, ShooterConstants.turretI, ShooterConstants.turretD);
+  private final PIDController hoodPID = new PIDController(ShooterConstants.hoodkP, ShooterConstants.hoodkI, 
+                                                          ShooterConstants.hoodkD, ShooterConstants.hoodkF);
+  private final PIDController turretPID = new PIDController(ShooterConstants.turretkP, ShooterConstants.turretkI, 
+                                                            ShooterConstants.turretkD, ShooterConstants.turretkF);
 
 
   /** Creates a new Shooter. */
   public Shooter() {
 
-    //Configures Integrated Falcon Sensor
+    //Configure Talon FX 
     shooterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+    shooterMotor.config_kP(0, ShooterConstants.shooterkP);
+    shooterMotor.config_kI(0, ShooterConstants.shooterkI);
+    shooterMotor.config_kD(0, ShooterConstants.shooterkD);
+    shooterMotor.config_kF(0, ShooterConstants.shooterkF);
   }
 
   /** 
    * Uses integrated PID for shooter output
-   * @param shooterSetpoint double for speed (in Rpm) setpoint for shooter 
+   * @param shooterSetpoint double for speed (RPM) setpoint for shooter 
   */
   public void shoot(double shooterSetpoint){
     shooterMotor.set(ControlMode.Velocity, shooterSetpoint * 2048 / 600);

@@ -15,19 +15,19 @@ import frc.robot.Constants.IndexConstants;
 
 public class Index extends SubsystemBase {
 
-    // Motor controllers
-    private final VictorSPX mainMotor = new VictorSPX(IndexConstants.portConveyor);
+  // Motor controllers
+  private final VictorSPX indexMotor = new VictorSPX(IndexConstants.portConveyor);
 
-    // Sensors
-    private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
-    private final AnalogInput ultrasonic = new AnalogInput(IndexConstants.ultrasonicPort);
+  // Sensors
+  private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+  private final AnalogInput ultrasonic = new AnalogInput(IndexConstants.ultrasonicPort);
 
-    public void ConveyorControl (double speed) {
-        mainMotor.set(ControlMode.PercentOutput, speed);
-    }
+  public void ConveyorControl (double speed) {
+    indexMotor.set(ControlMode.PercentOutput, speed);
+  }
 
-    @Override
-    public void periodic() {
-    // This method will be called once per scheduler run
-    }
+  @Override
+  public void periodic() {
+  // This method will be called once per scheduler run
+  }
 }

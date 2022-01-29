@@ -45,7 +45,7 @@ public class Drivetrain extends SubsystemBase {
 
   // Instantiate Pneumatics
   public final DoubleSolenoid dogShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.dogShiftPort[0], 
-                                                             DrivetrainConstants.dogShiftPort[1]);
+                                                            DrivetrainConstants.dogShiftPort[1]);
 
   // Instantiate Class Variables
   private boolean isHighGear = DrivetrainConstants.dogShiftDefault;

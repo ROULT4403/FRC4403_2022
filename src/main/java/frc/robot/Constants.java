@@ -74,23 +74,38 @@ public final class Constants {
     // Sensor Ports
     public static final int ultrasonicPort = 1;
   }
-    
+  
+  /** Constants used in Shooter Subsystem */
   public static final class ShooterConstants {
-
+    // Ports
+    // Motor Controller Ports
     public static final int portShooterMotor = 0;
     public static final int portHoodMotor = 0;
     public static final int portTurretMotor = 0;
 
+    // Sensor Ports
     public static final int[] hoodEncoderPorts = {0, 1};
     public static final int[] turretEncoderPorts = {2, 3};
 
+    // Constants
+    // PID Constants
+    // Hood PID Constants
     public static final double hoodkP = 0;
     public static final double hoodkI = 0;
     public static final double hoodkD = 0;
+    public static final double hoodkF = 0;
+    
+    // Turret PID Constants
+    public static final double turretkP = 0;
+    public static final double turretkI = 0;
+    public static final double turretkD = 0;
+    public static final double turretkF = 0;
 
-    public static final double turretP = 0;
-    public static final double turretI = 0;
-    public static final double turretD = 0;
+    // Shooter PID Constants
+    public static final double shooterkP = 0;
+    public static final double shooterkI = 0;
+    public static final double shooterkD = 0;
+    public static final double shooterkF = 0;
   }
   
   /** Constants used RamseteCommand and Path Following */
