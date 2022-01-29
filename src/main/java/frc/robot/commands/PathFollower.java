@@ -10,7 +10,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.Drivetrain;
 
   /**
@@ -26,13 +25,13 @@ public class PathFollower extends RamseteCommand{
     super(path, 
       s_drive::getPose, 
       new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta), 
-      new SimpleMotorFeedforward(DrivetrainConstants.ksVolts,
-                                    DrivetrainConstants.kvVoltSecondsPerMeter,
-                                    DrivetrainConstants.kaVoltSecondsSquaredPerMeter), 
-      DrivetrainConstants.kDriveKinematics, 
+      new SimpleMotorFeedforward(AutoConstants.ksVolts,
+                                    AutoConstants.kvVoltSecondsPerMeter,
+                                    AutoConstants.kaVoltSecondsSquaredPerMeter), 
+      AutoConstants.kDriveKinematics, 
       s_drive::getWheelSpeeds, 
-      new PIDController(DrivetrainConstants.kPDriveVel, 0, 0), 
-      new PIDController(DrivetrainConstants.kPDriveVel, 0, 0), 
+      new PIDController(AutoConstants.kPDriveVel, 0, 0), 
+      new PIDController(AutoConstants.kPDriveVel, 0, 0), 
       s_drive::tankDriveVolts, 
       s_drive);
 
