@@ -67,7 +67,10 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     // Default Drive Command
-    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
+    // s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
+    // Trying SparkMax
+    s_shooter.turret(driver.getRawAxis(1));
+    s_shooter.hood(driver.getRawAxis(4));
   }
 
   /**
@@ -85,6 +88,9 @@ public class RobotContainer {
 
     // Conveyor Commands
     c_Y.whenHeld(new RunCommand(() -> s_index.indexControl(0.3), s_index));
+
+    // Shooter Commands
+    d_LB.whenHeld(new RunCommand(() -> s_shooter.shoot(0.3), s_shooter));
 
     // Shooting algorithm
     c_A.whenHeld(s_aiming);
