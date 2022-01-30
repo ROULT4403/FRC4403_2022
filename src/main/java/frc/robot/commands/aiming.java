@@ -48,7 +48,7 @@ public class aiming extends CommandBase{
 
 			} else {
 				// Move turret until target on sight
-				new SequentialCommandGroup(new RunCommand(() -> s_shooter.turretManual(true), s_shooter), new RunCommand(() -> s_shooter.turretManual(false), s_shooter));
+				new RunCommand(() -> s_shooter.sweepTurret(true), s_shooter);
 			}
 		}
 	}	
