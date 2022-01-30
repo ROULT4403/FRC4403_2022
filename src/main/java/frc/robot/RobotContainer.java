@@ -25,7 +25,10 @@ public class RobotContainer {
   // Drivetrain Joystick
   Joystick driver = new Joystick(0);
   // Mechanism Joystick
-  Joystick controller = new Joystick(1);  
+  Joystick controller = new Joystick(1);
+  
+  // Instantiate Commands
+  private final aiming s_aiming = new aiming(s_shooter, s_index); 
 
   // Drivetrain Joystick Buttons
   Button d_A = new JoystickButton(driver, 1);
@@ -81,7 +84,10 @@ public class RobotContainer {
     c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
 
     // Conveyor Commands
-    c_Y.whenHeld(new RunCommand(() -> s_index.ConveyorControl(0.3), s_index));
+    c_Y.whenHeld(new RunCommand(() -> s_index.indexControl(0.3), s_index));
+
+    // Shooting algorithm
+    c_A.whenHeld(s_aiming);
   }
 
   /**

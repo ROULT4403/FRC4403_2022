@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
@@ -46,11 +47,19 @@ public class Shooter extends SubsystemBase {
   /** 
    * Uses integrated PID for shooter output
    * @param shooterSetpoint double for speed (RPM) setpoint for shooter 
-  */
+    */
   public void shoot(double shooterSetpoint){
     shooterMotor.set(ControlMode.Velocity, shooterSetpoint * 2048 / 600);
     
   }
+
+  /**
+    *  Returns whether controller is at reference
+    * @param
+    */
+  public boolean shootIsFinished() {
+  return shooterMotor.isMotionProfileFinished();
+}
 
   /** 
    * PID Control for hood output
@@ -61,15 +70,102 @@ public class Shooter extends SubsystemBase {
 
   }
 
+
+
   /**
    *  PID Control for turret output
    * @param turretSetpoint double for turret setpoint
    */
   public void turret(double turretSetpoint){
-    turretMotor.set(ControlMode.PercentOutput, turretPID.calculate(turretEncoder.getDistance(), turretSetpoint));
+    turretMotor.set(ControlMode.PercentOutput, turretPID.calculate(getTurretAngle(), turretSetpoint));
   }
 
-  
+  /**
+   *  Returns whether controller is at reference
+   * @param
+   */
+  public boolean turretIsFinished() {
+    return turretPID.atSetpoint();
+  }
+
+  /**
+   *  Turret manual control
+   * @param direction Direction of turn, True for clockwise and False for Counter-clockwise
+   */
+  public void turretManual(boolean direction){
+    int dir;
+
+    if (direction) {
+      dir = 1;
+
+      // Move turret to max angle
+      while (getTurretAngle() < 10) {
+        turretMotor.set(ControlMode.PercentOutput, 0.7 * dir);
+      }
+    } else {
+      dir = -1;
+
+      // Move turret to min angle
+      while (getTurretAngle() > 10) {
+        turretMotor.set(ControlMode.PercentOutput, 0.7 * dir);
+      }
+    }
+  }
+
+  /**
+   * Sweeps turret
+   * @param direction Direction of turn, True for clockwise and False for Counter-clockwise
+   * @return
+   */
+  public void sweepTurret(boolean direction){
+    double dir = 1;
+
+    if (direction) {
+      dir = 1;
+
+      while (getTurretAngle() < 100){
+        turretMotor.set(ControlMode.PercentOutput, 0.7 * dir);
+      }
+      while (getTurretAngle() > 5){
+        turretMotor.set(ControlMode.PercentOutput, -0.7 * dir);
+      }
+    } else {
+      dir = -1;
+
+      while (getTurretAngle() < 100){
+        turretMotor.set(ControlMode.PercentOutput, 0.7 * dir);
+      }
+      while (getTurretAngle() > 5){
+        turretMotor.set(ControlMode.PercentOutput, -0.7 * dir);
+      }
+    }
+
+  }
+
+    /**
+      *  Get turret angle
+      * @param 
+      */
+    public double getTurretAngle(){
+      return (Constants.ShooterConstants.turretGears[0] / Constants.ShooterConstants.turretGears[1] * 360 / 2048) * turretEncoder.get();
+    }
+
+    /**
+      *  Get flywheel speed
+      * @param 
+      */
+    public double getShootSpeed(){
+      return 10;
+    }
+
+    /**
+      *  Get hood angle
+      * @param 
+      */
+    public double getHoodAngle(){
+      return 10;
+    }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

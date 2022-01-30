@@ -22,8 +22,12 @@ public class Index extends SubsystemBase {
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
   private final AnalogInput ultrasonic = new AnalogInput(IndexConstants.ultrasonicPort);
 
-  public void ConveyorControl (double speed) {
+  public void indexControl (double speed) {
     indexMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public boolean hasCargo(){
+    return true; 
   }
 
   @Override

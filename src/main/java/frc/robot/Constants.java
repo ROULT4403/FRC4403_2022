@@ -88,6 +88,11 @@ public final class Constants {
     public static final int[] turretEncoderPorts = {2, 3};
 
     // Constants
+    // Turret Constants
+    // TODO: Change teeth
+    public static final int[] turretGears= {0,0};
+    public static final double turretReduction = (turretGears[0] / turretGears[1] * 360 / 2048);
+
     // PID Constants
     // Hood PID Constants
     public static final double hoodkP = 0;

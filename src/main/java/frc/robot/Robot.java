@@ -9,6 +9,9 @@ import java.nio.file.Path;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -24,9 +27,22 @@ public class Robot extends TimedRobot {
   public static Trajectory path2;
   private PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
 
+  // Instantiate NetworkTables
+  NetworkTable table;
+  NetworkTableInstance nInst;
+  NetworkTableEntry xEntry;
+  NetworkTableEntry aEntry;
+  NetworkTableEntry vEntry;
+
+  // Declare vision variables
+  public static double tx;
+  public static double ta;
+  public static boolean tv;
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
+   * @param
    */
   @Override
   public void robotInit() {
@@ -50,7 +66,17 @@ public class Robot extends TimedRobot {
       System.out.println("Error loading path");
       System.out.println(e);
       SmartDashboard.putString("PathStatus", "Error Loading Path");
-    }       
+    }
+    
+    // Initialize table
+    nInst = NetworkTableInstance.getDefault();
+    table = nInst.getTable("tablaCool");
+   
+    // Initialize entries
+    xEntry = table.getEntry("tX");
+    aEntry = table.getEntry("tA");
+    vEntry = table.getEntry("tV");
+    
   }
 
   /**
@@ -64,6 +90,12 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("Voltage", pdp.getVoltage());
+
+    // Update vision variables
+    tx = xEntry.getDouble(0);    
+    ta = aEntry.getDouble(0); 
+    tv = vEntry.getBoolean(false);
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
