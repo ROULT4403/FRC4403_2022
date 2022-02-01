@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
     // Initialize table
     nInst = NetworkTableInstance.getDefault();
     table = nInst.getTable("tablaCool");
-   
+  
     // Initialize entries
     xEntry = table.getEntry("tX");
     aEntry = table.getEntry("tA");

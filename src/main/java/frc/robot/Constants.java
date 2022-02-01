@@ -55,7 +55,7 @@ public final class Constants {
   public static final class IntakeConstants{
     // Ports
     // Motor Controller Ports
-    public static final int portIntake = 4;
+    public static final int portIntake = 8;
     
     // Solenoid Ports
     public static final int[] intakeReleasePort = {0, 1};
@@ -69,7 +69,7 @@ public final class Constants {
   public static final class IndexConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portConveyor = 3;
+    public static final int portIndex = 10;
     
     // Sensor Ports
     public static final int ultrasonicPort = 1;
@@ -79,9 +79,9 @@ public final class Constants {
   public static final class ShooterConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portShooterMotor = 0;
-    public static final int portHoodMotor = 0;
-    public static final int portTurretMotor = 0;
+    public static final int portShooterMotor = 1;
+    public static final int portHoodMotor = 7;
+    public static final int portTurretMotor = 4;
 
     // Sensor Ports
     public static final int[] hoodEncoderPorts = {0, 1};
@@ -90,7 +90,7 @@ public final class Constants {
     // Constants
     // Turret Constants
     // TODO: Change teeth
-    public static final int[] turretGears= {0,0};
+    public static final int[] turretGears= {0,1};
     public static final double turretReduction = (turretGears[0] / turretGears[1] * 360 / 2048);
 
     // PID Constants

@@ -28,7 +28,6 @@ public class RobotContainer {
   Joystick controller = new Joystick(1);
   
   // Instantiate Commands
-  private final aiming s_aiming = new aiming(s_shooter, s_index); 
 
   // Drivetrain Joystick Buttons
   Button d_A = new JoystickButton(driver, 1);
@@ -69,8 +68,9 @@ public class RobotContainer {
     // Default Drive Command
     // s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
     // Trying SparkMax
-    s_shooter.turret(driver.getRawAxis(1));
-    s_shooter.hood(driver.getRawAxis(4));
+    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.testing(driver.getRawAxis(1), driver.getRawAxis(5), driver.getRawAxis(2)), s_shooter));
+    s_index.setDefaultCommand(new RunCommand(() -> s_index.indexControl(driver.getRawAxis(3)), s_index));
+    s_intake.setDefaultCommand(new RunCommand(() -> s_intake.intakeControl(0), s_intake));
   }
 
   /**
@@ -83,17 +83,17 @@ public class RobotContainer {
 
     // Controller Controls
     // Intake Commands
-    c_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.8), s_intake));
-    c_B.whenHeld(new RunCommand(() -> s_intake.intakeControl(-0.8), s_intake));
+    d_X.whenHeld(new RunCommand(() -> s_intake.intakeControl(0.5), s_intake));
+    d_B.whileHeld(new RunCommand(() -> s_intake.intakeControl(-0.5), s_intake));
 
     // Conveyor Commands
-    c_Y.whenHeld(new RunCommand(() -> s_index.indexControl(0.3), s_index));
+    d_Y.whenHeld(new RunCommand(() -> s_index.indexControl(0.3), s_index));
 
     // Shooter Commands
-    d_LB.whenHeld(new RunCommand(() -> s_shooter.shoot(0.3), s_shooter));
+    // d_LB.whenHeld(new RunCommand(() -> s_shooter.shoot(0.3), s_shooter));
 
     // Shooting algorithm
-    c_A.whenHeld(s_aiming);
+    // c_A.whenHeld(s_aiming);
   }
 
   /**
