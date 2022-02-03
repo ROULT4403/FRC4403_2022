@@ -19,10 +19,10 @@ public final class Constants {
   public static final class DrivetrainConstants{
     // Ports
     // Motor Controller Ports
-    public static final int portRightTop = 5;
-    public static final int portRightBottom = 2; 
-    public static final int portLeftTop = 6;
-    public static final int portLeftBottom = 8;
+    public static final int portRightTop = 2;
+    public static final int portRightBottom = 3; 
+    public static final int portLeftTop = 10;
+    public static final int portLeftBottom = 6;
 
     // Solenoid Ports
     public static final int[] dogShiftPort = {2, 3};
@@ -69,7 +69,7 @@ public final class Constants {
   public static final class IndexConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portIndex = 10;
+    public static final int portIndex = 8;
     
     // Sensor Ports
     public static final int ultrasonicPort = 1;
