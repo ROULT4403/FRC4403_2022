@@ -21,17 +21,23 @@ public class Index extends SubsystemBase {
   // Sensors
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
   private final AnalogInput ultrasonic = new AnalogInput(IndexConstants.ultrasonicPort);
+  private boolean detectedCargo = false;
 
   public void indexControl (double speed) {
+    if(detectedCargo) {return;}  
     indexMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public boolean hasCargo(){
-    return true; 
+    if (colorSensor.getProximity() > 50) {
+      return true;
+    }
+    return false; 
   }
 
+  
   @Override
   public void periodic() {
-  // This method will be called once per scheduler run
+    detectedCargo = hasCargo();
   }
 }
