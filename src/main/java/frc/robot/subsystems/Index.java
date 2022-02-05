@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorSensorV3;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexConstants;
@@ -20,23 +19,19 @@ public class Index extends SubsystemBase {
 
   // Sensors
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
-  private final AnalogInput ultrasonic = new AnalogInput(IndexConstants.ultrasonicPort);
   private boolean detectedCargo = false;
 
-  // private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
-  // private final AnalogInput ultrasonic = new AnalogInput(IndexConstants.ultrasonicPort);
-
-
-  public void indexControl (double speed) {
+  public void setIndex (double speed) {
     if(detectedCargo) {return;}  
     indexMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public boolean hasCargo(){
-    if (colorSensor.getProximity() > 50) {
-      return true;
-    }
-    return false; 
+    // if (colorSensor.getProximity() > 50) {
+    //   return true;
+    // }
+    // return false; 
+    return colorSensor.getProximity() > 50 ? true : false;
   }
 
   

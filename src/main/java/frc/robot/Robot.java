@@ -90,6 +90,8 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("Voltage", pdp.getVoltage());
+    SmartDashboard.putNumber("CurrentIntake", pdp.getCurrent(11));
+    SmartDashboard.putNumber("CurrentIndex", pdp.getCurrent(10));
 
     // Update vision variables
     tx = xEntry.getDouble(0);    

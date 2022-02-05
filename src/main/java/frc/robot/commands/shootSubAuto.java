@@ -34,15 +34,17 @@ public class shootSubAuto extends CommandBase{
 		// If balls in robot
 		if (s_index.hasCargo()) {
 			// Start flywheel  
-			new RunCommand(() -> s_shooter.shoot(100), s_shooter);
+			new RunCommand(() -> s_shooter.setShooter(100), s_shooter);
 
 			// If target in range
 			if (Robot.tv) {
 				// Start turret and hood
-				new ParallelCommandGroup(new RunCommand(() -> s_shooter.setTurret(Robot.tx), s_shooter), new RunCommand(() -> s_shooter.setHood(s_shooter.getHoodAngle()), s_shooter), new RunCommand(() -> s_shooter.shoot(s_shooter.getShootSpeed()), s_shooter));
+				new ParallelCommandGroup(new RunCommand(() -> s_shooter.setTurret(Robot.tx), s_shooter), 
+                                new RunCommand(() -> s_shooter.setHood(s_shooter.getHoodAngle()), s_shooter), 
+                                new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterSpeed()), s_shooter));
 
 				if (s_shooter.shootIsFinished() && s_shooter.turretIsFinished()) {
-					new RunCommand(() -> s_index.indexControl(0.5), s_index);
+					new RunCommand(() -> s_index.setIndex(0.5), s_index);
 				}
 
 			} else {
@@ -53,10 +55,8 @@ public class shootSubAuto extends CommandBase{
 	}	
 
 	// Called once the command ends or is interrupted.
-  @Override
+	@Override
   public void end(boolean interrupted) {
     SmartDashboard.putString("VisionStatus", "Shot");
   }
-
-
 }

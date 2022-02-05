@@ -28,7 +28,7 @@ public class Shooter extends SubsystemBase {
   // private final Encoder hoodEncoder = new Encoder(ShooterConstants.hoodEncoderPorts[0], ShooterConstants.hoodEncoderPorts[1]);
   // private final Encoder turretEncoder = new Encoder(ShooterConstants.turretEncoderPorts[0], ShooterConstants.turretEncoderPorts[1]);
 
-  // FPID Controllers
+  // PID Controllers
   private final PIDController hoodPID = new PIDController(ShooterConstants.hoodkP, ShooterConstants.hoodkI, 
                                                           ShooterConstants.hoodkD);
   private final PIDController turretPID = new PIDController(ShooterConstants.turretkP, ShooterConstants.turretkI, 
@@ -48,15 +48,20 @@ public class Shooter extends SubsystemBase {
    * Uses integrated PID for shooter output
    * @param shooterSetpoint double for speed (RPM) setpoint for shooter 
     */
-  public void shoot(double shooterSetpoint){
+  public void setShooter(double shooterSetpoint){
     // shooterMotor.set(ControlMode.Velocity, shooterSetpoint * 2048 / 600);
-    shooterMotor.set(shooterSetpoint);
-    
+  }
+
+  /** 
+   * Uses integrated PID for shooter output
+   * @param shooterSetpoint double for speed (RPM) setpoint for shooter 
+    */
+  public void setShooterManual(double shooterOutput){
+    shooterMotor.set(shooterOutput);
   }
 
   /**
     *  Returns whether controller is at reference
-    * @param
     */
   public boolean shootIsFinished() {
     return false;
@@ -68,100 +73,107 @@ public class Shooter extends SubsystemBase {
    * @param hoodSetpoint double for hood setpoint 
    */
   public void setHood(double hoodSetpoint){
-    // hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(hoodEncoder.getDistance(), hoodSetpoint), DemandType.ArbitraryFeedForward, ShooterConstants.hoodkF);
-    hoodMotor.set(ControlMode.PercentOutput, hoodSetpoint);
+    hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), hoodSetpoint), DemandType.ArbitraryFeedForward, ShooterConstants.hoodkF);
   }
 
   /**
-   *  PID Control for turret output
+   * PID Control for turret output
    * @param turretSetpoint double for turret setpoint
    */
   public void setTurret(double turretSetpoint){
-    // turretMotor.set(ControlMode.PercentOutput, turretPID.calculate(getTurretAngle(), turretSetpoint), DemandType.ArbitraryFeedForward, ShooterConstants.turretkF);
-    turretMotor.set(ControlMode.PercentOutput, turretSetpoint);
+    turretMotor.set(ControlMode.PercentOutput, turretPID.calculate(getTurretAngle(), turretSetpoint), DemandType.ArbitraryFeedForward, ShooterConstants.turretkF);
   }
 
-  /**
-   * Returns whether controller is at setpoint
-   * @param
+  /** 
+   * Manual Hood Output
+   * @param hoodSetpoint double for hood setpoint 
    */
-  public boolean turretIsFinished() {
-    // return turretPID.atSetpoint();
-    return false;
+  public void setHoodManual(double hoodOutput){
+    hoodMotor.set(ControlMode.PercentOutput, hoodOutput);
   }
 
   /**
    * Turret manual control
-   * TODO: Revisar lógica
+   * @param turretOutput Turret output
+   */
+  public void setTurretManual(double turretOutput){
+    turretMotor.set(ControlMode.PercentOutput, turretOutput);
+  }
+
+  /**
+   * Returns whether controller is at setpoint
+   * @return Boolean, true if PID is at setpoint
+   */
+  public boolean turretIsFinished() {
+    return turretPID.atSetpoint();
+  }
+
+  /**
+   * Turret manual control
    * @param direction Direction of turn, True for clockwise and False for Counter-clockwise
    */
-  public void turretManual(boolean direction){
-
-    if(getTurretAngle() > 10 && getTurretAngle() < 10) {
-      turretMotor.set(ControlMode.PercentOutput, 0.7 * (direction ? 1 : -1));
+  public void turnTurret(boolean direction){
+    if(getTurretAngle() > ShooterConstants.turretACWLimit && getTurretAngle() < ShooterConstants.turretCWLimit) {
+      turretMotor.set(ControlMode.PercentOutput, ShooterConstants.turretOutput * (direction ? 1 : -1));
     }
   }
 
   /**
-   * Sweeps turret
-   * @param direction Direction of turn, True for clockwise and False for Counter-clockwise
-   * @return
+   * Sweeps turret to find a target
+   * @param direction Direction of initial turn, True for clockwise and False for Counter-clockwise
    */
   public void sweepTurret(boolean direction){
-    double dir = 1;
-
-    if (direction) {
-      dir = 1;
-
-      while (getTurretAngle() < 100){
-        turretMotor.set(ControlMode.PercentOutput, 0.7 * dir);
+    boolean isComplete = false;
+    if(direction) {
+      if(getTurretAngle() > ShooterConstants.turretCWLimit) {
+        isComplete = true;
       }
-      while (getTurretAngle() > 5){
-        turretMotor.set(ControlMode.PercentOutput, -0.7 * dir);
+      turnTurret(!isComplete);
+    } else if(!direction) {
+      if(getTurretAngle() < ShooterConstants.turretACWLimit) {
+        isComplete = true;
       }
-    } else {
-      dir = -1;
-
-      while (getTurretAngle() < 100){
-        turretMotor.set(ControlMode.PercentOutput, 0.7 * dir);
-      }
-      while (getTurretAngle() > 5){
-        turretMotor.set(ControlMode.PercentOutput, -0.7 * dir);
-      }
+      turnTurret(isComplete);
     }
-
   }
 
-    /**
-      *  Get turret angle
-      * @param 
-      */
-    public double getTurretAngle(){
-      return 0;
-      // return (Constants.ShooterConstants.turretGears[0] / Constants.ShooterConstants.turretGears[1] * 360 / 2048) * turretEncoder.get();
-    }
+  /**
+  *  Get turret position
+  * @param 
+  */
+  public double getTurretAngle(){
+    // return (Constants.ShooterConstants.turretGears[0] / Constants.ShooterConstants.turretGears[1] * 360 / 2048) * turretEncoder.get();
+    return 20;
+  }
 
-    /**
-      *  Get flywheel speed
-      * @param 
-      */
-    public double getShootSpeed(){
-      return 10;
-    }
+  /**
+    *  Get flywheel speed
+    * @return Returns ShooterSpeed
+    */
+  public double getShooterSpeed(){
+    return shooterMotor.getEncoder().getVelocity();
+  }
 
-    /**
-      *  Get hood angle
-      * @param 
-      */
-    public double getHoodAngle(){
-      return 10;
-    }
+  /**
+    *  Get hood angle
+    * @return Returns Hood Position
+    */
+  public double getHoodAngle(){
+    // return hoodEncoder.getPosition();
+    return 50;
+  }
 
-    public void testing(double hood, double turret, double value) {
-      this.setHood(hood);
-      this.setTurret(turret);
-      shoot(value);
-    }
+  /**
+   * Manual control for hood, turret and shooter
+   * @param hood double hoodOutput
+   * @param turret double turretOutput
+   * @param value double shooterOutput
+   */
+  public void testing(double hood, double turret, double value) {
+    setHoodManual(hood);
+    setTurretManual(turret);
+    setShooterManual(value);
+  }
 
   @Override
   public void periodic() {
