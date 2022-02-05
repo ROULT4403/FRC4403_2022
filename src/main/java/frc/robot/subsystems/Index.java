@@ -16,12 +16,16 @@ import frc.robot.Constants.IndexConstants;
 public class Index extends SubsystemBase {
 
   // Motor controllers
-  private final VictorSPX indexMotor = new VictorSPX(IndexConstants.portConveyor);
+  private final VictorSPX indexMotor = new VictorSPX(IndexConstants.portIndex);
 
   // Sensors
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
   private final AnalogInput ultrasonic = new AnalogInput(IndexConstants.ultrasonicPort);
   private boolean detectedCargo = false;
+
+  // private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+  // private final AnalogInput ultrasonic = new AnalogInput(IndexConstants.ultrasonicPort);
+
 
   public void indexControl (double speed) {
     if(detectedCargo) {return;}  

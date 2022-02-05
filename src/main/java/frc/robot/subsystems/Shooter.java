@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
@@ -14,32 +14,30 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
   
   //Motor Controllers
   private final CANSparkMax shooterMotor = new CANSparkMax(ShooterConstants.portShooterMotor, MotorType.kBrushless);
+  // private final TalonFX shooterMotor = new TalonFX(ShooterConstants.portShooterMotor);
   private final VictorSPX hoodMotor = new VictorSPX(ShooterConstants.portHoodMotor);
   private final VictorSPX turretMotor = new VictorSPX(ShooterConstants.portTurretMotor);  
 
-  //Sensors
-  private final Encoder hoodEncoder = new Encoder(ShooterConstants.hoodEncoderPorts[0], ShooterConstants.hoodEncoderPorts[1]);
-  private final Encoder turretEncoder = new Encoder(ShooterConstants.turretEncoderPorts[0], ShooterConstants.turretEncoderPorts[1]);
+  // Sensors
+  // private final Encoder hoodEncoder = new Encoder(ShooterConstants.hoodEncoderPorts[0], ShooterConstants.hoodEncoderPorts[1]);
+  // private final Encoder turretEncoder = new Encoder(ShooterConstants.turretEncoderPorts[0], ShooterConstants.turretEncoderPorts[1]);
 
-  //PID Controllers
+  // FPID Controllers
   private final PIDController hoodPID = new PIDController(ShooterConstants.hoodkP, ShooterConstants.hoodkI, 
-                                                          ShooterConstants.hoodkD, ShooterConstants.hoodkF);
+                                                          ShooterConstants.hoodkD);
   private final PIDController turretPID = new PIDController(ShooterConstants.turretkP, ShooterConstants.turretkI, 
-                                                            ShooterConstants.turretkD, ShooterConstants.turretkF);
-
+                                                            ShooterConstants.turretkD);
 
   /** Creates a new Shooter. */
   public Shooter() {
 
     //Configure Talon FX 
-    // shooterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
     // shooterMotor.config_kP(0, ShooterConstants.shooterkP);
     // shooterMotor.config_kI(0, ShooterConstants.shooterkI);
     // shooterMotor.config_kD(0, ShooterConstants.shooterkD);
@@ -69,52 +67,38 @@ public class Shooter extends SubsystemBase {
    * PID Control for hood output
    * @param hoodSetpoint double for hood setpoint 
    */
-  public void hood(double hoodSetpoint){
-    hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(hoodEncoder.getDistance(), hoodSetpoint));
+  public void setHood(double hoodSetpoint){
+    // hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(hoodEncoder.getDistance(), hoodSetpoint), DemandType.ArbitraryFeedForward, ShooterConstants.hoodkF);
     hoodMotor.set(ControlMode.PercentOutput, hoodSetpoint);
-
   }
-
-
 
   /**
    *  PID Control for turret output
    * @param turretSetpoint double for turret setpoint
    */
-  public void turret(double turretSetpoint){
-    // turretMotor.set(turretPID.calculate(getTurretAngle(), turretSetpoint));
+  public void setTurret(double turretSetpoint){
+    // turretMotor.set(ControlMode.PercentOutput, turretPID.calculate(getTurretAngle(), turretSetpoint), DemandType.ArbitraryFeedForward, ShooterConstants.turretkF);
     turretMotor.set(ControlMode.PercentOutput, turretSetpoint);
   }
 
   /**
-   *  Returns whether controller is at reference
+   * Returns whether controller is at setpoint
    * @param
    */
   public boolean turretIsFinished() {
-    return turretPID.atSetpoint();
+    // return turretPID.atSetpoint();
+    return false;
   }
 
   /**
-   *  Turret manual control
+   * Turret manual control
+   * TODO: Revisar lógica
    * @param direction Direction of turn, True for clockwise and False for Counter-clockwise
    */
   public void turretManual(boolean direction){
-    int dir;
 
-    if (direction) {
-      dir = 1;
-
-      // Move turret to max angle
-      while (getTurretAngle() < 10) {
-        turretMotor.set(ControlMode.PercentOutput, 0.7 * dir);
-      }
-    } else {
-      dir = -1;
-
-      // Move turret to min angle
-      while (getTurretAngle() > 10) {
-        turretMotor.set(ControlMode.PercentOutput, 0.7 * dir);
-      }
+    if(getTurretAngle() > 10 && getTurretAngle() < 10) {
+      turretMotor.set(ControlMode.PercentOutput, 0.7 * (direction ? 1 : -1));
     }
   }
 
@@ -153,7 +137,8 @@ public class Shooter extends SubsystemBase {
       * @param 
       */
     public double getTurretAngle(){
-      return (Constants.ShooterConstants.turretGears[0] / Constants.ShooterConstants.turretGears[1] * 360 / 2048) * turretEncoder.get();
+      return 0;
+      // return (Constants.ShooterConstants.turretGears[0] / Constants.ShooterConstants.turretGears[1] * 360 / 2048) * turretEncoder.get();
     }
 
     /**
@@ -170,6 +155,12 @@ public class Shooter extends SubsystemBase {
       */
     public double getHoodAngle(){
       return 10;
+    }
+
+    public void testing(double hood, double turret, double value) {
+      this.setHood(hood);
+      this.setTurret(turret);
+      shoot(value);
     }
 
   @Override
