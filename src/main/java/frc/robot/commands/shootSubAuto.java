@@ -43,7 +43,7 @@ public class shootSubAuto extends CommandBase{
                                 new RunCommand(() -> s_shooter.setHood(s_shooter.getHoodAngle()), s_shooter), 
                                 new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterSpeed()), s_shooter));
 
-				if (s_shooter.shootIsFinished() && s_shooter.turretIsFinished()) {
+				if (s_shooter.shooterIsFinished() && s_shooter.turretIsFinished()) {
 					new RunCommand(() -> s_index.setIndex(0.5), s_index);
 				}
 

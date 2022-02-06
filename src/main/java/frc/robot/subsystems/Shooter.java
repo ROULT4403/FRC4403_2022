@@ -8,8 +8,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
@@ -19,8 +17,8 @@ import frc.robot.Constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
   
   //Motor Controllers
-  private final CANSparkMax shooterMotor = new CANSparkMax(ShooterConstants.portShooterMotor, MotorType.kBrushless);
-  // private final TalonFX shooterMotor = new TalonFX(ShooterConstants.portShooterMotor);
+  // private final CANSparkMax shooterMotor = new CANSparkMax(ShooterConstants.portShooterMotor, MotorType.kBrushless);
+  private final TalonFX shooterMotor = new TalonFX(ShooterConstants.portShooterMotor);
   private final VictorSPX hoodMotor = new VictorSPX(ShooterConstants.portHoodMotor);
   private final VictorSPX turretMotor = new VictorSPX(ShooterConstants.portTurretMotor);  
 
@@ -34,14 +32,19 @@ public class Shooter extends SubsystemBase {
   private final PIDController turretPID = new PIDController(ShooterConstants.turretkP, ShooterConstants.turretkI, 
                                                             ShooterConstants.turretkD);
 
+  // Class Variables
+  private int inShooterTreshold = 0;
+  private double shooterErrorTreshold = 10;
+  private final int shooterSettleLoops = 5;
+
   /** Creates a new Shooter. */
   public Shooter() {
 
     //Configure Talon FX 
-    // shooterMotor.config_kP(0, ShooterConstants.shooterkP);
-    // shooterMotor.config_kI(0, ShooterConstants.shooterkI);
-    // shooterMotor.config_kD(0, ShooterConstants.shooterkD);
-    // shooterMotor.config_kF(0, ShooterConstants.shooterkF);
+    shooterMotor.config_kP(0, ShooterConstants.shooterkP);
+    shooterMotor.config_kI(0, ShooterConstants.shooterkI);
+    shooterMotor.config_kD(0, ShooterConstants.shooterkD);
+    shooterMotor.config_kF(0, ShooterConstants.shooterkF);
   }
 
   /** 
@@ -49,7 +52,7 @@ public class Shooter extends SubsystemBase {
    * @param shooterSetpoint double for speed (RPM) setpoint for shooter 
     */
   public void setShooter(double shooterSetpoint){
-    // shooterMotor.set(ControlMode.Velocity, shooterSetpoint * 2048 / 600);
+    shooterMotor.set(ControlMode.Velocity, shooterSetpoint * 2048 / 600);
   }
 
   /** 
@@ -57,15 +60,23 @@ public class Shooter extends SubsystemBase {
    * @param shooterSetpoint double for speed (RPM) setpoint for shooter 
     */
   public void setShooterManual(double shooterOutput){
-    shooterMotor.set(shooterOutput);
+    // shooterMotor.set(shooterOutput);
+    shooterMotor.set(ControlMode.PercentOutput, shooterOutput);
   }
 
   /**
     *  Returns whether controller is at reference
+    * @return Returns boolean true if closed loop control is at target 
     */
-  public boolean shootIsFinished() {
-    return false;
-  // return shooterMotor.isMotionProfileFinished();
+  public boolean shooterIsFinished() {
+    if(shooterMotor.getClosedLoopError() < shooterErrorTreshold && shooterMotor.getClosedLoopError() > -shooterErrorTreshold) {
+      ++inShooterTreshold;
+    } else {
+      inShooterTreshold = 0;
+    }
+
+    return inShooterTreshold > shooterSettleLoops;
+    // return false;
 }
 
   /** 
@@ -73,7 +84,8 @@ public class Shooter extends SubsystemBase {
    * @param hoodSetpoint double for hood setpoint 
    */
   public void setHood(double hoodSetpoint){
-    hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), hoodSetpoint), DemandType.ArbitraryFeedForward, ShooterConstants.hoodkF);
+    hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), hoodSetpoint), 
+                  DemandType.ArbitraryFeedForward, ShooterConstants.hoodkF);
   }
 
   /**
@@ -81,7 +93,8 @@ public class Shooter extends SubsystemBase {
    * @param turretSetpoint double for turret setpoint
    */
   public void setTurret(double turretSetpoint){
-    turretMotor.set(ControlMode.PercentOutput, turretPID.calculate(getTurretAngle(), turretSetpoint), DemandType.ArbitraryFeedForward, ShooterConstants.turretkF);
+    turretMotor.set(ControlMode.PercentOutput, turretPID.calculate(getTurretAngle(), turretSetpoint), 
+                    DemandType.ArbitraryFeedForward, ShooterConstants.turretkF);
   }
 
   /** 
@@ -151,7 +164,8 @@ public class Shooter extends SubsystemBase {
     * @return Returns ShooterSpeed
     */
   public double getShooterSpeed(){
-    return shooterMotor.getEncoder().getVelocity();
+    // return shooterMotor.getEncoder().getVelocity();
+    return shooterMotor.getSelectedSensorVelocity();
   }
 
   /**
