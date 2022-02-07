@@ -74,7 +74,6 @@ public class RobotContainer {
     //                                                                   controller.getRawAxis(2)), 
     //                                                                   s_shooter));
     // Index Default Command
-    // s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndex(-controller.getRawAxis(3)), s_index)); // Index testing
     s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndex(0), s_index));
     // Intake Default Command
     s_intake.setDefaultCommand(new RunCommand(() -> s_intake.intakeControl(0), s_intake));
@@ -100,8 +99,8 @@ public class RobotContainer {
     c_LB.whenHeld(new RunCommand(() -> s_shooter.setShooterManual(controller.getRawAxis(5)), s_shooter));
     c_X.whenHeld(new RunCommand(() -> s_shooter.setTurretManual(-ShooterConstants.turretOutput), s_shooter));
     c_B.whenHeld(new RunCommand(() -> s_shooter.setTurretManual(ShooterConstants.turretOutput), s_shooter));
-    c_Y.whenHeld(new RunCommand(() -> s_shooter.setHoodManual(ShooterConstants.turretOutput), s_shooter));
-    c_A.whenHeld(new RunCommand(() -> s_shooter.setHoodManual(-ShooterConstants.turretOutput), s_shooter));
+    c_Y.whenHeld(new RunCommand(() -> s_shooter.setHoodManual(ShooterConstants.hoodOutput), s_shooter));
+    c_A.whenHeld(new RunCommand(() -> s_shooter.setHoodManual(-ShooterConstants.hoodOutput), s_shooter));
 
     // Shooting algorithm
     // c_A.whenHeld(s_aiming);

@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -40,6 +41,7 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
 
     //Configure Talon FX 
+    shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     shooterMotor.config_kP(0, ShooterConstants.shooterkP);
     shooterMotor.config_kI(0, ShooterConstants.shooterkI);
     shooterMotor.config_kD(0, ShooterConstants.shooterkD);
