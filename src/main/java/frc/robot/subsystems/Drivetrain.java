@@ -157,7 +157,6 @@ public class Drivetrain extends SubsystemBase {
    * @return double
    */
   public double getAverageEncoderDistance(){
-    SmartDashboard.putString("Error", "Getting Distance");
     return (driveLeftEncoder.getDistance() + driveRightEncoder.getDistance()) / 2.0;
   }
   
@@ -205,10 +204,9 @@ public class Drivetrain extends SubsystemBase {
     m_xEntry.setNumber(translation.getX());
     m_yEntry.setNumber(translation.getY());
 
-    SmartDashboard.putNumber("Angle", getHeading());
-    SmartDashboard.putNumber("Angle2", NavX.getYaw());
-    SmartDashboard.putNumber("Distance", getAverageEncoderDistance());
-    SmartDashboard.putNumber("ER", driveRightEncoder.getDistance());
-    SmartDashboard.putNumber("EL", driveLeftEncoder.getDistance());
+    SmartDashboard.putNumber("Heading", getHeading());
+    SmartDashboard.putNumber("Average Distance", getAverageEncoderDistance());
+    SmartDashboard.putNumber("Right Encoder", driveRightEncoder.getDistance());
+    SmartDashboard.putNumber("Left Encoder", driveLeftEncoder.getDistance());
   }
 }
