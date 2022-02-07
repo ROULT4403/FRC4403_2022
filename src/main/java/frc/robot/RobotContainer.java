@@ -69,10 +69,7 @@ public class RobotContainer {
     // Default Drive Command
     s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
     // Shooter SubsystemTesting
-    // s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.testing(controller.getRawAxis(1), 
-    //                                                                   controller.getRawAxis(5), 
-    //                                                                   controller.getRawAxis(2)), 
-    //                                                                   s_shooter));
+    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.testing(0, 0, 0), s_shooter));
     // Index Default Command
     s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndex(0), s_index));
     // Intake Default Command
