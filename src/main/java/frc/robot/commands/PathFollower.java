@@ -14,7 +14,7 @@ import frc.robot.subsystems.Drivetrain;
 
   /**
   * Uses RamseteCommand framework to follow a trajectory
-  * @deprecated
+  * @Deprecated
   * @param s_drive Drivetrain subsystem
   * @param path Trajectory to be followed
   */
