@@ -17,7 +17,6 @@ import frc.robot.Constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
   
   //Motor Controllers
-  // private final CANSparkMax shooterMotor = new CANSparkMax(ShooterConstants.portShooterMotor, MotorType.kBrushless);
   private final TalonFX shooterMotor = new TalonFX(ShooterConstants.portShooterMotor);
   private final VictorSPX hoodMotor = new VictorSPX(ShooterConstants.portHoodMotor);
   private final VictorSPX turretMotor = new VictorSPX(ShooterConstants.portTurretMotor);  
@@ -60,7 +59,6 @@ public class Shooter extends SubsystemBase {
    * @param shooterSetpoint double for speed (RPM) setpoint for shooter 
     */
   public void setShooterManual(double shooterOutput){
-    // shooterMotor.set(shooterOutput);
     shooterMotor.set(ControlMode.PercentOutput, shooterOutput);
   }
 
@@ -164,7 +162,6 @@ public class Shooter extends SubsystemBase {
     * @return Returns ShooterSpeed
     */
   public double getShooterSpeed(){
-    // return shooterMotor.getEncoder().getVelocity();
     return shooterMotor.getSelectedSensorVelocity();
   }
 
