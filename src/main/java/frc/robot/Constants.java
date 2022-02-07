@@ -55,21 +55,21 @@ public final class Constants {
   public static final class IntakeConstants{
     // Ports
     // Motor Controller Ports
-    public static final int portIntake = 5;
+    public static final int portIntake = 8;
     
     // Solenoid Ports
     public static final int[] intakeReleasePort = {2, 3};
     
     // Constants
     // Default State Booleans
-    public static final boolean intakeReleaseDefault = false;
+    public static final boolean intakeReleaseDefault = true;
   }
   
   /** Constants used in Index Subsystem */
   public static final class IndexConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portIndex = 8;
+    public static final int portIndex = 5;
     
     // Sensor Ports
     public static final int ultrasonicPort = 1;
