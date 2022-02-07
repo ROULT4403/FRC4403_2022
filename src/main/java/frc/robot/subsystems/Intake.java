@@ -18,8 +18,8 @@ public class Intake extends SubsystemBase {
   private final VictorSPX intakeMotor = new VictorSPX(IntakeConstants.portIntake);
   
   // Solenoids
-  private final DoubleSolenoid intakeRelease = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.intakeReleasePort[0], 
-  IntakeConstants.intakeReleasePort[1]);
+  private final DoubleSolenoid intakeRelease = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
+                                                                  IntakeConstants.intakeReleasePort[0], IntakeConstants.intakeReleasePort[1]);
   
   // Class constants
   private boolean isReleased = IntakeConstants.intakeReleaseDefault;
