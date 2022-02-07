@@ -89,6 +89,7 @@ public class Drivetrain extends SubsystemBase {
    * @param rot double for turn speed in -1 to 1 range
    */
   public void drive(double speed, double rot) {
+    // Restrict Y
     double y = speed * DrivetrainConstants.driveLimiter;
     if (y > previousY + dy) {
       y = previousY + dy;
@@ -157,7 +158,6 @@ public class Drivetrain extends SubsystemBase {
    * @return double
    */
   public double getAverageEncoderDistance(){
-    SmartDashboard.putString("Error", "Getting Distance");
     return (driveLeftEncoder.getDistance() + driveRightEncoder.getDistance()) / 2.0;
   }
   

@@ -3,7 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.HoodConstants;
+import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.Auto.Auto1;
 import frc.robot.subsystems.*;
@@ -22,6 +23,8 @@ public class RobotContainer {
   private final Intake s_intake = new Intake();
   private final Index s_index = new Index();
   private final Shooter s_shooter = new Shooter();
+  private final Hood s_hood = new Hood();
+  private final Turret s_turret = new Turret();
 
   // Drivetrain Joystick
   Joystick driver = new Joystick(0);
@@ -68,12 +71,16 @@ public class RobotContainer {
     configureButtonBindings();
     // Default Drive Command
     s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
-    // Shooter SubsystemTesting
-    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.testing(0, 0, 0), s_shooter));
+    // Intake Default Command
+    s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0), s_intake));
     // Index Default Command
     s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndex(0), s_index));
-    // Intake Default Command
-    s_intake.setDefaultCommand(new RunCommand(() -> s_intake.intakeControl(0), s_intake));
+    // Shooter Default Command
+    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooterManual(0), s_shooter));
+    // Hood Default Command
+    s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHoodManual(0), s_hood));
+    // Turret Default Command
+    s_turret.setDefaultCommand(new RunCommand(() -> s_turret.setTurretManual(0), s_turret));
   }
 
   /**
@@ -85,19 +92,19 @@ public class RobotContainer {
     d_LSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
 
     // Intake Commands
-    d_RB.whileHeld(new RunCommand(() -> s_intake.intakeControl(0.6), s_intake));
+    d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.6), s_intake));
     d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
 
     // Controller Controls
-    // Conveyor Commands
+    // Index Commands
     c_RB.whenHeld(new RunCommand(() -> s_index.setIndex(0.3), s_index));
 
     // Shooter Commands
     c_LB.whenHeld(new RunCommand(() -> s_shooter.setShooterManual(controller.getRawAxis(5)), s_shooter));
-    c_X.whenHeld(new RunCommand(() -> s_shooter.setTurretManual(-ShooterConstants.turretOutput), s_shooter));
-    c_B.whenHeld(new RunCommand(() -> s_shooter.setTurretManual(ShooterConstants.turretOutput), s_shooter));
-    c_Y.whenHeld(new RunCommand(() -> s_shooter.setHoodManual(ShooterConstants.hoodOutput), s_shooter));
-    c_A.whenHeld(new RunCommand(() -> s_shooter.setHoodManual(-ShooterConstants.hoodOutput), s_shooter));
+    c_Y.whenHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
+    c_A.whenHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
+    c_X.whenHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
+    c_B.whenHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
 
     // Shooting algorithm
     // c_A.whenHeld(s_aiming);

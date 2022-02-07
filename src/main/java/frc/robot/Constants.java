@@ -80,43 +80,57 @@ public final class Constants {
     // Ports
     // Motor Controller Ports
     public static final int portShooterMotor = 1;
-    public static final int portHoodMotor = 7;
-    public static final int portTurretMotor = 4;
-
-    // Sensor Ports
-    public static final int[] hoodEncoderPorts = {0, 1};
-    public static final int[] turretEncoderPorts = {2, 3};
-
+ 
     // Constants
-    // Turret Constants
-    // TODO: Change teeth
-    public static final int[] turretGears= {30,270};
-    public static final double turretReduction = (turretGears[0] / turretGears[1] * 360 / 2048);
-    public static final int turretCWLimit = 100;
-    public static final int turretACWLimit = 10;
-    
-    // Output Constants
-    public static final double turretOutput = 0.2;
-    public static final double hoodOutput = 0.2;
-
     // PID Constants
-    // Hood PID Constants
-    public static final double hoodkP = 0;
-    public static final double hoodkI = 0;
-    public static final double hoodkD = 0;
-    public static final double hoodkF = 0;
-    
-    // Turret PID Constants
-    public static final double turretkP = 0;
-    public static final double turretkI = 0;
-    public static final double turretkD = 0;
-    public static final double turretkF = 0;
-
-    // Shooter PID Constants
     public static final double shooterkP = 0;
     public static final double shooterkI = 0;
     public static final double shooterkD = 0;
     public static final double shooterkF = 0;
+  }
+
+  /** Constants used in Hood Subsystem */
+  public static final class HoodConstants {
+    // Ports
+    // Motor Controller Ports
+    public static final int portHoodMotor = 7;
+
+    // Sensor Ports
+    public static final int[] hoodEncoderPorts = {0, 1};
+
+    // Output Constants
+    public static final double hoodOutput = 0.2;
+
+    // PID Constants
+    public static final double hoodkP = 0;
+    public static final double hoodkI = 0;
+    public static final double hoodkD = 0;
+    public static final double hoodkF = 0;
+  }
+
+  /** Constants used in Turret Subsystem */
+  public static final class TurretConstants {
+    // Ports
+    // Motor Controller Ports
+    public static final int portTurretMotor = 4;
+
+    // Sensor Ports
+    public static final int[] turretEncoderPorts = {2, 3};
+
+    // Constants
+    public static final int[] turretGears= {30,260};
+    public static final double turretReduction = (turretGears[0] / turretGears[1] * 360 / 2048);
+    public static final int turretCWLimit = 100;
+    public static final int turretACWLimit = 10;
+        
+    // Output Constants
+    public static final double turretOutput = 0.2;
+
+    // PID Constants
+    public static final double turretkP = 0;
+    public static final double turretkI = 0;
+    public static final double turretkD = 0;
+    public static final double turretkF = 0;
   }
   
   /** Constants used RamseteCommand and Path Following */

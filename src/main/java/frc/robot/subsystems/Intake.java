@@ -20,7 +20,6 @@ public class Intake extends SubsystemBase {
   // Solenoids
   private final DoubleSolenoid intakeRelease = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.intakeReleasePort[0], 
   IntakeConstants.intakeReleasePort[1]);
-  
   // Class constants
   private boolean isReleased = IntakeConstants.intakeReleaseDefault;
   
@@ -30,7 +29,7 @@ public class Intake extends SubsystemBase {
   /** Controls intake motor 
    * @param speed speed for intake motor in -1 to 1 range 
    * */
-  public void intakeControl(double speed){
+  public void setIntake(double speed){
       intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 

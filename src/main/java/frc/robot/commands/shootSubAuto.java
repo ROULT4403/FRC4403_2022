@@ -11,15 +11,18 @@ public class shootSubAuto extends CommandBase{
 
 	// Instantiate subsystems
 	public Shooter s_shooter;
+	public Hood s_hood;
+	public Turret s_turret;
 	public Index s_index;
-
-
-	public shootSubAuto(Shooter shooter, Index index) {
+	
+	public shootSubAuto(Shooter shooter, Hood hood, Turret turret, Index index) {
 		this.s_shooter = shooter;
+		this.s_hood = hood;
+		this.s_turret = turret;
 		this.s_index = index;
 
 		// Declare subsystem dependencies
-		addRequirements(s_shooter, s_index);
+		addRequirements(s_shooter, s_turret, s_hood, s_index);
 	}
 	
 	// Called every time the scheduler runs while the command is scheduled.
@@ -39,17 +42,17 @@ public class shootSubAuto extends CommandBase{
 			// If target in range
 			if (Robot.tv) {
 				// Start turret and hood
-				new ParallelCommandGroup(new RunCommand(() -> s_shooter.setTurret(Robot.tx), s_shooter), 
-                                new RunCommand(() -> s_shooter.setHood(s_shooter.getHoodAngle()), s_shooter), 
+				new ParallelCommandGroup(new RunCommand(() -> s_turret.setTurret(Robot.tx), s_shooter), 
+                                new RunCommand(() -> s_hood.setHood(s_hood.getHoodAngle()), s_shooter), 
                                 new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterSpeed()), s_shooter));
 
-				if (s_shooter.shooterIsFinished() && s_shooter.turretIsFinished()) {
+				if (s_shooter.shooterIsFinished() && s_turret.turretIsFinished()) {
 					new RunCommand(() -> s_index.setIndex(0.5), s_index);
 				}
 
 			} else {
 				// Move turret until target on sight
-				new RunCommand(() -> s_shooter.sweepTurret(true), s_shooter);
+				new RunCommand(() -> s_turret.sweepTurret(true), s_shooter);
 			}
 		}
 	}	
