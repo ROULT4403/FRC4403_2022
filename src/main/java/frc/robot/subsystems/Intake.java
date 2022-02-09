@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -22,6 +23,8 @@ public class Intake extends SubsystemBase {
   IntakeConstants.intakeReleasePort[1]);
   // Class constants
   private boolean isReleased = IntakeConstants.intakeReleaseDefault;
+  private boolean detectedCargoIntake = false;
+  private PowerDistribution powerIntake = new PowerDistribution();
   
   /** Susbsystem class for Drivetain, extends SubsystemBase */
   public Intake() {}
@@ -30,6 +33,7 @@ public class Intake extends SubsystemBase {
    * @param speed speed for intake motor in -1 to 1 range 
    * */
   public void setIntake(double speed){
+    if(detectedCargoIntake)
       intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 
@@ -45,8 +49,17 @@ public class Intake extends SubsystemBase {
     isReleased = !isReleased;
   }
 
+  public boolean detectCargo(){
+    if( powerIntake.getCurrent(10) > IntakeConstants.intakeVoltage){
+      intakeMotor.set(ControlMode.PercentOutput, 0); return true;
+    }
+    return false;
+  }
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    detectedCargoIntake = detectCargo();
   }
 }

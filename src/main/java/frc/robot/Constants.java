@@ -63,6 +63,9 @@ public final class Constants {
     // Constants
     // Default State Booleans
     public static final boolean intakeReleaseDefault = true;
+
+    //Intake Voltage
+    public static final int intakeVoltage = 15;
   }
   
   /** Constants used in Index Subsystem */
