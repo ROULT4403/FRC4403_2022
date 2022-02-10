@@ -10,7 +10,9 @@ import frc.robot.commands.Auto.Auto1;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -31,8 +33,6 @@ public class RobotContainer {
   // Mechanism Joystick
   Joystick controller = new Joystick(1);
   
-  // Instantiate Commands
-
   // Drivetrain Joystick Buttons
   Button d_A = new JoystickButton(driver, 1);
   Button d_B = new JoystickButton(driver, 2);
@@ -89,25 +89,29 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // Driver Controls
-    d_LSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
+    d_A.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
 
     // Intake Commands
-    d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.6), s_intake));
-    d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
+    d_X.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
 
     // Controller Controls
     // Index Commands
-    c_RB.whenHeld(new RunCommand(() -> s_index.setIndex(0.3), s_index));
+    // c_RB.whenHeld(new RunCommand(() -> s_index.setIndex(0.3), s_index));
+    // c_LB.whenHeld(new RunCommand(() -> s_index.setIndex(-0.3), s_index));
 
     // Shooter Commands
-    c_LB.whenHeld(new RunCommand(() -> s_shooter.setShooterManual(controller.getRawAxis(5)), s_shooter));
-    c_Y.whenHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
-    c_A.whenHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
-    c_X.whenHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
-    c_B.whenHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
+    c_Y.whenHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
+    c_A.whenHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
+    // c_X.whenHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
+    // c_B.whenHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
+    c_RB.whenHeld(new ShootBasic(s_index, s_shooter));
+    c_Select.whenHeld(new RunCommand(() -> s_shooter.setShooterManual(0.2), s_shooter));
 
-    // Shooting algorithm
-    // c_A.whenHeld(s_aiming);
+    // Intake and Index algorithm
+    // c_LB.whileHeld(new ParallelCommandGroup(new RunCommand(() -> s_index.setIndex(0.25), s_index), new RunCommand(() -> s_intake.setIntake(-0.4), s_intake)));
+    c_LB.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25), s_index)));
+    c_X.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5))));
+    c_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(5))));
   }
 
   /**

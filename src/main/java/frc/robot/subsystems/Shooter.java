@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -19,17 +20,20 @@ public class Shooter extends SubsystemBase {
   // Class Variables
   private int inShooterTreshold = 0;
   private double shooterErrorTreshold = 10;
-  private final int shooterSettleLoops = 5;
+  private final int shooterSettleLoops = 10;
 
   /** Creates a new Shooter. */
   public Shooter() {
 
     //Configure Talon FX 
+    shooterMotor.configFactoryDefault();
+    shooterMotor.configPeakOutputReverse(0);
     shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     shooterMotor.config_kP(0, ShooterConstants.shooterkP);
     shooterMotor.config_kI(0, ShooterConstants.shooterkI);
     shooterMotor.config_kD(0, ShooterConstants.shooterkD);
     shooterMotor.config_kF(0, ShooterConstants.shooterkF);
+    shooterMotor.configAllowableClosedloopError(0, 10, 30);
   }
 
   /** 
@@ -74,5 +78,8 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
+    SmartDashboard.putNumber("ShooterTarget", shooterMotor.getClosedLoopTarget());
+    SmartDashboard.putBoolean("ShooterIsFinished", shooterIsFinished());
   }
 }

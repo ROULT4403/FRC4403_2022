@@ -33,8 +33,8 @@ public final class Constants {
 
     // Constants
     // Limiter Constants
-    public static final double driveLimiter = 0.8;
-    public static final double rotLimiter = 0.7; 
+    public static final double driveLimiter = 0.9;
+    public static final double rotLimiter = 0.8; 
     
     
     // PID Constants
@@ -55,17 +55,21 @@ public final class Constants {
   public static final class IntakeConstants{
     // Ports
     // Motor Controller Ports
-    public static final int portIntake = 8;
+    public static final int portIntake = 9;
     
     // Solenoid Ports
     public static final int[] intakeReleasePort = {2, 3};
     
     // Constants
     // Default State Booleans
+<<<<<<< Updated upstream
     public static final boolean intakeReleaseDefault = true;
 
     //Intake Voltage
     public static final int intakeVoltage = 15;
+=======
+    public static final boolean intakeReleaseDefault = false;
+>>>>>>> Stashed changes
   }
   
   /** Constants used in Index Subsystem */
@@ -82,14 +86,14 @@ public final class Constants {
   public static final class ShooterConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portShooterMotor = 1;
+    public static final int portShooterMotor = 3;
  
     // Constants
     // PID Constants
-    public static final double shooterkP = 0;
+    public static final double shooterkP = 0.7;
     public static final double shooterkI = 0;
     public static final double shooterkD = 0;
-    public static final double shooterkF = 0;
+    public static final double shooterkF = 0.057;
   }
 
   /** Constants used in Hood Subsystem */

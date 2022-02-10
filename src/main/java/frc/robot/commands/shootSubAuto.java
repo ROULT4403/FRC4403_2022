@@ -37,7 +37,7 @@ public class shootSubAuto extends CommandBase{
 		// If balls in robot
 		if (s_index.hasCargo()) {
 			// Start flywheel  
-			new RunCommand(() -> s_shooter.setShooter(100), s_shooter);
+			new RunCommand(() -> s_shooter.setShooter(1000), s_shooter);
 
 			// If target in range
 			if (Robot.tv) {
@@ -47,7 +47,7 @@ public class shootSubAuto extends CommandBase{
                                 new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterSpeed()), s_shooter));
 
 				if (s_shooter.shooterIsFinished() && s_turret.turretIsFinished()) {
-					new RunCommand(() -> s_index.setIndex(0.5), s_index);
+					new RunCommand(() -> s_index.setIndex(0.7), s_index);
 				}
 
 			} else {

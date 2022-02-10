@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexConstants;
 
@@ -22,7 +23,13 @@ public class Index extends SubsystemBase {
   private boolean detectedCargo = false;
 
   public void setIndex (double speed) {
-    if(detectedCargo) {return;}  
+    if(detectedCargo) {
+      indexMotor.set(ControlMode.PercentOutput, 0);
+      return;}  
+    indexMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void setIndexManual (double speed) {
     indexMotor.set(ControlMode.PercentOutput, speed);
   }
 
@@ -31,12 +38,14 @@ public class Index extends SubsystemBase {
     //   return true;
     // }
     // return false; 
-    return colorSensor.getProximity() > 50 ? true : false;
+    return colorSensor.getProximity() > 180 ? true : false;
   }
 
   
   @Override
   public void periodic() {
     detectedCargo = hasCargo();
+    SmartDashboard.putBoolean("hascargo", hasCargo());
+    SmartDashboard.putNumber("colorsensor", colorSensor.getProximity());
   }
 }
