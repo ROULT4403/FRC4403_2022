@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   public static Trajectory path;
   public static Trajectory path2;
-  private PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
+  public static PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
 
   // Instantiate NetworkTables
   NetworkTable table;
@@ -90,8 +90,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("Voltage", pdp.getVoltage());
-    SmartDashboard.putNumber("CurrentIntake", pdp.getCurrent(11));
-    SmartDashboard.putNumber("CurrentIndex", pdp.getCurrent(10));
+    SmartDashboard.putNumber("CurrentIntake", pdp.getCurrent(10));
 
     // Update vision variables
     tx = xEntry.getDouble(0);    

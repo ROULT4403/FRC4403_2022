@@ -62,14 +62,9 @@ public final class Constants {
     
     // Constants
     // Default State Booleans
-<<<<<<< Updated upstream
-    public static final boolean intakeReleaseDefault = true;
-
     //Intake Voltage
-    public static final int intakeVoltage = 15;
-=======
+    public static final int intakeVoltage = 23;
     public static final boolean intakeReleaseDefault = false;
->>>>>>> Stashed changes
   }
   
   /** Constants used in Index Subsystem */
@@ -90,10 +85,10 @@ public final class Constants {
  
     // Constants
     // PID Constants
-    public static final double shooterkP = 0.7;
+    public static final double shooterkP = 0.5;
     public static final double shooterkI = 0;
-    public static final double shooterkD = 0;
-    public static final double shooterkF = 0.057;
+    public static final double shooterkD = 5;
+    public static final double shooterkF = 0.07;
   }
 
   /** Constants used in Hood Subsystem */

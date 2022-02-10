@@ -74,7 +74,7 @@ public class RobotContainer {
     // Intake Default Command
     s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0), s_intake));
     // Index Default Command
-    s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndex(0), s_index));
+    s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndexManual(0), s_index));
     // Shooter Default Command
     s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooterManual(0), s_shooter));
     // Hood Default Command
@@ -109,9 +109,9 @@ public class RobotContainer {
 
     // Intake and Index algorithm
     // c_LB.whileHeld(new ParallelCommandGroup(new RunCommand(() -> s_index.setIndex(0.25), s_index), new RunCommand(() -> s_intake.setIntake(-0.4), s_intake)));
-    c_LB.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25), s_index)));
+    c_LB.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
     c_X.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5))));
-    c_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(5))));
+    c_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(5), true)));
   }
 
   /**

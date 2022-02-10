@@ -25,7 +25,7 @@ public class ShootBasic extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_shooter.setShooter(1000);
+    s_shooter.setShooter(4000);
 
     if (s_shooter.shooterIsFinished()) {
       s_index.setIndexManual(0.7);

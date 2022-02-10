@@ -22,11 +22,11 @@ public class Index extends SubsystemBase {
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
   private boolean detectedCargo = false;
 
-  public void setIndex (double speed) {
-    if(detectedCargo) {
-      indexMotor.set(ControlMode.PercentOutput, 0);
-      return;}  
-    indexMotor.set(ControlMode.PercentOutput, speed);
+  public void setIndex (double speed, boolean hasCargoIntake) {
+    if(!detectedCargo || hasCargoIntake) {
+      indexMotor.set(ControlMode.PercentOutput, speed);
+      } else {  
+    indexMotor.set(ControlMode.PercentOutput, 0);}
   }
 
   public void setIndexManual (double speed) {
