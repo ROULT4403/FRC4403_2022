@@ -114,7 +114,7 @@ public class RobotContainer {
     // Algorithm intake
     d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
     // Algorith Outake
-    d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.3, false), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
+    d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4, false), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
     // Manual Intake & Index
     d_B.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5))));
     d_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(0))));
@@ -122,10 +122,21 @@ public class RobotContainer {
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
       return new Auto1(s_drive);
     }
+
+  /**
+   * Get drive command based on controller input
+   * @return the command for drivetrain
+   */
+  public Command getDriveCommand() {
+    if (Math.abs(driver.getRawAxis(4)) < 0.05){
+      return new straightDrive(s_drive, driver.getRawAxis(1));
+    } else {
+      return new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive);
+    }
   }
+}

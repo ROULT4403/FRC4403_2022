@@ -24,6 +24,9 @@ public class Intake extends SubsystemBase {
   private final DoubleSolenoid intakeRelease = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.intakeReleasePort[0], 
   IntakeConstants.intakeReleasePort[1]);
 
+  // Timer
+  Timer intakeTimer = new Timer();
+
   // Class variables
   private boolean isReleased;
   public boolean detectedCargoIntake;
@@ -50,8 +53,9 @@ public class Intake extends SubsystemBase {
 
     intakeMotor.set(ControlMode.PercentOutput, speed);
 
-    if(counter[0] == !true) {return;}
+    if(counter.length < 1) {return;}
 
+    // Start integral
     if (counter[0]) {
       integralCurrent = integralCurrent + errorCurrent;
     } else {
@@ -63,23 +67,28 @@ public class Intake extends SubsystemBase {
    * @return boolean if cargo is detected
    */
   public boolean hasCargo(){
+    // Update current-related variables
     actualCurrent = Robot.pdp.getCurrent(10);
     errorCurrent = IntakeConstants.intakeCurrentSetpoint - actualCurrent;
 
-    Timer.getFPGATimestamp();
-
-    if (i > 47) {i = 0;}
-
-    if(actualCurrent > IntakeConstants.intakeNominalCurrent && integralCurrent < -300) {
-      i = 1;
+    // Reset timer if greater than final threshold
+    if (intakeTimer.get() > IntakeConstants.intakeTimerFinalThreshold) {
+      intakeTimer.stop();
+      intakeTimer.reset();
+    }
+    
+    // Start timer if current greater than threshold and integral value less than integral threshold
+    if(actualCurrent > IntakeConstants.intakeNominalCurrent && integralCurrent < IntakeConstants.intakeIntegralThreshold) {
+      intakeTimer.start();
       return false; 
-    } else if (i > 0 && i < 40) {
-      i++;
+    // Wait until cargo settles at index
+    } else if (intakeTimer.get() > 0 && intakeTimer.get() < IntakeConstants.intakeTimerInitialThreshold) {
       return false;
-    } else if (i >= 40) {
-      i++;
+    // Turn index
+    } else if (intakeTimer.get() >= IntakeConstants.intakeTimerInitialThreshold) {
       return true;
     }
+
     return false;
   }
   
@@ -104,5 +113,6 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("IntegralCurrent", integralCurrent);
     SmartDashboard.putNumber("IntakeFalconTemp", intakeMotor.getTemperature());
     SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("IntakeTimer", intakeTimer.get());
   }
 }

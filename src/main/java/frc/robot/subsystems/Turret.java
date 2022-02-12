@@ -25,7 +25,10 @@ public class Turret extends SubsystemBase {
                                                             TurretConstants.turretkD);
 
   /** Creates a new Hood. */
-  public Turret() {}
+  public Turret() {
+    // Set inverted motor
+    turretMotor.setInverted(TurretConstants.turretMotorInverted);
+  }
 
     /**
    * PID Control for turret output

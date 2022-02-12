@@ -22,6 +22,11 @@ public class Index extends SubsystemBase {
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
   private boolean hasCargo = false;
 
+  public Index() {
+    // Set inverted motor
+    indexMotor.setInverted(IndexConstants.indexMotorInverted);
+  }
+
   public void setIndex (double speed, boolean... detectedCargo) {
     if(!hasCargo || detectedCargo[0]) {
       indexMotor.set(ControlMode.PercentOutput, speed);

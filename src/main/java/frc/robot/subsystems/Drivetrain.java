@@ -66,8 +66,11 @@ public class Drivetrain extends SubsystemBase {
     bottomLeft.follow(topLeft);
 
     // Setup Inverted Motors
-    bottomRight.setInverted(true);
-    topRight.setInverted(true);
+    bottomRight.setInverted(DrivetrainConstants.rightInverted);
+    topRight.setInverted(DrivetrainConstants.rightInverted);
+    
+    topLeft.setInverted(DrivetrainConstants.leftInverted);
+    bottomLeft.setInverted(DrivetrainConstants.leftInverted);
 
     // Differential Drive Setup
     odom = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())); 

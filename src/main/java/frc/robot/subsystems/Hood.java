@@ -27,7 +27,10 @@ public class Hood extends SubsystemBase {
                                                           HoodConstants.hoodkD);
 
   /** Creates a new Hood. */
-  public Hood() {}
+  public Hood() {
+    // Set inverted motor
+    hoodMotor.setInverted(HoodConstants.hoodMotorInverted);
+  }
 
   /** 
    * PID Control for hood output

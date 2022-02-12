@@ -15,6 +15,10 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  // TODO: Check if StraightDrive works correctly (getHeading)
+  // TODO: Finish control layout
+  // TODO: Add limit switch to hood
+  
   /** Constants used in Drivetrain Subsystem */
   public static final class DrivetrainConstants{
     // Ports
@@ -42,6 +46,9 @@ public final class Constants {
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
+    public static final double kToleranceStraightDriveAngle = 0.05;
+    public static final double kToleranceStraightDriveVelocity = 0;
+
     // Sensor Config Booleans
     public static final boolean kGyroReversed = true;
     public static final boolean kLeftEncoderReversed = true;
@@ -49,51 +56,10 @@ public final class Constants {
     
     // Default State Booleans
     public static final boolean dogShiftDefault = true;
+    public static final boolean rightInverted = true;
+    public static final boolean leftInverted = false;
   }
   
-  /** Constants used in Intake Subsystem */
-  public static final class IntakeConstants{
-    // Ports
-    // Motor Controller Ports
-    public static final int portIntake = 9;
-    
-    // Solenoid Ports
-    public static final int[] intakeReleasePort = {2, 3};
-    
-    // Constants
-    // Default State Booleans
-    public static final boolean intakeReleaseDefault = false;
-    public static final boolean intakeMotorInverted = true;
-    
-    //Intake Current Detection
-    public static final int intakeNominalCurrent = 11;
-    public static final int intakeCurrentSetpoint = 5;
-  }
-  
-  /** Constants used in Index Subsystem */
-  public static final class IndexConstants {
-    // Ports
-    // Motor Controller Ports
-    public static final int portIndex = 5;
-    
-    // Sensor Ports
-    public static final int ultrasonicPort = 1;
-  }
-  
-  /** Constants used in Shooter Subsystem */
-  public static final class ShooterConstants {
-    // Ports
-    // Motor Controller Ports
-    public static final int portShooterMotor = 3;
- 
-    // Constants
-    // PID Constants
-    public static final double shooterkP = 0.5;
-    public static final double shooterkI = 0;
-    public static final double shooterkD = 5;
-    public static final double shooterkF = 0.07;
-  }
-
   /** Constants used in Hood Subsystem */
   public static final class HoodConstants {
     // Ports
@@ -111,6 +77,64 @@ public final class Constants {
     public static final double hoodkI = 0;
     public static final double hoodkD = 0;
     public static final double hoodkF = 0;
+
+    // Default State Booleans
+    public static final boolean hoodMotorInverted = false;
+  }
+
+  /** Constants used in Index Subsystem */
+  public static final class IndexConstants {
+    // Ports
+    // Motor Controller Ports
+    public static final int portIndex = 5;
+    
+    // Sensor Ports
+    public static final int ultrasonicPort = 1;
+
+    // Default State Booleans
+    public static final boolean indexMotorInverted = false;
+  }
+
+  /** Constants used in Intake Subsystem */
+  public static final class IntakeConstants{
+    // Ports
+    // Motor Controller Ports
+    public static final int portIntake = 9;
+    
+    // Solenoid Ports
+    public static final int[] intakeReleasePort = {2, 3};
+    
+    // Constants
+    // Default State Booleans
+    public static final boolean intakeReleaseDefault = false;
+    public static final boolean intakeMotorInverted = true;
+    
+    //Intake Current Detection
+    public static final int intakeNominalCurrent = 11;
+    public static final int intakeCurrentSetpoint = 5;
+    public static final int intakeIntegralThreshold = -300;
+    
+    // Intake Timer
+    public static final double intakeTimerInitialThreshold = 1.3;
+    public static final double intakeTimerFinalThreshold = 1.5;
+  }
+
+  
+  /** Constants used in Shooter Subsystem */
+  public static final class ShooterConstants {
+    // Ports
+    // Motor Controller Ports
+    public static final int portShooterMotor = 3;
+ 
+    // Constants
+    // PID Constants
+    public static final double shooterkP = 0.5;
+    public static final double shooterkI = 0;
+    public static final double shooterkD = 5;
+    public static final double shooterkF = 0.07;
+
+    // Default State Booleans
+    public static final boolean shooterMotorInverted = false;
   }
 
   /** Constants used in Turret Subsystem */
@@ -136,6 +160,9 @@ public final class Constants {
     public static final double turretkI = 0;
     public static final double turretkD = 0;
     public static final double turretkF = 0;
+
+    // Default State Booleans
+    public static final boolean turretMotorInverted = false;
   }
   
   /** Constants used RamseteCommand and Path Following */

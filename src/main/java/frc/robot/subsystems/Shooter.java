@@ -24,6 +24,8 @@ public class Shooter extends SubsystemBase {
 
   /** Creates a new Shooter. */
   public Shooter() {
+    // Set inverted motor
+    shooterMotor.setInverted(ShooterConstants.shooterMotorInverted);
 
     //Configure Talon FX 
     shooterMotor.configFactoryDefault();
