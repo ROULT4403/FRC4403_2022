@@ -29,12 +29,12 @@ public final class Constants {
     
     // Sensor Ports
     public static final int[] kLeftEncoderPorts = {2,3};
-    public static final int[] kRightEncoderPorts = {0,1};
+    public static final int[] kRightEncoderPorts = {4,5};
 
     // Constants
     // Limiter Constants
-    public static final double driveLimiter = 0.9;
-    public static final double rotLimiter = 0.8; 
+    public static final double driveLimiter = 1;
+    public static final double rotLimiter = 1; 
     
     
     // PID Constants
@@ -63,7 +63,7 @@ public final class Constants {
     // Constants
     // Default State Booleans
     //Intake Voltage
-    public static final int intakeVoltage = 23;
+    public static final int intakeCurrent = 26;
     public static final boolean intakeReleaseDefault = false;
   }
   

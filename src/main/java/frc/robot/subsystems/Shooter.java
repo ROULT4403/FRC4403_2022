@@ -81,5 +81,6 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
     SmartDashboard.putNumber("ShooterTarget", shooterMotor.getClosedLoopTarget());
     SmartDashboard.putBoolean("ShooterIsFinished", shooterIsFinished());
+    SmartDashboard.putNumber("ShooterFalconTemp", shooterMotor.getTemperature());
   }
 }

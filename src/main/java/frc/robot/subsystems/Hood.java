@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.HoodConstants;
 
@@ -18,7 +20,7 @@ public class Hood extends SubsystemBase {
   private final VictorSPX hoodMotor = new VictorSPX(HoodConstants.portHoodMotor);
   
   // Sensors
-  // private final Encoder hoodEncoder = new Encoder(ShooterConstants.hoodEncoderPorts[0], ShooterConstants.hoodEncoderPorts[1]);
+  private final Encoder hoodEncoder = new Encoder(HoodConstants.hoodEncoderPorts[0], HoodConstants.hoodEncoderPorts[1]);
 
   // PID Controllers
   private final PIDController hoodPID = new PIDController(HoodConstants.hoodkP, HoodConstants.hoodkI, 
@@ -49,12 +51,19 @@ public class Hood extends SubsystemBase {
    * @return Returns Hood Position
    */
   public double getHoodAngle(){
-    // return hoodEncoder.getPosition();
-    return 50;
+    return hoodEncoder.get() * 100 / 75;
+  }
+
+  /**
+   * 
+   */
+  public void resetAngle(){
+    hoodEncoder.reset();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("EncoderHood", hoodEncoder.getRaw());
   }
 }

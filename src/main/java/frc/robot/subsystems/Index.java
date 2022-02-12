@@ -20,10 +20,10 @@ public class Index extends SubsystemBase {
 
   // Sensors
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
-  private boolean detectedCargo = false;
+  private boolean hasCargo = false;
 
-  public void setIndex (double speed, boolean hasCargoIntake) {
-    if(!detectedCargo || hasCargoIntake) {
+  public void setIndex (double speed, boolean detectedCargo) {
+    if(!hasCargo || detectedCargo) {
       indexMotor.set(ControlMode.PercentOutput, speed);
       } else {  
     indexMotor.set(ControlMode.PercentOutput, 0);}
@@ -44,7 +44,7 @@ public class Index extends SubsystemBase {
   
   @Override
   public void periodic() {
-    detectedCargo = hasCargo();
+    hasCargo = hasCargo();
     SmartDashboard.putBoolean("hascargo", hasCargo());
     SmartDashboard.putNumber("colorsensor", colorSensor.getProximity());
   }

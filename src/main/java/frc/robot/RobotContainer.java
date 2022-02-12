@@ -72,7 +72,7 @@ public class RobotContainer {
     // Default Drive Command
     s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
     // Intake Default Command
-    s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0), s_intake));
+    s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0, false), s_intake));
     // Index Default Command
     s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndexManual(0), s_index));
     // Shooter Default Command
@@ -89,10 +89,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // Driver Controls
-    d_A.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
+    d_X.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
 
     // Intake Commands
-    d_X.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
+    d_A.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
 
     // Controller Controls
     // Index Commands
@@ -100,17 +100,18 @@ public class RobotContainer {
     // c_LB.whenHeld(new RunCommand(() -> s_index.setIndex(-0.3), s_index));
 
     // Shooter Commands
-    c_Y.whenHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
-    c_A.whenHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
+    d_Pad180.whenHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
+    d_Pad0.whenHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
     // c_X.whenHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
     // c_B.whenHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
-    c_RB.whenHeld(new ShootBasic(s_index, s_shooter));
-    c_Select.whenHeld(new RunCommand(() -> s_shooter.setShooterManual(0.2), s_shooter));
+    d_RB.whenHeld(new ShootBasic(s_index, s_shooter));
+    d_Select.whenHeld(new RunCommand(() -> s_shooter.setShooterManual(0.2), s_shooter));
 
     // Intake and Index algorithm
     // c_LB.whileHeld(new ParallelCommandGroup(new RunCommand(() -> s_index.setIndex(0.25), s_index), new RunCommand(() -> s_intake.setIntake(-0.4), s_intake)));
-    c_LB.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
-    c_X.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5))));
+    d_LB.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
+    d_Start.whileHeld(new RunCommand(() -> s_intake.setIntake(0.4, false), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
+    c_X.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5), false)));
     c_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(5), true)));
   }
 

@@ -92,6 +92,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Voltage", pdp.getVoltage());
     SmartDashboard.putNumber("CurrentIntake", pdp.getCurrent(10));
 
+    SmartDashboard.putNumber("CurrenttopLeft", pdp.getCurrent(15));
+    SmartDashboard.putNumber("CurrenttopRight", pdp.getCurrent(14));
+    SmartDashboard.putNumber("CurrentbottomLeft", pdp.getCurrent(0));
+    SmartDashboard.putNumber("CurrentbottomRight", pdp.getCurrent(1));
+
     // Update vision variables
     tx = xEntry.getDouble(0);    
     ta = aEntry.getDouble(0); 
