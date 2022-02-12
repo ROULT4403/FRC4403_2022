@@ -9,7 +9,7 @@ public class straightDrive extends PIDCommand{
 
   public straightDrive(Drivetrain s_drive, double speed) {
     super(new PIDController(DrivetrainConstants.kP, DrivetrainConstants.kI,
-			DrivetrainConstants.kD), s_drive::getHeading, 0,
+			DrivetrainConstants.kD), s_drive::getYaw, 0,
 			output -> s_drive.drive(speed, output));
 
 		getController().setTolerance(DrivetrainConstants.kToleranceStraightDriveAngle,

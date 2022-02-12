@@ -149,6 +149,14 @@ public class Drivetrain extends SubsystemBase {
   public double getHeading() {
     return Math.IEEEremainder(NavX.getYaw(), 360) * (DrivetrainConstants.kGyroReversed ? -1.0 : 1.0);
   }
+
+  /** 
+   * Returns gyroscope Yaw heading
+   * @return double angle heading
+   */
+  public double getYaw() {
+    return NavX.getYaw();
+  }
   
   /** Resets encoder values */
   public void resetEncoders(){

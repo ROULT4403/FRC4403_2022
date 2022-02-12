@@ -89,8 +89,16 @@ public class RobotContainer {
     // Dual Controller
     if(DriverStation.isJoystickConnected(1)){
       // Driver Controls
+      d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
+      // Intake Release
+      d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
+      // Algorithm intake
+      d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
+      // Algorithm outake
+      d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
 
       // Controller Controls
+      c_RB.whenHeld(new ShootBasic(s_index, s_shooter));
       return;
     }
 

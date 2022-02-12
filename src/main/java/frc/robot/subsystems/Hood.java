@@ -6,9 +6,11 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,6 +23,8 @@ public class Hood extends SubsystemBase {
   
   // Sensors
   private final Encoder hoodEncoder = new Encoder(HoodConstants.hoodEncoderPorts[0], HoodConstants.hoodEncoderPorts[1]);
+
+  private final DigitalInput hoodLimitSwitch = new DigitalInput(9);
 
   // PID Controllers
   private final PIDController hoodPID = new PIDController(HoodConstants.hoodkP, HoodConstants.hoodkI, 
@@ -39,6 +43,8 @@ public class Hood extends SubsystemBase {
   public void setHood(double hoodSetpoint){
     hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), hoodSetpoint), 
                   DemandType.ArbitraryFeedForward, HoodConstants.hoodkF);
+
+    resetAngle();
   }
 
   /** 
@@ -58,10 +64,13 @@ public class Hood extends SubsystemBase {
   }
 
   /**
-   * 
+   * Move hood until Limit Switch is triggered, then reset angle
    */
   public void resetAngle(){
-    hoodEncoder.reset();
+    if (hoodLimitSwitch.get()) {
+      hoodMotor.setNeutralMode(NeutralMode.Brake);
+      hoodEncoder.reset();
+    }
   }
 
   @Override

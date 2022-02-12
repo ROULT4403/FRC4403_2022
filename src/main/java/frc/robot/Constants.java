@@ -15,9 +15,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  // TODO: Check if StraightDrive works correctly (getHeading)
-  // TODO: Finish control layout
-  // TODO: Add limit switch to hood
+  // TODO: Check if StraightDrive works correctly
   
   /** Constants used in Drivetrain Subsystem */
   public static final class DrivetrainConstants{
@@ -42,7 +40,7 @@ public final class Constants {
     
     
     // PID Constants
-    public static final double kP = 0.0;
+    public static final double kP = 0.01;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
