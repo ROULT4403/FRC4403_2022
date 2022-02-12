@@ -3,7 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.HoodConstants;
+import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.Auto.Auto1;
 import frc.robot.subsystems.*;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.subsystems.Drivetrain;
 
@@ -22,14 +24,14 @@ public class RobotContainer {
   private final Intake s_intake = new Intake();
   private final Index s_index = new Index();
   private final Shooter s_shooter = new Shooter();
+  private final Hood s_hood = new Hood();
+  private final Turret s_turret = new Turret();
 
   // Drivetrain Joystick
   Joystick driver = new Joystick(0);
   // Mechanism Joystick
   Joystick controller = new Joystick(1);
   
-  // Instantiate Commands
-
   // Drivetrain Joystick Buttons
   Button d_A = new JoystickButton(driver, 1);
   Button d_B = new JoystickButton(driver, 2);
@@ -68,47 +70,81 @@ public class RobotContainer {
     configureButtonBindings();
     // Default Drive Command
     s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
-    // Shooter SubsystemTesting
-    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.testing(0, 0, 0), s_shooter));
-    // Index Default Command
-    s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndex(0), s_index));
     // Intake Default Command
-    s_intake.setDefaultCommand(new RunCommand(() -> s_intake.intakeControl(0), s_intake));
+    s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0), s_intake));
+    // Index Default Command
+    s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndexManual(0), s_index));
+    // Shooter Default Command
+    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooterManual(0), s_shooter));
+    // Hood Default Command
+    s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHoodManual(0), s_hood));
+    // Turret Default Command
+    s_turret.setDefaultCommand(new RunCommand(() -> s_turret.setTurretManual(0), s_turret));
   }
 
   /**
    * Use this method to define your button->command mappings. 
    */
   private void configureButtonBindings() {
+    // Dual Controller
+    if(DriverStation.isJoystickConnected(1)){
+      // Driver Controls
+      d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
+      // Intake Release
+      d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
+      // Algorithm intake
+      d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
+      // Algorithm outake
+      d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
 
+      // Controller Controls
+      c_RB.whenHeld(new ShootBasic(s_index, s_shooter));
+      return;
+    }
+
+    // Single Controller
     // Driver Controls
-    d_LSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
-
-    // Intake Commands
-    d_RB.whileHeld(new RunCommand(() -> s_intake.intakeControl(0.6), s_intake));
-    d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
-
-    // Controller Controls
-    // Conveyor Commands
-    c_RB.whenHeld(new RunCommand(() -> s_index.setIndex(0.3), s_index));
+    d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
 
     // Shooter Commands
-    c_LB.whenHeld(new RunCommand(() -> s_shooter.setShooterManual(controller.getRawAxis(5)), s_shooter));
-    c_X.whenHeld(new RunCommand(() -> s_shooter.setTurretManual(-ShooterConstants.turretOutput), s_shooter));
-    c_B.whenHeld(new RunCommand(() -> s_shooter.setTurretManual(ShooterConstants.turretOutput), s_shooter));
-    c_Y.whenHeld(new RunCommand(() -> s_shooter.setHoodManual(ShooterConstants.hoodOutput), s_shooter));
-    c_A.whenHeld(new RunCommand(() -> s_shooter.setHoodManual(-ShooterConstants.hoodOutput), s_shooter));
-
-    // Shooting algorithm
-    // c_A.whenHeld(s_aiming);
+    // Manual Hood
+    d_Pad180.whenHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
+    d_Pad0.whenHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
+    // Manual Turret
+    d_Pad90.whenHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
+    d_Pad270.whenHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
+    // Shooting Algorithm
+    d_X.whenHeld(new ShootBasic(s_index, s_shooter));
+    
+    // Intake & Index
+    // Intake Release
+    d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
+    // Algorithm intake
+    d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
+    // Algorith Outake
+    d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4, false), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
+    // Manual Intake & Index
+    d_B.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5))));
+    d_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(0))));
   }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
       return new Auto1(s_drive);
     }
+
+  /**
+   * Get drive command based on controller input
+   * @return the command for drivetrain
+   */
+  public Command getDriveCommand() {
+    if (Math.abs(driver.getRawAxis(4)) < 0.05){
+      return new DriveStraigth(s_drive, driver.getRawAxis(1));
+    } else {
+      return new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive);
+    }
   }
+}

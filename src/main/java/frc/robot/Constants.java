@@ -15,6 +15,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  // TODO: Check if StraightDrive works correctly
+  
   /** Constants used in Drivetrain Subsystem */
   public static final class DrivetrainConstants{
     // Ports
@@ -25,22 +27,25 @@ public final class Constants {
     public static final int portLeftBottom = 6;
 
     // Solenoid Ports
-    public static final int[] dogShiftPort = {2, 3};
+    public static final int[] dogShiftPort = {0, 1};
     
     // Sensor Ports
     public static final int[] kLeftEncoderPorts = {2,3};
-    public static final int[] kRightEncoderPorts = {0,1};
+    public static final int[] kRightEncoderPorts = {4,5};
 
     // Constants
     // Limiter Constants
-    public static final double driveLimiter = 0.8;
-    public static final double rotLimiter = 0.7; 
+    public static final double driveLimiter = 1;
+    public static final double rotLimiter = 1; 
     
     
     // PID Constants
-    public static final double kP = 0.0;
+    public static final double kP = 0.01;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
+
+    public static final double kToleranceStraightDriveAngle = 0.05;
+    public static final double kToleranceStraightDriveVelocity = 0;
 
     // Sensor Config Booleans
     public static final boolean kGyroReversed = true;
@@ -49,74 +54,113 @@ public final class Constants {
     
     // Default State Booleans
     public static final boolean dogShiftDefault = true;
+    public static final boolean rightInverted = true;
+    public static final boolean leftInverted = false;
   }
   
-  /** Constants used in Intake Subsystem */
-  public static final class IntakeConstants{
+  /** Constants used in Hood Subsystem */
+  public static final class HoodConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portIntake = 5;
-    
-    // Solenoid Ports
-    public static final int[] intakeReleasePort = {0, 1};
-    
-    // Constants
+    public static final int portHoodMotor = 7;
+
+    // Sensor Ports
+    public static final int[] hoodEncoderPorts = {0, 1};
+
+    // Output Constants
+    public static final double hoodOutput = 0.2;
+
+    // PID Constants
+    public static final double hoodkP = 0;
+    public static final double hoodkI = 0;
+    public static final double hoodkD = 0;
+    public static final double hoodkF = 0;
+
     // Default State Booleans
-    public static final boolean intakeReleaseDefault = false;
+    public static final boolean hoodMotorInverted = false;
   }
-  
+
   /** Constants used in Index Subsystem */
   public static final class IndexConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portIndex = 8;
+    public static final int portIndex = 5;
     
     // Sensor Ports
     public static final int ultrasonicPort = 1;
+
+    // Default State Booleans
+    public static final boolean indexMotorInverted = false;
   }
+
+  /** Constants used in Intake Subsystem */
+  public static final class IntakeConstants{
+    // Ports
+    // Motor Controller Ports
+    public static final int portIntake = 9;
+    
+    // Solenoid Ports
+    public static final int[] intakeReleasePort = {2, 3};
+    
+    // Constants
+    // Default State Booleans
+    public static final boolean intakeReleaseDefault = false;
+    public static final boolean intakeMotorInverted = true;
+    
+    //Intake Current Detection
+    public static final int intakeNominalCurrent = 11;
+    public static final int intakeCurrentSetpoint = 5;
+    public static final int intakeIntegralThreshold = -300;
+    
+    // Intake Timer
+    public static final double intakeTimerInitialThreshold = 1.3;
+    public static final double intakeTimerFinalThreshold = 1.5;
+  }
+
   
   /** Constants used in Shooter Subsystem */
   public static final class ShooterConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portShooterMotor = 1;
-    public static final int portHoodMotor = 7;
+    public static final int portShooterMotor = 3;
+ 
+    // Constants
+    // PID Constants
+    public static final double shooterkP = 0.5;
+    public static final double shooterkI = 0;
+    public static final double shooterkD = 5;
+    public static final double shooterkF = 0.07;
+
+    // Default State Booleans
+    public static final boolean shooterMotorInverted = false;
+  }
+
+  /** Constants used in Turret Subsystem */
+  public static final class TurretConstants {
+    // Ports
+    // Motor Controller Ports
     public static final int portTurretMotor = 4;
 
     // Sensor Ports
-    public static final int[] hoodEncoderPorts = {0, 1};
     public static final int[] turretEncoderPorts = {2, 3};
 
     // Constants
-    // Turret Constants
-    // TODO: Change teeth
-    public static final int[] turretGears= {30,270};
+    public static final int[] turretGears= {30,260};
     public static final double turretReduction = (turretGears[0] / turretGears[1] * 360 / 2048);
     public static final int turretCWLimit = 100;
     public static final int turretACWLimit = 10;
-    
+        
     // Output Constants
     public static final double turretOutput = 0.2;
-    public static final double hoodOutput = 0.2;
 
     // PID Constants
-    // Hood PID Constants
-    public static final double hoodkP = 0;
-    public static final double hoodkI = 0;
-    public static final double hoodkD = 0;
-    public static final double hoodkF = 0;
-    
-    // Turret PID Constants
     public static final double turretkP = 0;
     public static final double turretkI = 0;
     public static final double turretkD = 0;
     public static final double turretkF = 0;
 
-    // Shooter PID Constants
-    public static final double shooterkP = 0;
-    public static final double shooterkI = 0;
-    public static final double shooterkD = 0;
-    public static final double shooterkF = 0;
+    // Default State Booleans
+    public static final boolean turretMotorInverted = false;
   }
   
   /** Constants used RamseteCommand and Path Following */

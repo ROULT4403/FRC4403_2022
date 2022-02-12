@@ -66,8 +66,11 @@ public class Drivetrain extends SubsystemBase {
     bottomLeft.follow(topLeft);
 
     // Setup Inverted Motors
-    bottomRight.setInverted(true);
-    topRight.setInverted(true);
+    bottomRight.setInverted(DrivetrainConstants.rightInverted);
+    topRight.setInverted(DrivetrainConstants.rightInverted);
+    
+    topLeft.setInverted(DrivetrainConstants.leftInverted);
+    bottomLeft.setInverted(DrivetrainConstants.leftInverted);
 
     // Differential Drive Setup
     odom = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())); 
@@ -89,6 +92,7 @@ public class Drivetrain extends SubsystemBase {
    * @param rot double for turn speed in -1 to 1 range
    */
   public void drive(double speed, double rot) {
+    // Restrict Y
     double y = speed * DrivetrainConstants.driveLimiter;
     if (y > previousY + dy) {
       y = previousY + dy;
@@ -144,6 +148,14 @@ public class Drivetrain extends SubsystemBase {
    */
   public double getHeading() {
     return Math.IEEEremainder(NavX.getYaw(), 360) * (DrivetrainConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  /** 
+   * Returns gyroscope Yaw heading
+   * @return double angle heading
+   */
+  public double getYaw() {
+    return NavX.getYaw();
   }
   
   /** Resets encoder values */
