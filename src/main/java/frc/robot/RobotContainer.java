@@ -10,12 +10,11 @@ import frc.robot.commands.Auto.Auto1;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.subsystems.Drivetrain;
 
@@ -72,7 +71,7 @@ public class RobotContainer {
     // Default Drive Command
     s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
     // Intake Default Command
-    s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0, false), s_intake));
+    s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0), s_intake));
     // Index Default Command
     s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndexManual(0), s_index));
     // Shooter Default Command
@@ -87,32 +86,38 @@ public class RobotContainer {
    * Use this method to define your button->command mappings. 
    */
   private void configureButtonBindings() {
+    // Dual Controller
+    if(DriverStation.isJoystickConnected(1)){
+      // Driver Controls
 
+      // Controller Controls
+      return;
+    }
+
+    // Single Controller
     // Driver Controls
-    d_X.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
-
-    // Intake Commands
-    d_A.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
-
-    // Controller Controls
-    // Index Commands
-    // c_RB.whenHeld(new RunCommand(() -> s_index.setIndex(0.3), s_index));
-    // c_LB.whenHeld(new RunCommand(() -> s_index.setIndex(-0.3), s_index));
+    d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
 
     // Shooter Commands
+    // Manual Hood
     d_Pad180.whenHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
     d_Pad0.whenHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
-    // c_X.whenHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
-    // c_B.whenHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
-    d_RB.whenHeld(new ShootBasic(s_index, s_shooter));
-    d_Select.whenHeld(new RunCommand(() -> s_shooter.setShooterManual(0.2), s_shooter));
-
-    // Intake and Index algorithm
-    // c_LB.whileHeld(new ParallelCommandGroup(new RunCommand(() -> s_index.setIndex(0.25), s_index), new RunCommand(() -> s_intake.setIntake(-0.4), s_intake)));
-    d_LB.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
-    d_Start.whileHeld(new RunCommand(() -> s_intake.setIntake(0.4, false), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
-    c_X.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5), false)));
-    c_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(5), true)));
+    // Manual Turret
+    d_Pad90.whenHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
+    d_Pad270.whenHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
+    // Shooting Algorithm
+    d_X.whenHeld(new ShootBasic(s_index, s_shooter));
+    
+    // Intake & Index
+    // Intake Release
+    d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
+    // Algorithm intake
+    d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
+    // Algorith Outake
+    d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.3, false), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
+    // Manual Intake & Index
+    d_B.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5))));
+    d_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(0))));
   }
 
   /**

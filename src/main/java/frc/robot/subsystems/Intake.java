@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -15,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.IntakeConstants;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Intake extends SubsystemBase {
   // Motor Controllers
@@ -24,31 +24,63 @@ public class Intake extends SubsystemBase {
   private final DoubleSolenoid intakeRelease = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.intakeReleasePort[0], 
   IntakeConstants.intakeReleasePort[1]);
 
-  // Class constants
-  private boolean isReleased = IntakeConstants.intakeReleaseDefault;
-  public boolean detectedCargoIntake = false;
+  // Class variables
+  private boolean isReleased;
+  public boolean detectedCargoIntake;
 
-  public double i;
+  public int i;
   public double actualCurrent;
   public double errorCurrent;
-  public double lastCurrent; 
-  public double integralCurrent = 0;
+  public double integralCurrent;
 
   /** Susbsystem class for Drivetain, extends SubsystemBase */
-  public Intake() {}
+  public Intake() {
+    // Invert motor direction
+    intakeMotor.setInverted(IntakeConstants.intakeMotorInverted);
+
+    // Initialize Class Variables
+    isReleased = IntakeConstants.intakeReleaseDefault;
+  }
   
   /** Controls intake motor 
    * @param speed speed for intake motor in -1 to 1 range 
+   * @param counter optional boolean to enable integral control
    * */
-  public void setIntake(double speed, boolean counter){
+  public void setIntake(double speed, boolean... counter){
 
     intakeMotor.set(ControlMode.PercentOutput, speed);
 
-    if (counter) {
-    integralCurrent = integralCurrent + errorCurrent;
+    if(counter[0] == !true) {return;}
+
+    if (counter[0]) {
+      integralCurrent = integralCurrent + errorCurrent;
     } else {
     integralCurrent = 0;
     }
+  }
+  /**
+   * Detects if cargo has crossed the intake
+   * @return boolean if cargo is detected
+   */
+  public boolean hasCargo(){
+    actualCurrent = Robot.pdp.getCurrent(10);
+    errorCurrent = IntakeConstants.intakeCurrentSetpoint - actualCurrent;
+
+    Timer.getFPGATimestamp();
+
+    if (i > 47) {i = 0;}
+
+    if(actualCurrent > IntakeConstants.intakeNominalCurrent && integralCurrent < -300) {
+      i = 1;
+      return false; 
+    } else if (i > 0 && i < 40) {
+      i++;
+      return false;
+    } else if (i >= 40) {
+      i++;
+      return true;
+    }
+    return false;
   }
   
   /** Toggles intake position */
@@ -62,41 +94,15 @@ public class Intake extends SubsystemBase {
     }
     isReleased = !isReleased;
   }
-  
-  public boolean detectCargo(){
-    
-    actualCurrent = Robot.pdp.getCurrent(10);
-    errorCurrent = 20 - actualCurrent;
-
-    if (i > 60) {i = 0;}
-
-    if(actualCurrent > IntakeConstants.intakeCurrent && integralCurrent < -300) {
-      i = 1;
-      lastCurrent = actualCurrent;
-      return false; 
-    } else if (i > 0 && i < 40) {
-      i++;
-      return false;
-    } else if (i >= 40) {
-      i++;
-      return true;
-    }
-    
-    i = 0;
-    lastCurrent = actualCurrent;
-    return false;
-  }
-
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    detectedCargoIntake = detectCargo();
+    detectedCargoIntake = hasCargo();
     SmartDashboard.putBoolean("DetectedCargoIntake", detectedCargoIntake);
     SmartDashboard.putNumber("CounterVariable", i);
     SmartDashboard.putNumber("IntegralCurrent", integralCurrent);
     SmartDashboard.putNumber("IntakeFalconTemp", intakeMotor.getTemperature());
     SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
-
   }
 }

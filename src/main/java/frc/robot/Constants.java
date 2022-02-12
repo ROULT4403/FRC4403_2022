@@ -62,9 +62,12 @@ public final class Constants {
     
     // Constants
     // Default State Booleans
-    //Intake Voltage
-    public static final int intakeCurrent = 26;
     public static final boolean intakeReleaseDefault = false;
+    public static final boolean intakeMotorInverted = true;
+    
+    //Intake Current Detection
+    public static final int intakeNominalCurrent = 11;
+    public static final int intakeCurrentSetpoint = 5;
   }
   
   /** Constants used in Index Subsystem */
