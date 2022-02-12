@@ -142,7 +142,7 @@ public class RobotContainer {
    */
   public Command getDriveCommand() {
     if (Math.abs(driver.getRawAxis(4)) < 0.05){
-      return new straightDrive(s_drive, driver.getRawAxis(1));
+      return new DriveStraigth(s_drive, driver.getRawAxis(1));
     } else {
       return new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive);
     }

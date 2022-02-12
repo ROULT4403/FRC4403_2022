@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
-public class shootSubAuto extends CommandBase{
+public class ShootSubAuto extends CommandBase{
 
 	// Instantiate subsystems
 	public Shooter s_shooter;
@@ -15,7 +15,7 @@ public class shootSubAuto extends CommandBase{
 	public Turret s_turret;
 	public Index s_index;
 	
-	public shootSubAuto(Shooter shooter, Hood hood, Turret turret, Index index) {
+	public ShootSubAuto(Shooter shooter, Hood hood, Turret turret, Index index) {
 		this.s_shooter = shooter;
 		this.s_hood = hood;
 		this.s_turret = turret;
