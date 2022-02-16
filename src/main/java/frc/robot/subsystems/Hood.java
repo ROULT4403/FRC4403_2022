@@ -42,14 +42,8 @@ public class Hood extends SubsystemBase {
    * @param hoodSetpoint double for hood setpoint 
    */
   public void setHood(double hoodSetpoint){
-    if (getHoodAngle() > 100 && hoodSetpoint < 0) {
-      hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), hoodSetpoint), 
-      DemandType.ArbitraryFeedForward, HoodConstants.hoodkF);
-    } else if (getHoodAngle() > 100 && hoodSetpoint > 0){
+    if (getHoodAngle() > 100 && hoodSetpoint > 0){
       hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), 0), 
-      DemandType.ArbitraryFeedForward, HoodConstants.hoodkF);
-    } else if (hoodLimitSwitch.get() && hoodSetpoint > 0){
-      hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), hoodSetpoint), 
       DemandType.ArbitraryFeedForward, HoodConstants.hoodkF);
     } else if (hoodLimitSwitch.get() && hoodSetpoint < 0){
       hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), 0), 
@@ -64,13 +58,9 @@ public class Hood extends SubsystemBase {
    * Manual Hood Output
    * @param hoodSetpoint double for hood setpoint 
    */
-  public void setHoodManual(double hoodOutput){
-    if (getHoodAngle() > 100 && hoodOutput < 0) {
-    hoodMotor.set(ControlMode.PercentOutput, hoodOutput);
-    } else if (getHoodAngle() > 100 && hoodOutput > 0){
-    hoodMotor.set(ControlMode.PercentOutput, 0);
-    } else if (hoodLimitSwitch.get() && hoodOutput > 0){
-      hoodMotor.set(ControlMode.PercentOutput, hoodOutput);
+  public void setHoodManual(double hoodOutput) {
+    if (getHoodAngle() > 100 && hoodOutput > 0){
+      hoodMotor.set(ControlMode.PercentOutput, 0);
     } else if (hoodLimitSwitch.get() && hoodOutput < 0){
       hoodMotor.set(ControlMode.PercentOutput, 0);
     } else {
