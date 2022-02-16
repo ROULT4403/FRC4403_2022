@@ -108,11 +108,12 @@ public class RobotContainer {
 
     // Shooter Commands
     // Manual Hood
-    d_Pad180.whenHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
-    d_Pad0.whenHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
+    d_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
+    d_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
     // Manual Turret
-    d_Pad90.whenHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
-    d_Pad270.whenHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
+    d_Start.whenPressed(new RunCommand(() -> s_turret.setTurret(Robot.tx + s_turret.getTurretAngle()), s_shooter));
+    d_Pad90.whenPressed(new RunCommand(() -> s_turret.setTurret(-TurretConstants.turretOutput), s_shooter));
+    d_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
     // Shooting Algorithm
     d_X.whenHeld(new ShootBasic(s_index, s_shooter));
     
@@ -126,6 +127,8 @@ public class RobotContainer {
     // Manual Intake & Index
     d_B.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5))));
     d_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(0))));
+
+    d_Select.whenPressed(new InstantCommand(s_turret::resetAngle, s_turret));
   }
 
   /**

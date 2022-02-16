@@ -18,30 +18,30 @@ import frc.robot.subsystems.Drivetrain;
   * @param s_drive Drivetrain subsystem
   * @param path Trajectory to be followed
   */
-public class PathFollower extends RamseteCommand{
-    private Drivetrain s_drive;
-    private Trajectory path;
-    public PathFollower(Drivetrain s_drive, Trajectory path){
-    super(path, 
-      s_drive::getPose, 
-      new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta), 
-      new SimpleMotorFeedforward(AutoConstants.ksVolts,
-                                    AutoConstants.kvVoltSecondsPerMeter,
-                                    AutoConstants.kaVoltSecondsSquaredPerMeter), 
-      AutoConstants.kDriveKinematics, 
-      s_drive::getWheelSpeeds, 
-      new PIDController(AutoConstants.kPDriveVel, 0, 0), 
-      new PIDController(AutoConstants.kPDriveVel, 0, 0), 
-      s_drive::tankDriveVolts, 
-      s_drive);
+// public class PathFollower extends RamseteCommand{
+//     private Drivetrain s_drive;
+//     private Trajectory path;
+//     public PathFollower(Drivetrain s_drive, Trajectory path){
+//     super(path, 
+//       s_drive::getPose, 
+//       new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta), 
+//       new SimpleMotorFeedforward(AutoConstants.ksVolts,
+//                                     AutoConstants.kvVoltSecondsPerMeter,
+//                                     AutoConstants.kaVoltSecondsSquaredPerMeter), 
+//       AutoConstants.kDriveKinematics, 
+//       s_drive::getWheelSpeeds, 
+//       new PIDController(AutoConstants.kPDriveVel, 0, 0), 
+//       new PIDController(AutoConstants.kPDriveVel, 0, 0), 
+//       s_drive::tankDriveVolts, 
+//       s_drive);
 
-      this.s_drive = s_drive;
-      this.path = path;
+//       this.s_drive = s_drive;
+//       this.path = path;
 
-      addRequirements(s_drive);
-    }
-    @Override
-    public void initialize(){
-        s_drive.resetOdometry(path.getInitialPose());
-    }
-}
+//       addRequirements(s_drive);
+//     }
+//     @Override
+//     public void initialize(){
+//         s_drive.resetOdometry(path.getInitialPose());
+//     }
+// }

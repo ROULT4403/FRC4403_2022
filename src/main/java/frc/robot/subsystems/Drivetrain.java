@@ -38,10 +38,10 @@ public class Drivetrain extends SubsystemBase {
 
   // Sensors
   private final AHRS NavX = new AHRS(Port.kMXP);
-  private final Encoder driveLeftEncoder = new Encoder(DrivetrainConstants.kLeftEncoderPorts[0], 
-    DrivetrainConstants.kLeftEncoderPorts[1], DrivetrainConstants.kLeftEncoderReversed, EncodingType.k4X);
-  private final Encoder driveRightEncoder = new Encoder(DrivetrainConstants.kRightEncoderPorts[0], 
-    DrivetrainConstants.kRightEncoderPorts[1], DrivetrainConstants.kRightEncoderReversed, EncodingType.k4X);
+  // private final Encoder driveLeftEncoder = new Encoder(DrivetrainConstants.kLeftEncoderPorts[0], 
+  //   DrivetrainConstants.kLeftEncoderPorts[1], DrivetrainConstants.kLeftEncoderReversed, EncodingType.k4X);
+  // private final Encoder driveRightEncoder = new Encoder(DrivetrainConstants.kRightEncoderPorts[0], 
+  //   DrivetrainConstants.kRightEncoderPorts[1], DrivetrainConstants.kRightEncoderReversed, EncodingType.k4X);
 
   // Instantiate Pneumatics
   public final DoubleSolenoid dogShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.dogShiftPort[0], 
@@ -77,12 +77,12 @@ public class Drivetrain extends SubsystemBase {
     drive.setDeadband(0.05);
 
     // Sensor Setup
-    driveRightEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
-    driveLeftEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
+    // driveRightEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
+    // driveLeftEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
 
     // Sensor reset
     NavX.zeroYaw();
-    resetEncoders();
+    // resetEncoders();
   }
 
   /**
@@ -159,18 +159,18 @@ public class Drivetrain extends SubsystemBase {
   }
   
   /** Resets encoder values */
-  public void resetEncoders(){
-    driveLeftEncoder.reset();
-    driveLeftEncoder.reset();
-  }
+  // public void resetEncoders(){
+  //   driveLeftEncoder.reset();
+  //   driveLeftEncoder.reset();
+  // }
   
   /**
    * Gets average distance for Drivetrain encoders
    * @return double
    */
-  public double getAverageEncoderDistance(){
-    return (driveLeftEncoder.getDistance() + driveRightEncoder.getDistance()) / 2.0;
-  }
+  // public double getAverageEncoderDistance(){
+  //   return (driveLeftEncoder.getDistance() + driveRightEncoder.getDistance()) / 2.0;
+  // }
   
     /**
      * Gets drivetrain turn rate using gyroscope
@@ -192,25 +192,25 @@ public class Drivetrain extends SubsystemBase {
    * Gets DdifferentialDrive wheelspeeds
    * @return DifferentialDriveWheelSpeeds
    */
-  public DifferentialDriveWheelSpeeds getWheelSpeeds(){
-    return new DifferentialDriveWheelSpeeds(driveLeftEncoder.getRate(),
-                                driveRightEncoder.getRate());
-  }
+  // public DifferentialDriveWheelSpeeds getWheelSpeeds(){
+  //   return new DifferentialDriveWheelSpeeds(driveLeftEncoder.getRate(),
+  //                               driveRightEncoder.getRate());
+  // }
 
   /** Resets the robot's field position
    * @param pose Pose2d new robot position
    */
-  public void resetOdometry(Pose2d pose){
-    resetEncoders();
-    odom.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
-  }
+  // public void resetOdometry(Pose2d pose){
+  //   resetEncoders();
+  //   odom.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+  // }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     // Update the odometry in the periodic block
 
-    odom.update(Rotation2d.fromDegrees(getHeading()), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
+    // odom.update(Rotation2d.fromDegrees(getHeading()), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
     
     var translation = odom.getPoseMeters().getTranslation();
     m_xEntry.setNumber(translation.getX());
@@ -218,8 +218,8 @@ public class Drivetrain extends SubsystemBase {
 
     SmartDashboard.putNumber("Angle", getHeading());
     SmartDashboard.putNumber("Angle2", NavX.getYaw());
-    SmartDashboard.putNumber("Distance", getAverageEncoderDistance());
-    SmartDashboard.putNumber("ER", driveRightEncoder.getDistance());
-    SmartDashboard.putNumber("EL", driveLeftEncoder.getDistance());
+    // SmartDashboard.putNumber("Distance", getAverageEncoderDistance());
+    // SmartDashboard.putNumber("ER", driveRightEncoder.getDistance());
+    // SmartDashboard.putNumber("EL", driveLeftEncoder.getDistance());
   }
 }
