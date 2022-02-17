@@ -27,7 +27,7 @@ public final class Constants {
     public static final int portLeftBottom = 6;
 
     // Solenoid Ports
-    public static final int[] dogShiftPort = {0, 1};
+    public static final int[] dogShiftPort = {2, 1};
     
     // Sensor Ports
     // public static final int[] kLeftEncoderPorts = {2,3};
@@ -100,7 +100,7 @@ public final class Constants {
     public static final int portIntake = 9;
     
     // Solenoid Ports
-    public static final int[] intakeReleasePort = {2, 3};
+    public static final int[] intakeReleasePort = {0, 3};
     
     // Constants
     // Default State Booleans

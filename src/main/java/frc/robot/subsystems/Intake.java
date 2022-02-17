@@ -112,5 +112,6 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("IntakeFalconTemp", intakeMotor.getTemperature());
     // SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
     SmartDashboard.putNumber("IntakeTimer", intakeTimer.get());
+    SmartDashboard.putBoolean("IntakePneumatics", isReleased);
   }
 }
