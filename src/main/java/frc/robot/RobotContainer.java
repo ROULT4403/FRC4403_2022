@@ -97,7 +97,7 @@ public class RobotContainer {
       c_X.whenHeld(new ShootBasic(s_index, s_shooter));
       // Turret
       c_Start.whenPressed(new RunCommand(() -> s_turret.setTurret(Robot.tx + s_turret.getTurretAngle()), s_shooter));
-      c_Pad90.whenPressed(new RunCommand(() -> s_turret.setTurret(-TurretConstants.turretOutput), s_shooter));
+      c_Pad90.whileHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
       c_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
       // Hood
       c_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));

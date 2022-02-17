@@ -23,8 +23,8 @@ public final class Constants {
     // Motor Controller Ports
     public static final int portRightTop = 2;
     public static final int portRightBottom = 3; 
-    public static final int portLeftTop = 10;
-    public static final int portLeftBottom = 6;
+    public static final int portLeftTop = 8;
+    public static final int portLeftBottom = 7;
 
     // Solenoid Ports
     public static final int[] dogShiftPort = {2, 1};
@@ -126,10 +126,10 @@ public final class Constants {
     
     // Constants
     // PID Constants
-    public static final double shooterkP = 0.5;
-    public static final double shooterkI = 0;
+    public static final double shooterkP = 0.24;
+    public static final double shooterkI = 0.0008;
     public static final double shooterkD = 5;
-    public static final double shooterkF = 0.07;
+    public static final double shooterkF = 0.015;
 
     // Default State Booleans
     public static final boolean shooterMotorInverted = false;
