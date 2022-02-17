@@ -31,7 +31,6 @@ public class Intake extends SubsystemBase {
   private boolean isReleased;
   public boolean detectedCargoIntake;
 
-  public int i;
   public double actualCurrent;
   public double errorCurrent;
   public double integralCurrent;
@@ -109,10 +108,10 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
     detectedCargoIntake = hasCargo();
     SmartDashboard.putBoolean("DetectedCargoIntake", detectedCargoIntake);
-    SmartDashboard.putNumber("CounterVariable", i);
     SmartDashboard.putNumber("IntegralCurrent", integralCurrent);
     SmartDashboard.putNumber("IntakeFalconTemp", intakeMotor.getTemperature());
-    SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
+    // SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
     SmartDashboard.putNumber("IntakeTimer", intakeTimer.get());
+    SmartDashboard.putBoolean("IntakePneumatics", isReleased);
   }
 }

@@ -23,7 +23,7 @@ Different constants are also organaized into classes and subclasses for better r
 |Climber|Used during the endagme period of a match, it hangs [RobotName] from the mid rung and transfers it from one rung to the next.|
 
 ## Vision :camera:
- [RobotName] uses computer vision to find and align itself with the shooting target. The Vision code was written in pyton using CV2 and executed in a coprocessor. Our coprocessor of choice is a Raspberry 4 running WPILib's vision image. 
+ [RobotName] uses computer vision to find and align itself with the shooting target. The Vision code was written in python using CV2 and executed in a coprocessor. Our coprocessor of choice is a Raspberry 4 running WPILib's vision image. 
 
 ## Subautonomous Routines :art:
  [RobotName] uses multiple command groups to abstract different robot functions, these are automated to the point the driver only needs to schedule one command for a major functionality to be succesfullly executed. For example, only a shoot command needs to be scheduled for the robot to aim, check for Cargo in the Index, adjust the hood, spin up the shooter and shoot when it is ready.
