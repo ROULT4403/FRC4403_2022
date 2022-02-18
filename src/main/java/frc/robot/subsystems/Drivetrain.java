@@ -216,10 +216,11 @@ public class Drivetrain extends SubsystemBase {
     m_xEntry.setNumber(translation.getX());
     m_yEntry.setNumber(translation.getY());
 
-    // SmartDashboard.putNumber("Angle", getHeading());
-    // SmartDashboard.putNumber("Angle2", NavX.getYaw());
-    // SmartDashboard.putNumber("Distance", getAverageEncoderDistance());
-    // SmartDashboard.putNumber("ER", driveRightEncoder.getDistance());
-    // SmartDashboard.putNumber("EL", driveLeftEncoder.getDistance());
+//     SmartDashboard.putNumber("Angle", getHeading());
+//     SmartDashboard.putNumber("Angle2", NavX.getYaw());
+//     SmartDashboard.putNumber("Distance", getAverageEncoderDistance());
+//     SmartDashboard.putNumber("ER", driveRightEncoder.getDistance());
+//     SmartDashboard.putNumber("EL", driveLeftEncoder.getDistance());
+
   }
 }

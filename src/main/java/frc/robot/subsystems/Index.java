@@ -49,7 +49,7 @@ public class Index extends SubsystemBase {
   }
 
   public boolean hasCargo(){
-    return colorSensor.getProximity() > 180 ? true : false;
+    return colorSensor.getProximity() > 100 ? true : false;
   }
 
   
