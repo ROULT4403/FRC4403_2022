@@ -126,11 +126,15 @@ public final class Constants {
     
     // Constants
     // PID Constants
-    public static final double shooterkP = 0.24;
-    public static final double shooterkI = 0.0008;
-    public static final double shooterkD = 5;
-    public static final double shooterkF = 0.015;
-
+    // public static final double shooterkP = 0.6;
+    // public static final double shooterkI = 0.001;
+    // public static final double shooterkD = 0;
+    // public static final double shooterkF = 0.02;
+    
+    public static final double shooterkP = 0.15;
+    public static final double shooterkI = 0.002;
+    public static final double shooterkD = 0.01;
+    public static final double shooterkF = 0.0521;
     // Default State Booleans
     public static final boolean shooterMotorInverted = false;
   }
@@ -148,11 +152,11 @@ public final class Constants {
     public static final int[] turretGears = {30,260};
     // public static final float turretReduction = (TurretConstants.turretGears[0] * 360) / (TurretConstants.turretGears[1] * 2048);
     public static final double turretReduction = 0.0202824519230769;
-    public static final int turretCWLimit = 50;
-    public static final int turretACWLimit = -50;
+    public static final int turretCWLimit = 105;
+    public static final int turretACWLimit = -105;
         
     // Output Constants
-    public static final double turretOutput = -0.4;
+    public static final double turretOutput = -0.5;
 
     // PID Constants
     public static final double turretkP = 0.04;

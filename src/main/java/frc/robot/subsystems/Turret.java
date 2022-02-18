@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants.TurretConstants;
 
 public class Turret extends SubsystemBase {
@@ -42,15 +43,14 @@ public class Turret extends SubsystemBase {
   public void setTurret(double turretSetpoint){
     PIDoutput = turretPID.calculate(getTurretAngle(), turretSetpoint);
 
-    if (getTurretAngle() < TurretConstants.turretCWLimit) {
-      turretMotor.set(ControlMode.PercentOutput, PIDoutput, 
-      DemandType.ArbitraryFeedForward, TurretConstants.turretkF);
-    } else if (getTurretAngle() < TurretConstants.turretACWLimit) {
+    if (Robot.tv) {
+    if (getTurretAngle() < TurretConstants.turretCWLimit && getTurretAngle() > -TurretConstants.turretCWLimit) {
       turretMotor.set(ControlMode.PercentOutput, PIDoutput, 
       DemandType.ArbitraryFeedForward, TurretConstants.turretkF);
     } else {
       turretMotor.set(ControlMode.PercentOutput, 0);
     }
+  }
   }
 
     /**
@@ -58,9 +58,9 @@ public class Turret extends SubsystemBase {
    * @param turretOutput Turret output
    */
   public void setTurretManual(double turretOutput){
-    if (getTurretAngle() < TurretConstants.turretCWLimit && turretOutput < 0) {
+    if (getTurretAngle() < TurretConstants.turretCWLimit && turretOutput > 0) {
       turretMotor.set(ControlMode.PercentOutput, turretOutput);
-    } else if (getTurretAngle() > TurretConstants.turretACWLimit && turretOutput > 0) {
+    } else if (getTurretAngle() > TurretConstants.turretACWLimit && turretOutput < 0) {
       turretMotor.set(ControlMode.PercentOutput, turretOutput);
     } else {
       turretMotor.set(ControlMode.PercentOutput, 0);
