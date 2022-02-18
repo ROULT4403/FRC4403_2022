@@ -50,9 +50,9 @@ public class Intake extends SubsystemBase {
    * @param counter optional boolean to enable integral control
    * */
   public void setIntake(double speed, boolean... counter){
-
+    if (isReleased) {
     intakeMotor.set(ControlMode.PercentOutput, speed);
-
+    
     if(counter.length < 1) {return;}
 
     // Start integral
@@ -60,6 +60,7 @@ public class Intake extends SubsystemBase {
       integralCurrent = integralCurrent + errorCurrent;
     } else {
     integralCurrent = 0;
+    }
     }
   }
   /**
@@ -95,9 +96,9 @@ public class Intake extends SubsystemBase {
   /** Toggles intake position */
   public void toggleIntakeRelease(){
     if (!isReleased) {
-      intakeRelease.set(Value.kForward);
-    } else if (isReleased) {
       intakeRelease.set(Value.kReverse);
+    } else if (isReleased) {
+      intakeRelease.set(Value.kForward);
     } else {
       intakeRelease.set(Value.kOff);
     }
@@ -111,7 +112,8 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putBoolean("DetectedCargoIntake", detectedCargoIntake);
     SmartDashboard.putNumber("IntegralCurrent", integralCurrent);
     SmartDashboard.putNumber("IntakeFalconTemp", intakeMotor.getTemperature());
-    SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
+    // SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
     SmartDashboard.putNumber("IntakeTimer", intakeTimer.get());
+    SmartDashboard.putBoolean("IntakePneumatics", isReleased);
   }
 }

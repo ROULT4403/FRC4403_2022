@@ -19,8 +19,8 @@ public class Shooter extends SubsystemBase {
 
   // Class Variables
   private int inShooterTreshold = 0;
-  private double shooterErrorTreshold = 50;
-  private final int shooterSettleLoops = 10;
+  private double shooterErrorTreshold = 30;
+  private final int shooterSettleLoops = 100;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -30,6 +30,7 @@ public class Shooter extends SubsystemBase {
     //Configure Talon FX 
     shooterMotor.configFactoryDefault();
     shooterMotor.configPeakOutputReverse(0);
+    shooterMotor.configNominalOutputForward(0.1);
     shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     shooterMotor.config_kP(0, ShooterConstants.shooterkP);
     shooterMotor.config_kI(0, ShooterConstants.shooterkI);
@@ -82,7 +83,6 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
     SmartDashboard.putNumber("ShooterTarget", shooterMotor.getClosedLoopTarget());
-    SmartDashboard.putBoolean("ShooterIsFinished", shooterIsFinished());
-    SmartDashboard.putNumber("ShooterFalconTemp", shooterMotor.getTemperature());
+    // SmartDashboard.putNumber("ShooterFalconTemp", shooterMotor.getTemperature());
   }
 }

@@ -73,7 +73,7 @@ public class RobotContainer {
     // Intake Default Command
     s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0), s_intake));
     // Index Default Command
-    s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndexManual(0), s_index));
+    s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndexManual(controller.getRawAxis(3)), s_index));
     // Shooter Default Command
     s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooterManual(0), s_shooter));
     // Hood Default Command
@@ -87,45 +87,57 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Dual Controller
-    if(DriverStation.isJoystickConnected(1)){
+    // if(DriverStation.isJoystickConnected(1)){
       // Driver Controls
       d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
       // Intake Release
       d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
-      // Algorithm intake
-      d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
-      // Algorithm outake
-      d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
-
+      
       // Controller Controls
-      c_RB.whenHeld(new ShootBasic(s_index, s_shooter));
-      return;
-    }
+      c_X.whenHeld(new ShootBasic(s_index, s_shooter));
+      // Turret
+      c_Start.whenPressed(new RunCommand(() -> s_turret.setTurret(Robot.tx + s_turret.getTurretAngle()), s_shooter));
+      c_Select.whenPressed(new InstantCommand(() -> s_turret.resetAngle(), s_turret));
+      c_Pad90.whileHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
+      c_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
+      // Hood
+      c_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
+      c_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
+      // Algorithm intake
+      c_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.1, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.35, s_intake.detectedCargoIntake), s_index)));
+      c_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
+      // Algorithm outake
+      c_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
+      // return;
+    // }
 
-    // Single Controller
-    // Driver Controls
-    d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
+    // // Single Controller
+    // // Driver Controls
+    // d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
 
-    // Shooter Commands
-    // Manual Hood
-    d_Pad180.whenHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
-    d_Pad0.whenHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
-    // Manual Turret
-    d_Pad90.whenHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
-    d_Pad270.whenHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
-    // Shooting Algorithm
-    d_X.whenHeld(new ShootBasic(s_index, s_shooter));
+    // // Shooter Commands
+    // // Manual Hood
+    // d_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
+    // d_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
+    // // Manual Turret
+    // d_Start.whenPressed(new RunCommand(() -> s_turret.setTurret(Robot.tx + s_turret.getTurretAngle()), s_shooter));
+    // d_Pad90.whenPressed(new RunCommand(() -> s_turret.setTurret(-TurretConstants.turretOutput), s_shooter));
+    // d_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
+    // // Shooting Algorithm
+    // d_X.whenHeld(new ShootBasic(s_index, s_shooter));
     
-    // Intake & Index
-    // Intake Release
-    d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
-    // Algorithm intake
-    d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
-    // Algorith Outake
-    d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4, false), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
-    // Manual Intake & Index
-    d_B.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5))));
-    d_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(0))));
+    // // Intake & Index
+    // // Intake Release
+    // d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
+    // // Algorithm intake
+    // d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
+    // // Algorith Outake
+    // d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4, false), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
+    // // Manual Intake & Index
+    // d_B.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5))));
+    // d_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(0))));
+
+    // d_Select.whenPressed(new InstantCommand(s_turret::resetAngle, s_turret));
   }
 
   /**
@@ -140,11 +152,11 @@ public class RobotContainer {
    * Get drive command based on controller input
    * @return the command for drivetrain
    */
-  public Command getDriveCommand() {
-    if (Math.abs(driver.getRawAxis(4)) < 0.05){
-      return new DriveStraigth(s_drive, driver.getRawAxis(1));
-    } else {
-      return new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive);
-    }
-  }
+  // public Command getDriveCommand() {
+  //   if (Math.abs(driver.getRawAxis(4)) < 0.05){
+  //     return new straightDrive(s_drive, driver.getRawAxis(1));
+  //   } else {
+  //     return new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive);
+  //   }
+  // }
 }

@@ -9,7 +9,11 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants.TurretConstants;
 
 public class Turret extends SubsystemBase {
@@ -18,16 +22,18 @@ public class Turret extends SubsystemBase {
   private final VictorSPX turretMotor = new VictorSPX(TurretConstants.portTurretMotor);  
 
   // Sensors
-  // private final Encoder turretEncoder = new Encoder(TurretConstants.turretEncoderPorts[0], TurretConstants.turretEncoderPorts[1]);
+  private final Encoder turretEncoder = new Encoder(TurretConstants.turretEncoderPorts[0], TurretConstants.turretEncoderPorts[1], false , EncodingType.k4X);
 
   // PID Controllers
   private final PIDController turretPID = new PIDController(TurretConstants.turretkP, TurretConstants.turretkI, 
                                                             TurretConstants.turretkD);
-
+  private double PIDoutput;
   /** Creates a new Hood. */
   public Turret() {
     // Set inverted motor
     turretMotor.setInverted(TurretConstants.turretMotorInverted);
+
+    // turretEncoder.setDistancePerPulse(TurretConstants.turretReduction);
   }
 
     /**
@@ -35,8 +41,16 @@ public class Turret extends SubsystemBase {
    * @param turretSetpoint double for turret setpoint
    */
   public void setTurret(double turretSetpoint){
-    turretMotor.set(ControlMode.PercentOutput, turretPID.calculate(getTurretAngle(), turretSetpoint), 
-                    DemandType.ArbitraryFeedForward, TurretConstants.turretkF);
+    PIDoutput = turretPID.calculate(getTurretAngle(), turretSetpoint);
+
+    if (Robot.tv) {
+    if (getTurretAngle() < TurretConstants.turretCWLimit && getTurretAngle() > -TurretConstants.turretCWLimit) {
+      turretMotor.set(ControlMode.PercentOutput, PIDoutput, 
+      DemandType.ArbitraryFeedForward, TurretConstants.turretkF);
+    } else {
+      turretMotor.set(ControlMode.PercentOutput, 0);
+    }
+  }
   }
 
     /**
@@ -44,7 +58,13 @@ public class Turret extends SubsystemBase {
    * @param turretOutput Turret output
    */
   public void setTurretManual(double turretOutput){
-    turretMotor.set(ControlMode.PercentOutput, turretOutput);
+    if (getTurretAngle() < TurretConstants.turretCWLimit && turretOutput > 0) {
+      turretMotor.set(ControlMode.PercentOutput, turretOutput);
+    } else if (getTurretAngle() > TurretConstants.turretACWLimit && turretOutput < 0) {
+      turretMotor.set(ControlMode.PercentOutput, turretOutput);
+    } else {
+      turretMotor.set(ControlMode.PercentOutput, 0);
+    }
   }
 
   /**
@@ -81,8 +101,8 @@ public class Turret extends SubsystemBase {
    * @return double turret position
    */
   public double getTurretAngle(){
-    // return (Constants.ShooterConstants.turretGears[0] / Constants.ShooterConstants.turretGears[1] * 360 / 2048) * turretEncoder.get();
-    return 20;
+    // return 360 / 260 * 30 / 2048 * turretEncoder.get();
+    return turretEncoder.get() * TurretConstants.turretReduction;
   }
 
   /**
@@ -93,8 +113,14 @@ public class Turret extends SubsystemBase {
     return turretPID.atSetpoint();
   }
 
+  public void resetAngle(){
+    turretEncoder.reset();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("TurretAngle", getTurretAngle());
+    SmartDashboard.putBoolean("turretIsFinished", turretIsFinished());
   }
 }
