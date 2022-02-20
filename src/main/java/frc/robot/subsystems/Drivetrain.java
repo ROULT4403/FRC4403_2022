@@ -6,6 +6,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,10 +30,10 @@ import frc.robot.Constants.DrivetrainConstants;
 public class Drivetrain extends SubsystemBase {
   
   // Motor controllers
-  private final WPI_VictorSPX topLeft = new WPI_VictorSPX(DrivetrainConstants.portLeftTop);
-  private final WPI_VictorSPX topRight = new WPI_VictorSPX(DrivetrainConstants.portRightTop);
-  private final WPI_VictorSPX bottomLeft = new WPI_VictorSPX(DrivetrainConstants.portLeftBottom);
-  private final WPI_VictorSPX bottomRight = new WPI_VictorSPX(DrivetrainConstants.portRightBottom);
+  private final CANSparkMax topLeft = new CANSparkMax(DrivetrainConstants.portLeftTop, MotorType.kBrushless);
+  private final CANSparkMax topRight = new CANSparkMax(DrivetrainConstants.portRightTop, MotorType.kBrushless);
+  private final CANSparkMax bottomLeft = new CANSparkMax(DrivetrainConstants.portLeftBottom, MotorType.kBrushless);
+  private final CANSparkMax bottomRight = new CANSparkMax(DrivetrainConstants.portRightBottom, MotorType.kBrushless);
 
   // Differential Drive
   private final DifferentialDrive drive = new DifferentialDrive(topLeft, topRight);

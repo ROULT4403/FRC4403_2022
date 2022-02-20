@@ -36,13 +36,10 @@ public class ShootSubAuto extends CommandBase{
 
 		// If balls in robot
 		if (s_index.hasCargo()) {
-			// Start flywheel  
-			new RunCommand(() -> s_shooter.setShooter(1000), s_shooter);
-
 			// If target in range
 			if (Robot.tv) {
 				// Start turret and hood
-				new ParallelCommandGroup(new RunCommand(() -> s_turret.setTurret(Robot.tx), s_shooter), 
+				new ParallelCommandGroup(new RunCommand(() -> s_turret.setTurret(Robot.tx + s_turret.getTurretAngle()), s_shooter), 
                                 new RunCommand(() -> s_hood.setHood(s_hood.getHoodAngle()), s_shooter), 
                                 new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterSpeed()), s_shooter));
 

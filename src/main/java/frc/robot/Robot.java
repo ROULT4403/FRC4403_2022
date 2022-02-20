@@ -35,9 +35,9 @@ public class Robot extends TimedRobot {
   NetworkTableEntry vEntry;
 
   // Declare vision variables
+  public static boolean tv;
   public static double tx;
   public static double ta;
-  public static boolean tv;
   
   /**
    * This function is run when the robot is first started up and should be used for any
