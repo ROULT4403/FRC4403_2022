@@ -16,6 +16,29 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants {
   // TODO: Check if StraightDrive works correctly
+
+  /** 
+   * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
+   * TODO: Acomodar Spark Max (usar bases si se puede)
+   * TODO: Arreglar victor (terminal anderson)
+   * TODO: Conectar LEDs a relay y programar
+   * TODO: Ponchar Ethernet corto
+   * TODO: Checar IDs de Victors y verificar en código (no cambiar en phoenix)
+   * TODO: System Check 1 (Verificar que todo prenda, victor reciben señal)
+   * TODO: Montar Torre
+   * TODO: Arreglar cableado trenza
+   * TODO: Verificar conexiones a Victor correcto (Checar a que amperaje se conectan)
+   * TODO: Cambiar cámara intake por una funcional
+   * TODO: Systems Check 2 (Verificar que todos los motores funcionen, sensores funcionales)
+   * TODO: Alineado con visión y hood, sin disparar (pura lógica, tunear después)
+   * TODO: Command Group Shooter (sin tunear, solo lógica)
+   * TODO: Characterization (probar accuracy con sensor de NEO, evaluar necesidad de throug bore en drivetrain)
+   * TODO: Tuneado de controladores PIDF (shooter, susan, hood)
+   * TODO: Autonomos (rutas y Command Groups)
+   * TODO: Definir controles (distribución driver controller, facil acceso, espacio para escalador)
+   * TODO: Dashboard completo (pestaña prematch, match, postmatch)
+   * TODO: Selector de Autónomo, modular
+  */
   
   /** Constants used in Drivetrain Subsystem */
   public static final class DrivetrainConstants{
