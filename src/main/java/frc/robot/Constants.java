@@ -132,10 +132,10 @@ public final class Constants {
     // public static final double shooterkF = 0.092;
 
 
-    public static final double shooterkP = 0.012;
+    public static final double shooterkP = 0.02;
     public static final double shooterkI = 0;
     public static final double shooterkD = 0;
-    public static final double shooterkF = 0.067;
+    public static final double shooterkF = 0.065;
 
 
     // Default State Booleans
