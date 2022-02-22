@@ -9,7 +9,7 @@ public class DriveStraigth extends PIDCommand{
 
   public DriveStraigth(Drivetrain s_drive, double speed) {
     super(new PIDController(DrivetrainConstants.kP, DrivetrainConstants.kI,
-			DrivetrainConstants.kD), s_drive::getYaw, 0,
+			DrivetrainConstants.kD),s_drive::getYaw, s_drive::getYaw,
 			output -> s_drive.drive(speed, output));
 
 		getController().setTolerance(DrivetrainConstants.kToleranceStraightDriveAngle,

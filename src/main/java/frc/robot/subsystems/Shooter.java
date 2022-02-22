@@ -20,7 +20,7 @@ public class Shooter extends SubsystemBase {
   // Class Variables
   private int inShooterTreshold = 0;
   private double shooterErrorTreshold = 30;
-  private final int shooterSettleLoops = 100;
+  private final int shooterSettleLoops = 50;
 
   /** Creates a new Shooter. */
   public Shooter() {

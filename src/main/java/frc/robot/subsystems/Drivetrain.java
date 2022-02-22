@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -54,9 +55,9 @@ public class Drivetrain extends SubsystemBase {
   private boolean isHighGear = DrivetrainConstants.dogShiftDefault;
   // Acceleration Variables
   private double previousX = 0;
-	private double dx = 0.2;
+	private double dx = 0.1;
 	private double previousY = 0;
-	private double dy = 0.2;
+	private double dy = 0.1;
 
     NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
     NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
@@ -78,6 +79,11 @@ public class Drivetrain extends SubsystemBase {
     // Differential Drive Setup
     odom = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())); 
     drive.setDeadband(0.05);
+
+    bottomLeft.setIdleMode(IdleMode.kCoast);
+    topLeft.setIdleMode(IdleMode.kCoast);
+    bottomRight.setIdleMode(IdleMode.kCoast);
+    topRight.setIdleMode(IdleMode.kCoast);
 
     // Sensor Setup
     // driveRightEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
@@ -220,7 +226,7 @@ public class Drivetrain extends SubsystemBase {
     m_yEntry.setNumber(translation.getY());
 
 //     SmartDashboard.putNumber("Angle", getHeading());
-//     SmartDashboard.putNumber("Angle2", NavX.getYaw());
+    SmartDashboard.putNumber("GetYaw", getYaw());
 //     SmartDashboard.putNumber("Distance", getAverageEncoderDistance());
 //     SmartDashboard.putNumber("ER", driveRightEncoder.getDistance());
 //     SmartDashboard.putNumber("EL", driveLeftEncoder.getDistance());

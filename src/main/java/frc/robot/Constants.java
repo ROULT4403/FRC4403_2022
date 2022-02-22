@@ -27,7 +27,7 @@ public final class Constants {
     public static final int portLeftBottom = 1;
 
     // Solenoid Ports
-    public static final int[] dogShiftPort = {2, 1};
+    public static final int[] dogShiftPort = {0, 3};
     
     // Sensor Ports
     // public static final int[] kLeftEncoderPorts = {2,3};
@@ -35,12 +35,12 @@ public final class Constants {
 
     // Constants
     // Limiter Constants
-    public static final double driveLimiter = 1;
-    public static final double rotLimiter = 1; 
+    public static final double driveLimiter = 0.8;
+    public static final double rotLimiter = 0.8; 
     
     
     // PID Constants
-    public static final double kP = 0.01;
+    public static final double kP = 0.1;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
@@ -62,7 +62,7 @@ public final class Constants {
   public static final class HoodConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portHoodMotor = 11;
+    public static final int portHoodMotor = 3;
 
     // Sensor Ports
     public static final int[] hoodEncoderPorts = {3, 4};
@@ -84,7 +84,7 @@ public final class Constants {
   public static final class IndexConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portIndex = 5;
+    public static final int portIndex = 1;
     
     // Sensor Ports
     public static final int ultrasonicPort = 1;
@@ -97,10 +97,10 @@ public final class Constants {
   public static final class IntakeConstants{
     // Ports
     // Motor Controller Ports
-    public static final int portIntake = 9;
+    public static final int portIntake = 5;
     
     // Solenoid Ports
-    public static final int[] intakeReleasePort = {0, 3};
+    public static final int[] intakeReleasePort = {1, 2};
     
     // Constants
     // Default State Booleans
@@ -122,19 +122,22 @@ public final class Constants {
   public static final class ShooterConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portShooterMotor = 3;
+    public static final int portShooterMotor = 4;
     
     // Constants
     // PID Constants
-    // public static final double shooterkP = 0.6;
-    // public static final double shooterkI = 0.001;
-    // public static final double shooterkD = 0;
-    // public static final double shooterkF = 0.02;
-    
-    public static final double shooterkP = 0.15;
-    public static final double shooterkI = 0.002;
-    public static final double shooterkD = 0.01;
-    public static final double shooterkF = 0.0521;
+    // public static final double shooterkP = 0.15;
+    // public static final double shooterkI = 0.002;
+    // public static final double shooterkD = 0.01;
+    // public static final double shooterkF = 0.092;
+
+
+    public static final double shooterkP = 0.012;
+    public static final double shooterkI = 0;
+    public static final double shooterkD = 0;
+    public static final double shooterkF = 0.067;
+
+
     // Default State Booleans
     public static final boolean shooterMotorInverted = false;
   }
@@ -143,10 +146,10 @@ public final class Constants {
   public static final class TurretConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portTurretMotor = 4;
+    public static final int portTurretMotor = 2;
 
     // Sensor Ports
-    public static final int[] turretEncoderPorts = {1,0};
+    public static final int[] turretEncoderPorts = {0,1};
 
     // Constants
     public static final int[] turretGears = {30,260};
