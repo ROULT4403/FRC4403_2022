@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.ShooterConstants;
+import edu.wpi.first.wpilibj.Relay;
+
 
 public class Shooter extends SubsystemBase {
   
@@ -22,6 +24,11 @@ public class Shooter extends SubsystemBase {
   private int inShooterTreshold = 0;
   private double shooterErrorTreshold = 30;
   private final int shooterSettleLoops = 50;
+
+  //Relay LEDS
+  private final Relay LED = new Relay(ShooterConstants.relayPort);
+  private boolean TOGGLE = ShooterConstants.relayDefault;
+
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -38,6 +45,8 @@ public class Shooter extends SubsystemBase {
     shooterMotor.config_kD(0, ShooterConstants.shooterkD);
     shooterMotor.config_kF(0, ShooterConstants.shooterkF);
     shooterMotor.configAllowableClosedloopError(0, 10, 30);
+
+    
   }
 
   /** 
@@ -85,6 +94,17 @@ public class Shooter extends SubsystemBase {
     */
   public double getShooterTargetSpeed(){
     return Robot.ta * 467;
+  }
+
+  public void LedToggle() {
+      if (!TOGGLE) {
+        LED.set(Relay.Value.kReverse);
+      } else if (TOGGLE) {
+        LED.set(Relay.Value.kForward);
+      } else {
+        LED.set(Relay.Value.kOff);
+      }
+      TOGGLE = !TOGGLE;
   }
 
   @Override

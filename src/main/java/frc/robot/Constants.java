@@ -143,6 +143,9 @@ public final class Constants {
   
   /** Constants used in Shooter Subsystem */
   public static final class ShooterConstants {
+
+    public static final int relayPort = 1;
+
     // Ports
     // Motor Controller Ports
     public static final int portShooterMotor = 0;
@@ -163,6 +166,7 @@ public final class Constants {
 
     // Default State Booleans
     public static final boolean shooterMotorInverted = false;
+    public static final boolean relayDefault = false;
   }
 
   /** Constants used in Turret Subsystem */
