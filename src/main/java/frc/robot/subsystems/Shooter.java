@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
 
   //Relay LEDS
   private final Relay LED = new Relay(ShooterConstants.relayPort);
-  private boolean TOGGLE = ShooterConstants.relayDefault;
+  private boolean isToggled = ShooterConstants.relayDefault;
 
 
   /** Creates a new Shooter. */
@@ -96,15 +96,15 @@ public class Shooter extends SubsystemBase {
     return Robot.ta * 467;
   }
 
-  public void LedToggle() {
-      if (!TOGGLE) {
-        LED.set(Relay.Value.kReverse);
-      } else if (TOGGLE) {
+  public void LEDToggle() {
+      if (!isToggled) {
         LED.set(Relay.Value.kForward);
+      } else if (isToggled) {
+        LED.set(Relay.Value.kReverse);
       } else {
         LED.set(Relay.Value.kOff);
       }
-      TOGGLE = !TOGGLE;
+      isToggled = !isToggled;
   }
 
   @Override

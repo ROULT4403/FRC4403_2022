@@ -4,10 +4,9 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -18,9 +17,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -42,10 +39,10 @@ public class Drivetrain extends SubsystemBase {
 
   // Sensors
   private final AHRS NavX = new AHRS(Port.kMXP);
-  // private final Encoder driveLeftEncoder = new Encoder(DrivetrainConstants.kLeftEncoderPorts[0], 
-  //   DrivetrainConstants.kLeftEncoderPorts[1], DrivetrainConstants.kLeftEncoderReversed, EncodingType.k4X);
-  // private final Encoder driveRightEncoder = new Encoder(DrivetrainConstants.kRightEncoderPorts[0], 
-  //   DrivetrainConstants.kRightEncoderPorts[1], DrivetrainConstants.kRightEncoderReversed, EncodingType.k4X);
+  private final RelativeEncoder topLeftEncoder;
+  private final RelativeEncoder bottomLeftEncoder;
+  private final RelativeEncoder topRightEncoder;
+  private final RelativeEncoder bottomRightEncoder;
 
   // Instantiate Pneumatics
   public final DoubleSolenoid dogShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.dogShiftPort[0], 
@@ -64,7 +61,19 @@ public class Drivetrain extends SubsystemBase {
   
   /** Susbsystem class for Drivetain, extends SubsystemBase */
   public Drivetrain() {
+    // Setup Encoders
+    topLeftEncoder = topLeft.getEncoder();
+    bottomLeftEncoder = bottomLeft.getEncoder();
+    topRightEncoder = topRight.getEncoder();
+    bottomRightEncoder = bottomLeft.getEncoder();
 
+    // Spark Max Setup
+    // Idle Mode Setup
+    bottomLeft.setIdleMode(IdleMode.kCoast);
+    topLeft.setIdleMode(IdleMode.kCoast);
+    bottomRight.setIdleMode(IdleMode.kCoast);
+    topRight.setIdleMode(IdleMode.kCoast);
+    
     // Setup Follower Motors
     bottomRight.follow(topRight);
     bottomLeft.follow(topLeft);
@@ -80,18 +89,16 @@ public class Drivetrain extends SubsystemBase {
     odom = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())); 
     drive.setDeadband(0.05);
 
-    bottomLeft.setIdleMode(IdleMode.kCoast);
-    topLeft.setIdleMode(IdleMode.kCoast);
-    bottomRight.setIdleMode(IdleMode.kCoast);
-    topRight.setIdleMode(IdleMode.kCoast);
-
     // Sensor Setup
-    // driveRightEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
-    // driveLeftEncoder.setDistancePerPulse(0.1524*Math.PI/2048);
+    // TODO: Add gearing factor
+    topLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
+    bottomLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
+    topRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
+    bottomRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
 
     // Sensor reset
     NavX.zeroYaw();
-    // resetEncoders();
+    resetEncoders();
   }
 
   /**
@@ -168,18 +175,60 @@ public class Drivetrain extends SubsystemBase {
   }
   
   /** Resets encoder values */
-  // public void resetEncoders(){
-  //   driveLeftEncoder.reset();
-  //   driveLeftEncoder.reset();
-  // }
+  public void resetEncoders(){
+    topLeftEncoder.setPosition(0);
+    bottomLeftEncoder.setPosition(0);
+    topRightEncoder.setPosition(0);
+    bottomRightEncoder.setPosition(0);
+  }
   
   /**
    * Gets average distance for Drivetrain encoders
    * @return double
    */
-  // public double getAverageEncoderDistance(){
-  //   return (driveLeftEncoder.getDistance() + driveRightEncoder.getDistance()) / 2.0;
-  // }
+  public double getAverageEncoderDistance(){
+    return (getLeftEncoderPositionAverage() + getRightEncoderPositionAverage()) / 2.0;
+  }
+  
+  /**
+   * Gets average Left Drivetrain Encoder position 
+   * @return double left position
+   */
+  public double getLeftEncoderPositionAverage() {
+    return topLeftEncoder.getPosition() + bottomLeftEncoder.getPosition();
+  }
+
+  /**
+   * Gets average Right Drivetrain Encoder position 
+   * @return double right position
+   */
+  public double getRightEncoderPositionAverage() {
+    return topRightEncoder.getPosition() + bottomRightEncoder.getPosition();
+  }
+  
+  /**
+   * Gets average velocity for Drivetrain encoders
+   * @return double
+   */
+  public double getAverageEncoderVelocity(){
+    return (getLeftEncoderVelocityAverage() + getRightEncoderVelocityAverage()) / 2.0;
+  }
+
+  /**
+   * Gets average Left Drivetrain Encoder velocity 
+   * @return double left velocity
+   */
+  public double getLeftEncoderVelocityAverage() {
+    return topRightEncoder.getPosition() + bottomRightEncoder.getPosition();
+  }
+
+  /**
+   * Gets average Right Drivetrain Encoder velocity 
+   * @return double Right velocity
+   */
+  public double getRightEncoderVelocityAverage() {
+    return topRightEncoder.getPosition() + bottomRightEncoder.getPosition();
+  }
   
     /**
      * Gets drivetrain turn rate using gyroscope
@@ -201,25 +250,25 @@ public class Drivetrain extends SubsystemBase {
    * Gets DdifferentialDrive wheelspeeds
    * @return DifferentialDriveWheelSpeeds
    */
-  // public DifferentialDriveWheelSpeeds getWheelSpeeds(){
-  //   return new DifferentialDriveWheelSpeeds(driveLeftEncoder.getRate(),
-  //                               driveRightEncoder.getRate());
-  // }
+  public DifferentialDriveWheelSpeeds getWheelSpeeds(){
+    return new DifferentialDriveWheelSpeeds(getLeftEncoderVelocityAverage(),
+                                            getRightEncoderVelocityAverage());
+  }
 
   /** Resets the robot's field position
    * @param pose Pose2d new robot position
    */
-  // public void resetOdometry(Pose2d pose){
-  //   resetEncoders();
-  //   odom.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
-  // }
+  public void resetOdometry(Pose2d pose){
+    resetEncoders();
+    odom.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     // Update the odometry in the periodic block
 
-    // odom.update(Rotation2d.fromDegrees(getHeading()), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
+    odom.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderPositionAverage(), getRightEncoderPositionAverage());
     
     var translation = odom.getPoseMeters().getTranslation();
     m_xEntry.setNumber(translation.getX());
@@ -231,11 +280,5 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("topLeftTemp", topLeft.getMotorTemperature());
     SmartDashboard.putNumber("bottomRightTemp", bottomRight.getMotorTemperature());
     SmartDashboard.putNumber("topRightTemp", topRight.getMotorTemperature());
-
-//     SmartDashboard.putNumber("Angle", getHeading());
-//     SmartDashboard.putNumber("Distance", getAverageEncoderDistance());
-//     SmartDashboard.putNumber("ER", driveRightEncoder.getDistance());
-//     SmartDashboard.putNumber("EL", driveLeftEncoder.getDistance());
-
   }
 }

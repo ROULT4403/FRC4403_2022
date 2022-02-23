@@ -35,19 +35,19 @@ public class TrajectoryFollower extends CommandBase {
   @Override
   public void initialize() {
     // Creates RamseteCommand istance
-    // ramseteCommand = new RamseteCommand(
-    //   path, 
-    //   s_drive::getPose, 
-    //   new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta), 
-    //   new SimpleMotorFeedforward(AutoConstants.ksVolts,
-    //                             AutoConstants.kvVoltSecondsPerMeter,
-    //                             AutoConstants.kaVoltSecondsSquaredPerMeter), 
-    //   AutoConstants.kDriveKinematics, 
-    //   s_drive::getWheelSpeeds, 
-    //   new PIDController(AutoConstants.kPDriveVel, 0, 0), 
-    //   new PIDController(AutoConstants.kPDriveVel, 0, 0), 
-    //   s_drive::tankDriveVolts, 
-    //   s_drive);
+    ramseteCommand = new RamseteCommand(
+      path, 
+      s_drive::getPose, 
+      new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta), 
+      new SimpleMotorFeedforward(AutoConstants.ksVolts,
+                                AutoConstants.kvVoltSecondsPerMeter,
+                                AutoConstants.kaVoltSecondsSquaredPerMeter), 
+      AutoConstants.kDriveKinematics, 
+      s_drive::getWheelSpeeds, 
+      new PIDController(AutoConstants.kPDriveVel, 0, 0), 
+      new PIDController(AutoConstants.kPDriveVel, 0, 0), 
+      s_drive::tankDriveVolts, 
+      s_drive);
 
     ramseteCommand.initialize();
   }
