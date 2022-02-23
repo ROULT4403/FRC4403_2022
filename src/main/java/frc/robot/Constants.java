@@ -44,13 +44,13 @@ public final class Constants {
   public static final class DrivetrainConstants{
     // Ports
     // Motor Controller Ports
-    public static final int portRightTop = 3;
-    public static final int portRightBottom = 4; 
-    public static final int portLeftTop = 2;
-    public static final int portLeftBottom = 1;
+    public static final int portRightTop = 1;
+    public static final int portRightBottom = 2; 
+    public static final int portLeftTop = 4;
+    public static final int portLeftBottom = 3;
 
     // Solenoid Ports
-    public static final int[] dogShiftPort = {0, 3};
+    public static final int[] dogShiftPort = {0, 1};
     
     // Sensor Ports
     // public static final int[] kLeftEncoderPorts = {2,3};
@@ -123,12 +123,12 @@ public final class Constants {
     public static final int portIntake = 1;
     
     // Solenoid Ports
-    public static final int[] intakeReleasePort = {1, 2};
+    public static final int[] intakeReleasePort = {2, 3};
     
     // Constants
     // Default State Booleans
     public static final boolean intakeReleaseDefault = false;
-    public static final boolean intakeMotorInverted = true;
+    public static final boolean intakeMotorInverted = false;
     
     //Intake Current Detection
     public static final int intakeNominalCurrent = 11;

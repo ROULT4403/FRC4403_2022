@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants.HoodConstants;
 
 public class Hood extends SubsystemBase {
@@ -75,6 +76,14 @@ public class Hood extends SubsystemBase {
    */
   public double getHoodAngle(){
     return hoodEncoder.get() * 100 / 2168;
+  }
+  
+  /**
+   *  Get hood angle
+   * @return Returns Hood Position
+   */
+  public double getHoodTargetAngle(){
+    return Robot.ta * 16.5;
   }
 
   /**

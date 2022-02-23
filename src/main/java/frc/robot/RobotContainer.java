@@ -69,7 +69,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     // Default Drive Command
-    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
+    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
     // Intake Default Command
     s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0), s_intake));
     // Index Default Command
@@ -104,7 +104,7 @@ public class RobotContainer {
       c_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
       c_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
       // Algorithm intake
-      c_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.1, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.35, s_intake.detectedCargoIntake), s_index)));
+      c_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.35, s_intake.detectedCargoIntake), s_index)));
       c_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
       // Algorithm outake
       c_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));

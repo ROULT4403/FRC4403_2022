@@ -40,8 +40,8 @@ public class ShootSubAuto extends CommandBase{
 			if (Robot.tv) {
 				// Start turret and hood
 				new ParallelCommandGroup(new RunCommand(() -> s_turret.setTurret(Robot.tx + s_turret.getTurretAngle()), s_shooter), 
-                                new RunCommand(() -> s_hood.setHood(s_hood.getHoodAngle()), s_shooter), 
-                                new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterSpeed()), s_shooter));
+                                new RunCommand(() -> s_hood.setHood(s_hood.getHoodTargetAngle()), s_shooter), 
+                                new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterTargetSpeed()), s_shooter));
 
 				if (s_shooter.shooterIsFinished() && s_turret.turretIsFinished()) {
 					new RunCommand(() -> s_index.setIndexManual(0.7), s_index);
@@ -49,7 +49,7 @@ public class ShootSubAuto extends CommandBase{
 
 			} else {
 				// Move turret until target on sight
-				new RunCommand(() -> s_turret.sweepTurret(true), s_shooter);
+				// new RunCommand(() -> s_turret.sweepTurret(true), s_shooter);
 			}
 		}
 	}	

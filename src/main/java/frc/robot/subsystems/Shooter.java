@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
@@ -76,6 +77,14 @@ public class Shooter extends SubsystemBase {
     */
   public double getShooterSpeed(){
     return shooterMotor.getSelectedSensorVelocity();
+  }
+  
+  /**
+    *  Get flywheel speed
+    * @return Returns ShooterSpeed
+    */
+  public double getShooterTargetSpeed(){
+    return Robot.ta * 467;
   }
 
   @Override

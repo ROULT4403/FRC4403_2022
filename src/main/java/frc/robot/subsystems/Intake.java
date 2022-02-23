@@ -50,18 +50,19 @@ public class Intake extends SubsystemBase {
    * @param counter optional boolean to enable integral control
    * */
   public void setIntake(double speed, boolean... counter){
-    if (isReleased) {
     intakeMotor.set(ControlMode.PercentOutput, speed);
+    // if (isReleased) {
+    // intakeMotor.set(ControlMode.PercentOutput, speed);
     
-    if(counter.length < 1) {return;}
+    // if(counter.length < 1) {return;}
 
-    // Start integral
-    if (counter[0]) {
-      integralCurrent = integralCurrent + errorCurrent;
-    } else {
-    integralCurrent = 0;
-    }
-    }
+    // // Start integral
+    // if (counter[0]) {
+    //   integralCurrent = integralCurrent + errorCurrent;
+    // } else {
+    // integralCurrent = 0;
+    // }
+    // }
   }
   /**
    * Detects if cargo has crossed the intake
