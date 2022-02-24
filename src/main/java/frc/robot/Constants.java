@@ -19,11 +19,10 @@ public final class Constants {
   /** 
    * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
    * TODO: Checar IDs de Victors y verificar en código (no cambiar en phoenix)
-   * TODO: Montar Torre
-   * TODO: Arreglar cableado trenza
    * TODO: Verificar conexiones a Victor correcto (Checar a que amperaje se conectan)
-   * TODO: Cambiar cámara intake por una funcional
    * TODO: Systems Check 2 (Verificar que todos los motores funcionen, sensores funcionales)
+   * TODO: Cambiar roboRIO (USB fallan, no urgente. Arreglo temporal es usar cámara a traves de RasPI)
+   * TODO: Si PCM en 12V, usar para LEDs. Si no, dejar en puente.
    * TODO: Alineado con visión y hood, sin disparar (pura lógica, tunear después)
    * TODO: Command Group Shooter (sin tunear, solo lógica)
    * TODO: Characterization (probar accuracy con sensor de NEO, evaluar necesidad de throug bore en drivetrain)
@@ -46,16 +45,11 @@ public final class Constants {
 
     // Solenoid Ports
     public static final int[] dogShiftPort = {0, 1};
-    
-    // Sensor Ports
-    // public static final int[] kLeftEncoderPorts = {2,3};
-    // public static final int[] kRightEncoderPorts = {4,5};
 
     // Constants
     // Limiter Constants
     public static final double driveLimiter = 0.8;
     public static final double rotLimiter = 0.8; 
-    
     
     // PID Constants
     public static final double kP = 0.1;
@@ -151,7 +145,6 @@ public final class Constants {
     // public static final double shooterkI = 0.002;
     // public static final double shooterkD = 0.01;
     // public static final double shooterkF = 0.092;
-
 
     public static final double shooterkP = 0.02;
     public static final double shooterkI = 0;
