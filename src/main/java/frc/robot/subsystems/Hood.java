@@ -26,7 +26,7 @@ public class Hood extends SubsystemBase {
   // Sensors
   private final Encoder hoodEncoder = new Encoder(HoodConstants.hoodEncoderPorts[0], HoodConstants.hoodEncoderPorts[1], true, EncodingType.k4X);
 
-  private final DigitalInput hoodLimitSwitch = new DigitalInput(2);
+  private final DigitalInput hoodLimitSwitch = new DigitalInput(9);
 
   // PID Controllers
   private final PIDController hoodPID = new PIDController(HoodConstants.hoodkP, HoodConstants.hoodkI, 
@@ -44,13 +44,12 @@ public class Hood extends SubsystemBase {
    */
   public void setHood(double hoodSetpoint){
     if (getHoodAngle() > 100 && hoodSetpoint > 0){
-      hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), 0), 
-      DemandType.ArbitraryFeedForward, HoodConstants.hoodkF);
+      hoodMotor.set(ControlMode.PercentOutput, 0);
     } else if (hoodLimitSwitch.get() && hoodSetpoint < 0){
-      hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), 0), 
-      DemandType.ArbitraryFeedForward, HoodConstants.hoodkF);
+      hoodMotor.set(ControlMode.PercentOutput, 0);
     } else {
-      hoodMotor.set(ControlMode.PercentOutput, hoodSetpoint);
+      hoodMotor.set(ControlMode.PercentOutput, hoodPID.calculate(getHoodAngle(), hoodSetpoint), 
+      DemandType.ArbitraryFeedForward, HoodConstants.hoodkF);
     }
     resetAngle();
   }
@@ -83,7 +82,7 @@ public class Hood extends SubsystemBase {
    * @return Returns Hood Position
    */
   public double getHoodTargetAngle(){
-    return Robot.ta * 16.5;
+    return Robot.tD * 0.165;
   }
 
   /**
@@ -100,5 +99,6 @@ public class Hood extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("HoodAngle", getHoodAngle());
     SmartDashboard.putBoolean("HoodSwitch", hoodLimitSwitch.get());
+    SmartDashboard.putNumber("HoodSetpoint", getHoodTargetAngle());
   }
 }

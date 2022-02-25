@@ -7,11 +7,19 @@ package frc.robot;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -30,14 +38,15 @@ public class Robot extends TimedRobot {
   // Instantiate NetworkTables
   NetworkTable table;
   NetworkTableInstance nInst;
+
   NetworkTableEntry xEntry;
-  NetworkTableEntry aEntry;
+  NetworkTableEntry dEntry;
   NetworkTableEntry vEntry;
 
   // Declare vision variables
-  public static boolean tv;
-  public static double tx;
-  public static double ta;
+  public static boolean tV;
+  public static double tX;
+  public static double tD;
   
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -71,11 +80,29 @@ public class Robot extends TimedRobot {
     // Initialize table
     nInst = NetworkTableInstance.getDefault();
     table = nInst.getTable("tablaCool");
-  
+
+
     // Initialize entries
     xEntry = table.getEntry("tX");
-    aEntry = table.getEntry("tA");
+    dEntry = table.getEntry("tD");
     vEntry = table.getEntry("tV");
+    
+    new Thread(() -> {
+      CameraServer.getInstance();
+      UsbCamera camera = CameraServer.startAutomaticCapture(1);
+      camera.setResolution(320, 240);
+      
+      CvSink cvsink = CameraServer.getVideo();
+      CvSource outputstream = CameraServer.putVideo("Test", 640, 480);
+
+      Mat source = new Mat();
+      Mat output = new Mat();
+      while (!Thread.interrupted()){
+        cvsink.grabFrame(source);
+        Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+        outputstream.putFrame(output);
+      }
+    }).start();
     
   }
 
@@ -98,9 +125,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("CurrentbottomRight", pdp.getCurrent(1));
 
     // Update vision variables
-    tx = xEntry.getDouble(0);    
-    ta = aEntry.getDouble(0); 
-    tv = vEntry.getBoolean(false);
+    tX = xEntry.getDouble(0);    
+    tD = dEntry.getDouble(0); 
+    tV = vEntry.getBoolean(false);
 
   }
 

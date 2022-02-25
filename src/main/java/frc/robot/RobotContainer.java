@@ -93,9 +93,11 @@ public class RobotContainer {
       d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
       
       // Controller Controls
-      c_X.whenHeld(new ShootBasic(s_index, s_shooter));
+      c_X.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_turret));
+      c_X.whenHeld(new RunCommand(() -> s_hood.setHood(s_hood.getHoodAngle()), s_hood));
+      c_X.whenHeld(new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterTargetSpeed()), s_shooter));
       // Turret
-      c_Start.whenPressed(new RunCommand(() -> s_turret.setTurret(Robot.tx + s_turret.getTurretAngle()), s_shooter));
+      c_Start.whenPressed(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_shooter));
       c_Select.whenPressed(new InstantCommand(() -> s_turret.resetAngle(), s_turret));
       c_Pad90.whileHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
       c_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
@@ -107,6 +109,8 @@ public class RobotContainer {
       c_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
       // Algorithm outake
       c_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
+      // Light relay
+      c_B.whenPressed(new InstantCommand(s_shooter::LEDToggle, s_shooter));
       // return;
     // }
 

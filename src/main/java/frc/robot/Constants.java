@@ -80,16 +80,16 @@ public final class Constants {
   public static final class HoodConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portHoodMotor = 2;
+    public static final int portHoodMotor = 6;
 
     // Sensor Ports
-    public static final int[] hoodEncoderPorts = {3, 4};
+    public static final int[] hoodEncoderPorts = {5, 6};
 
     // Output Constants
     public static final double hoodOutput = 0.5;
 
     // PID Constants
-    public static final double hoodkP = 0;
+    public static final double hoodkP = 0.05;
     public static final double hoodkI = 0;
     public static final double hoodkD = 0;
     public static final double hoodkF = 0;
@@ -102,7 +102,7 @@ public final class Constants {
   public static final class IndexConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portIndex = 0;
+    public static final int portIndex = 5;
     
     // Sensor Ports
     public static final int ultrasonicPort = 1;
@@ -139,7 +139,7 @@ public final class Constants {
   /** Constants used in Shooter Subsystem */
   public static final class ShooterConstants {
 
-    public static final int relayPort = 1;
+    public static final int relayPort = 0;
 
     // Ports
     // Motor Controller Ports
@@ -147,12 +147,6 @@ public final class Constants {
     
     // Constants
     // PID Constants
-    // public static final double shooterkP = 0.15;
-    // public static final double shooterkI = 0.002;
-    // public static final double shooterkD = 0.01;
-    // public static final double shooterkF = 0.092;
-
-
     public static final double shooterkP = 0.02;
     public static final double shooterkI = 0;
     public static final double shooterkD = 0;
@@ -168,10 +162,10 @@ public final class Constants {
   public static final class TurretConstants {
     // Ports
     // Motor Controller Ports
-    public static final int portTurretMotor = 1;
+    public static final int portTurretMotor = 8;
 
     // Sensor Ports
-    public static final int[] turretEncoderPorts = {0,1};
+    public static final int[] turretEncoderPorts = {0,4};
 
     // Constants
     public static final int[] turretGears = {30,260};

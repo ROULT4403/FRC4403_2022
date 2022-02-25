@@ -43,7 +43,7 @@ public class Turret extends SubsystemBase {
   public void setTurret(double turretSetpoint){
     PIDoutput = turretPID.calculate(getTurretAngle(), turretSetpoint);
 
-    if (Robot.tv) {
+    if (Robot.tV) {
     if (getTurretAngle() < TurretConstants.turretCWLimit && getTurretAngle() > -TurretConstants.turretCWLimit) {
       turretMotor.set(ControlMode.PercentOutput, PIDoutput, 
       DemandType.ArbitraryFeedForward, TurretConstants.turretkF);
