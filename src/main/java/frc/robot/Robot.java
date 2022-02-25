@@ -7,6 +7,7 @@ package frc.robot;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.networktables.NetworkTable;
@@ -49,6 +50,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    CameraServer.startAutomaticCapture(1);
 
     // Creates trajectories to be used in autonomous
     String trajectoryJSON = "pathplanner/generatedJSON/PathPlannerTest1.wpilib.json";
@@ -60,7 +62,6 @@ public class Robot extends TimedRobot {
     try {
       path = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
       path2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
-      SmartDashboard.putString("PathStatus", "Succes");
     
     } catch (IOException e) {
       System.out.println("Error loading path");

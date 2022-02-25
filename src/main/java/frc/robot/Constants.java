@@ -18,13 +18,8 @@ public final class Constants {
   
   /** 
    * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
-   * TODO: Checar IDs de Victors y verificar en código (no cambiar en phoenix)
-   * TODO: Verificar conexiones a Victor correcto (Checar a que amperaje se conectan)
-   * TODO: Systems Check 2 (Verificar que todos los motores funcionen, sensores funcionales)
-   * TODO: Cambiar roboRIO (USB fallan, no urgente. Arreglo temporal es usar cámara a traves de RasPI)
    * TODO: Si PCM en 12V, usar para LEDs. Si no, dejar en puente.
-   * TODO: Alineado con visión y hood, sin disparar (pura lógica, tunear después)
-   * TODO: Command Group Shooter (sin tunear, solo lógica)
+   * TODO: Command Group Shooter (sin tunear, solo lógica)*
    * TODO: Characterization (probar accuracy con sensor de NEO, evaluar necesidad de throug bore en drivetrain)
    * TODO: Tuneado de controladores PIDF (shooter, susan, hood)
    * TODO: Autonomos (rutas y Command Groups)

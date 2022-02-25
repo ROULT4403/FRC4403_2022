@@ -92,11 +92,10 @@ public class Drivetrain extends SubsystemBase {
     drive.setDeadband(0.05);
 
     // Sensor Setup
-    // TODO: Add gearing factor
-    topLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
-    bottomLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
-    topRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
-    bottomRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
+    topLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
+    bottomLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
+    topRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
+    bottomRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
 
     // Sensor reset
     NavX.zeroYaw();
