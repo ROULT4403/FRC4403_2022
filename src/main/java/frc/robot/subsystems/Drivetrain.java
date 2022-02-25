@@ -51,13 +51,15 @@ public class Drivetrain extends SubsystemBase {
   // Instantiate Class Variables
   private boolean isHighGear = DrivetrainConstants.dogShiftDefault;
   // Acceleration Variables
+  private double x;
+  private double y;
   private double previousX = 0;
 	private double dx = 0.1;
 	private double previousY = 0;
 	private double dy = 0.1;
 
-    NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
-    NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
+  NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
+  NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
   
   /** Susbsystem class for Drivetain, extends SubsystemBase */
   public Drivetrain() {
@@ -90,11 +92,10 @@ public class Drivetrain extends SubsystemBase {
     drive.setDeadband(0.05);
 
     // Sensor Setup
-    // TODO: Add gearing factor
-    topLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
-    bottomLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
-    topRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
-    bottomRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution());
+    topLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
+    bottomLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
+    topRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
+    bottomRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
 
     // Sensor reset
     NavX.zeroYaw();
@@ -109,7 +110,7 @@ public class Drivetrain extends SubsystemBase {
    */
   public void drive(double speed, double rot) {
     // Restrict Y
-    double y = speed * DrivetrainConstants.driveLimiter;
+    y = speed * DrivetrainConstants.driveLimiter;
     if (y > previousY + dy) {
       y = previousY + dy;
     } else if (y < previousY - dy) {
@@ -117,7 +118,7 @@ public class Drivetrain extends SubsystemBase {
     }
     previousY = y;
     // Restrict X
-    double x = rot * DrivetrainConstants.rotLimiter;
+    x = rot * DrivetrainConstants.rotLimiter;
     if (x > previousX + dx) {
       x = previousX + dx;
     } else if (x < previousX - dx) {
