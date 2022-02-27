@@ -12,40 +12,36 @@ public class ShootBasic extends CommandBase {
   /** Creates a new ShootBasic. */
   public Index s_index;
   public Shooter s_shooter;
-  private static boolean isFinished;
+  public Hood s_hood;
+  public boolean shooterIsFinished;
 
-  public ShootBasic(Index index, Shooter shooter) {
+  public ShootBasic(Index index, Shooter shooter, Hood hood) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.s_index = index; 
     this.s_shooter = shooter; 
+    this.s_hood = hood;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_shooter.setShooter(2200);
-    if (isFinished) {
+    shooterIsFinished = s_shooter.shooterIsFinished();
+    s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
+    s_hood.setHood(s_hood.getHoodTargetAngle());
+
+    SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
+    if (shooterIsFinished) {
       s_index.setIndexManual(0.7);
     }
-    isFinished = s_shooter.shooterIsFinished();
-    SmartDashboard.putBoolean("IsFinished", isFinished);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    isFinished = false;
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }

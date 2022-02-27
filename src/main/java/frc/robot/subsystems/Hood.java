@@ -82,7 +82,7 @@ public class Hood extends SubsystemBase {
    * @return Returns Hood Position
    */
   public double getHoodTargetAngle(){
-    return Robot.tD * 0.165;
+    return 0.0002499 * Math.pow(Robot.tD, 2) + Robot.tD * -0.0439 + 2.02;
   }
 
   /**
@@ -98,7 +98,6 @@ public class Hood extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("HoodAngle", getHoodAngle());
-    SmartDashboard.putBoolean("HoodSwitch", hoodLimitSwitch.get());
-    SmartDashboard.putNumber("HoodSetpoint", getHoodTargetAngle());
+    SmartDashboard.putNumber("HoodTargetAngle", getHoodTargetAngle());
   }
 }

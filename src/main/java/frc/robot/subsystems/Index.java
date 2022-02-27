@@ -37,7 +37,12 @@ public class Index extends SubsystemBase {
       detectedCargo[0] = false;
     }
 
-    if(!hasCargo || detectedCargo[0]) {
+    // if(!hasCargo || detectedCargo[0]) {
+    //   indexMotor.set(ControlMode.PercentOutput, speed);
+    // } else {  
+    //   indexMotor.set(ControlMode.PercentOutput, 0);
+    // }
+    if((hasCargo() && detectedCargo[0]) || (!hasCargo() && detectedCargo[0]) || (!hasCargo() && !detectedCargo[0])) {
       indexMotor.set(ControlMode.PercentOutput, speed);
     } else {  
       indexMotor.set(ControlMode.PercentOutput, 0);
@@ -57,6 +62,5 @@ public class Index extends SubsystemBase {
   public void periodic() {
     hasCargo = hasCargo();
     SmartDashboard.putBoolean("hascargo", hasCargo());
-    SmartDashboard.putNumber("colorsensor", colorSensor.getProximity());
   }
 }

@@ -72,9 +72,9 @@ public class RobotContainer {
     // Intake Default Command
     s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0), s_intake));
     // Index Default Command
-    s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndexManual(controller.getRawAxis(3)), s_index));
+    s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndexManual(0), s_index));
     // Shooter Default Command
-    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooterManual(0), s_shooter));
+    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooter(-40), s_shooter));
     // Hood Default Command
     s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHoodManual(0), s_hood));
     // Turret Default Command
@@ -93,11 +93,11 @@ public class RobotContainer {
       d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
       
       // Controller Controls
-      c_X.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_turret));
-      c_X.whenHeld(new RunCommand(() -> s_hood.setHood(s_hood.getHoodAngle()), s_hood));
-      c_X.whenHeld(new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterTargetSpeed()), s_shooter));
+      // c_X.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_turret));
+      // c_X.whenHeld(new RunCommand(() -> s_hood.setHood(s_hood.getHoodAngle()), s_hood));
+      c_X.whenHeld(new ShootBasic(s_index, s_shooter, s_hood));
       // Turret
-      c_Start.whenPressed(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_shooter));
+      c_Start.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_shooter));
       c_Select.whenPressed(new InstantCommand(() -> s_turret.resetAngle(), s_turret));
       c_Pad90.whileHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
       c_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
@@ -105,10 +105,11 @@ public class RobotContainer {
       c_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
       c_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
       // Algorithm intake
-      c_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.35, s_intake.detectedCargoIntake), s_index)));
+      c_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.3, s_intake.detectedCargoIntake), s_index)));
       c_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
       // Algorithm outake
-      c_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
+      c_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.25), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
+      // c_RSClick.whileHeld(new RunCommand(() -> s_index.setIndexManual(0.7), s_index));
       // Light relay
       c_B.whenPressed(new InstantCommand(s_shooter::LEDToggle, s_shooter));
       // return;

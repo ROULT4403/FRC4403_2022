@@ -275,11 +275,6 @@ public class Drivetrain extends SubsystemBase {
     m_xEntry.setNumber(translation.getX());
     m_yEntry.setNumber(translation.getY());
 
-    SmartDashboard.putNumber("GetYaw", getYaw());
-
-    SmartDashboard.putNumber("bottomLeftTemp", bottomLeft.getMotorTemperature());
-    SmartDashboard.putNumber("topLeftTemp", topLeft.getMotorTemperature());
-    SmartDashboard.putNumber("bottomRightTemp", bottomRight.getMotorTemperature());
-    SmartDashboard.putNumber("topRightTemp", topRight.getMotorTemperature());
+    SmartDashboard.putNumber("GetHeading", getHeading());
   }
 }

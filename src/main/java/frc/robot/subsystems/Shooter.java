@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase {
   // Class Variables
   private int inShooterTreshold = 0;
   private double shooterErrorTreshold = 30;
-  private final int shooterSettleLoops = 50;
+  private final int shooterSettleLoops = 25;
   
   //Relay LEDS
   private final Relay LED = new Relay(ShooterConstants.relayPort);
@@ -76,6 +76,7 @@ public class Shooter extends SubsystemBase {
       ++inShooterTreshold;
     } else {
       inShooterTreshold = 0;
+      return false;
     }
     
     return inShooterTreshold > shooterSettleLoops;
@@ -95,7 +96,7 @@ public class Shooter extends SubsystemBase {
    * @return Returns ShooterSpeed
    */
   public double getShooterTargetSpeed(){
-    return Robot.tD * 100;
+    return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
   }
   
   public void LEDToggle() {
@@ -113,8 +114,6 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run  
     SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
     SmartDashboard.putNumber("ShooterTarget", shooterMotor.getClosedLoopTarget());
-
-    SmartDashboard.putString("Relay", LED.get().getPrettyValue());
-
+    SmartDashboard.putBoolean("ShooterIsFinished", shooterIsFinished());
   }
 }

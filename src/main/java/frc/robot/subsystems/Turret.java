@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.security.KeyPair;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -28,12 +30,24 @@ public class Turret extends SubsystemBase {
   private final PIDController turretPID = new PIDController(TurretConstants.turretkP, TurretConstants.turretkI, 
                                                             TurretConstants.turretkD);
   private double PIDoutput;
+
+  // PID variables
+  double newKP;
+  double previousKP;
+  double newKI;
+  double previousKI;
+  double newKD;
+  double previousKD;
+
   /** Creates a new Hood. */
   public Turret() {
     // Set inverted motor
     turretMotor.setInverted(TurretConstants.turretMotorInverted);
 
     // turretEncoder.setDistancePerPulse(TurretConstants.turretReduction);
+    SmartDashboard.putNumber("kP", newKP);
+    SmartDashboard.putNumber("kI", newKI);
+    SmartDashboard.putNumber("kD", newKD);
   }
 
     /**
@@ -122,5 +136,23 @@ public class Turret extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("TurretAngle", getTurretAngle());
     SmartDashboard.putBoolean("turretIsFinished", turretIsFinished());
+
+    // newKP = SmartDashboard.getNumber("kP", 0.0);
+    // if (newKP != previousKP){
+    //   turretPID.setP(newKP);
+    //   previousKP = newKP;
+    // }
+    
+    // newKI = SmartDashboard.getNumber("kI", 0.0);
+    // if (newKI != previousKI){
+    //   turretPID.setI(newKI);
+    //   previousKI = newKI;
+    // }
+
+    // newKD = SmartDashboard.getNumber("kD", 0.0);
+    // if (newKD != previousKD){
+    //   turretPID.setD(newKD);
+    //   previousKD = newKD;
+    // }
   }
 }

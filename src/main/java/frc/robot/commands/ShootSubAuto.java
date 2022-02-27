@@ -56,6 +56,6 @@ public class ShootSubAuto extends CommandBase{
 	// Called once the command ends or is interrupted.
 	@Override
   public void end(boolean interrupted) {
-    SmartDashboard.putString("VisionStatus", "Shot");
+    // SmartDashboard.putString("VisionStatus", "Shot");
   }
 }

@@ -115,13 +115,13 @@ public final class Constants {
     public static final boolean intakeMotorInverted = false;
     
     //Intake Current Detection
-    public static final int intakeNominalCurrent = 11;
+    public static final int intakeNominalCurrent = 7;
     public static final int intakeCurrentSetpoint = 5;
     public static final int intakeIntegralThreshold = -300;
     
     // Intake Timer
     public static final double intakeTimerInitialThreshold = 1.3;
-    public static final double intakeTimerFinalThreshold = 1.5;
+    public static final double intakeTimerFinalThreshold = 0.005;
   }
 
   
@@ -136,10 +136,10 @@ public final class Constants {
     
     // Constants
     // PID Constants
-    public static final double shooterkP = 0.02;
-    public static final double shooterkI = 0;
+    public static final double shooterkP = 0.11846;
+    public static final double shooterkI = 0.00014;
     public static final double shooterkD = 0;
-    public static final double shooterkF = 0.065;
+    public static final double shooterkF = 0.0558;
 
 
     // Default State Booleans
@@ -160,16 +160,16 @@ public final class Constants {
     public static final int[] turretGears = {30,260};
     // public static final float turretReduction = (TurretConstants.turretGears[0] * 360) / (TurretConstants.turretGears[1] * 2048);
     public static final double turretReduction = 0.0202824519230769;
-    public static final int turretCWLimit = 105;
-    public static final int turretACWLimit = -105;
+    public static final int turretCWLimit = 180;
+    public static final int turretACWLimit = -160;
         
     // Output Constants
     public static final double turretOutput = -0.5;
 
     // PID Constants
-    public static final double turretkP = 0.04;
+    public static final double turretkP = 0.03;
     public static final double turretkI = 0.01;
-    public static final double turretkD = 0;
+    public static final double turretkD = 0.003;
     public static final double turretkF = 0;
 
     // Default State Booleans

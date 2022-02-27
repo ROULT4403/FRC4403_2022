@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -25,6 +26,9 @@ public class Intake extends SubsystemBase {
                                                                   IntakeConstants.intakeReleasePort[0], IntakeConstants.intakeReleasePort[1]);
   // Timer
   Timer intakeTimer = new Timer();
+
+  // Limit Switch
+  private final DigitalInput intakeLimitSwitch = new DigitalInput(8);
 
   // Class variables
   public boolean detectedCargoIntake;
@@ -69,7 +73,7 @@ public class Intake extends SubsystemBase {
    */
   public boolean hasCargo(){
     // Update current-related variables
-    actualCurrent = Robot.pdp.getCurrent(10);
+    actualCurrent = Robot.pdp.getCurrent(9);
     errorCurrent = IntakeConstants.intakeCurrentSetpoint - actualCurrent;
 
     // Reset timer if greater than final threshold
@@ -79,15 +83,9 @@ public class Intake extends SubsystemBase {
     }
     
     // Start timer if current greater than threshold and integral value less than integral threshold
-    if(actualCurrent > IntakeConstants.intakeNominalCurrent && integralCurrent < IntakeConstants.intakeIntegralThreshold) {
+    if(intakeLimitSwitch.get()) {
       intakeTimer.start();
-      return false; 
-    // Wait until cargo settles at index
-    } else if (intakeTimer.get() > 0 && intakeTimer.get() < IntakeConstants.intakeTimerInitialThreshold) {
-      return false;
-    // Turn index
-    } else if (intakeTimer.get() >= IntakeConstants.intakeTimerInitialThreshold) {
-      return true;
+      return true; 
     }
 
     return false;
@@ -110,10 +108,8 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
     detectedCargoIntake = hasCargo();
     SmartDashboard.putBoolean("DetectedCargoIntake", detectedCargoIntake);
-    SmartDashboard.putNumber("IntegralCurrent", integralCurrent);
     SmartDashboard.putNumber("IntakeFalconTemp", intakeMotor.getTemperature());
     // SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
-    SmartDashboard.putNumber("IntakeTimer", intakeTimer.get());
     SmartDashboard.putBoolean("IntakePneumatics", isReleased);
   }
 }
