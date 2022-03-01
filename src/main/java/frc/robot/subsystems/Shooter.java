@@ -48,7 +48,6 @@ public class Shooter extends SubsystemBase {
     shooterMotor.config_kI(0, ShooterConstants.shooterkI);
     shooterMotor.config_kD(0, ShooterConstants.shooterkD);
     shooterMotor.config_kF(0, ShooterConstants.shooterkF);
-        
   }
   
   /** 
@@ -114,6 +113,5 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run  
     SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
     SmartDashboard.putNumber("ShooterTarget", shooterMotor.getClosedLoopTarget());
-    SmartDashboard.putBoolean("ShooterIsFinished", shooterIsFinished());
   }
 }

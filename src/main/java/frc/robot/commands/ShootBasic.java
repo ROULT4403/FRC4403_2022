@@ -30,14 +30,14 @@ public class ShootBasic extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterIsFinished = s_shooter.shooterIsFinished();
-    s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
+    // s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
+    // shooterIsFinished = s_shooter.shooterIsFinished();
     s_hood.setHood(s_hood.getHoodTargetAngle());
 
-    SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
-    if (shooterIsFinished) {
-      s_index.setIndexManual(0.7);
-    }
+    // SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
+    // if (shooterIsFinished) {
+      // s_index.setIndexManual(0.2);
+    // }
   }
 
   // Called once the command ends or is interrupted.

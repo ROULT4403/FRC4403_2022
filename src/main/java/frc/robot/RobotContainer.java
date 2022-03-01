@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.subsystems.Drivetrain;
 
@@ -74,7 +75,7 @@ public class RobotContainer {
     // Index Default Command
     s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndexManual(0), s_index));
     // Shooter Default Command
-    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooter(-40), s_shooter));
+    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooterManual(0), s_shooter));
     // Hood Default Command
     s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHoodManual(0), s_hood));
     // Turret Default Command
@@ -91,10 +92,12 @@ public class RobotContainer {
       d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
       // Intake Release
       d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
+      // Algorithm intake
+      d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.2), s_index)));
+      // Algorithm outake
+      d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.2), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.2), s_index)));
       
       // Controller Controls
-      // c_X.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_turret));
-      // c_X.whenHeld(new RunCommand(() -> s_hood.setHood(s_hood.getHoodAngle()), s_hood));
       c_X.whenHeld(new ShootBasic(s_index, s_shooter, s_hood));
       // Turret
       c_Start.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_shooter));
@@ -104,12 +107,6 @@ public class RobotContainer {
       // Hood
       c_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
       c_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
-      // Algorithm intake
-      c_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.3, s_intake.detectedCargoIntake), s_index)));
-      c_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
-      // Algorithm outake
-      c_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.25), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
-      // c_RSClick.whileHeld(new RunCommand(() -> s_index.setIndexManual(0.7), s_index));
       // Light relay
       c_B.whenPressed(new InstantCommand(s_shooter::LEDToggle, s_shooter));
       // return;
@@ -128,13 +125,13 @@ public class RobotContainer {
     // d_Pad90.whenPressed(new RunCommand(() -> s_turret.setTurret(-TurretConstants.turretOutput), s_shooter));
     // d_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
     // // Shooting Algorithm
-    // d_X.whenHeld(new ShootBasic(s_index, s_shooter));
+    // d_X.whenHeld(new ShootBasic(s_index, s_shooter, s_hood));
     
     // // Intake & Index
     // // Intake Release
     // d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
     // // Algorithm intake
-    // d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
+    // d_RB.whileHeld(new RunCommand(() -> s_intake.setIntakeManual(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
     // // Algorith Outake
     // d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4, false), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
     // // Manual Intake & Index

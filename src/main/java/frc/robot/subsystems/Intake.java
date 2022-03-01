@@ -27,15 +27,8 @@ public class Intake extends SubsystemBase {
   // Timer
   Timer intakeTimer = new Timer();
 
-  // Limit Switch
-  private final DigitalInput intakeLimitSwitch = new DigitalInput(8);
-
   // Class variables
   public boolean detectedCargoIntake;
-
-  public double actualCurrent;
-  public double errorCurrent;
-  public double integralCurrent;
   
   // Class constants
   private boolean isReleased = IntakeConstants.intakeReleaseDefault;
@@ -53,42 +46,10 @@ public class Intake extends SubsystemBase {
    * @param speed speed for intake motor in -1 to 1 range 
    * @param counter optional boolean to enable integral control
    * */
-  public void setIntake(double speed, boolean... counter){
+  public void setIntake(double speed){
     if (isReleased) {
     intakeMotor.set(ControlMode.PercentOutput, speed);
-    
-    if(counter.length < 1) {return;}
-
-    // Start integral
-    if (counter[0]) {
-      integralCurrent = integralCurrent + errorCurrent;
-    } else {
-    integralCurrent = 0;
     }
-    }
-  }
-  /**
-   * Detects if cargo has crossed the intake
-   * @return boolean if cargo is detected
-   */
-  public boolean hasCargo(){
-    // Update current-related variables
-    actualCurrent = Robot.pdp.getCurrent(9);
-    errorCurrent = IntakeConstants.intakeCurrentSetpoint - actualCurrent;
-
-    // Reset timer if greater than final threshold
-    if (intakeTimer.get() > IntakeConstants.intakeTimerFinalThreshold) {
-      intakeTimer.stop();
-      intakeTimer.reset();
-    }
-    
-    // Start timer if current greater than threshold and integral value less than integral threshold
-    if(intakeLimitSwitch.get()) {
-      intakeTimer.start();
-      return true; 
-    }
-
-    return false;
   }
   
   /** Toggles intake position */
@@ -106,8 +67,6 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    detectedCargoIntake = hasCargo();
-    SmartDashboard.putBoolean("DetectedCargoIntake", detectedCargoIntake);
     SmartDashboard.putNumber("IntakeFalconTemp", intakeMotor.getTemperature());
     // SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
     SmartDashboard.putBoolean("IntakePneumatics", isReleased);

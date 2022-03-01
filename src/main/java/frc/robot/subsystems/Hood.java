@@ -81,8 +81,26 @@ public class Hood extends SubsystemBase {
    *  Get hood angle
    * @return Returns Hood Position
    */
-  public double getHoodTargetAngle(){
-    return 0.0002499 * Math.pow(Robot.tD, 2) + Robot.tD * -0.0439 + 2.02;
+  public int getHoodTargetAngle(){
+    if (Robot.tD <= 188) {
+      return 0;
+    } else if (Robot.tD <= 288) {
+      return 5;
+    } else if (Robot.tD <= 338) {
+      return 13;
+    } else if (Robot.tD <= 388){
+      return 25;
+    } else if (Robot.tD <= 438) {
+      return 33;
+    } else if (Robot.tD <= 488) {
+      return 41;
+    } else if (Robot.tD <= 538) {
+      return 49;
+    } else {
+      return 0;
+    }
+
+    // return 0.0002499 * Math.pow(Robot.tD, 2) + Robot.tD * -0.0439 + 2.02;
   }
 
   /**

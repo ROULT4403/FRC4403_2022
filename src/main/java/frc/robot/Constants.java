@@ -97,7 +97,10 @@ public final class Constants {
     public static final int ultrasonicPort = 1;
 
     // Default State Booleans
-    public static final boolean indexMotorInverted = false;
+    public static final boolean indexMotorInverted = true;
+
+    // Index Rotation Limits
+    public static final double indexEncoderThreshold = 0.75;
   }
 
   /** Constants used in Intake Subsystem */
@@ -116,12 +119,6 @@ public final class Constants {
     
     //Intake Current Detection
     public static final int intakeNominalCurrent = 7;
-    public static final int intakeCurrentSetpoint = 5;
-    public static final int intakeIntegralThreshold = -300;
-    
-    // Intake Timer
-    public static final double intakeTimerInitialThreshold = 1.3;
-    public static final double intakeTimerFinalThreshold = 0.005;
   }
 
   
