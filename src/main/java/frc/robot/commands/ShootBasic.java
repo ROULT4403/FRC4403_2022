@@ -4,8 +4,11 @@
 
 package frc.robot.commands;
 
+import javax.print.DocFlavor.SERVICE_FORMATTED;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
 public class ShootBasic extends CommandBase {
@@ -13,13 +16,15 @@ public class ShootBasic extends CommandBase {
   public Index s_index;
   public Shooter s_shooter;
   public Hood s_hood;
+  public Turret s_turret;
   public boolean shooterIsFinished;
 
-  public ShootBasic(Index index, Shooter shooter, Hood hood) {
+  public ShootBasic(Index index, Shooter shooter, Hood hood, Turret turret) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.s_index = index; 
     this.s_shooter = shooter; 
     this.s_hood = hood;
+    this.s_turret = turret;
   }
 
   // Called when the command is initially scheduled.
@@ -30,14 +35,15 @@ public class ShootBasic extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
-    // shooterIsFinished = s_shooter.shooterIsFinished();
+    s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
+    shooterIsFinished = s_shooter.shooterIsFinished();
     s_hood.setHood(s_hood.getHoodTargetAngle());
+    s_turret.setTurret(Robot.tX + s_turret.getTurretAngle());
 
-    // SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
-    // if (shooterIsFinished) {
-      // s_index.setIndexManual(0.2);
-    // }
+    SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
+    if (shooterIsFinished) {
+      s_index.setIndexManual(0.3);
+    }
   }
 
   // Called once the command ends or is interrupted.
