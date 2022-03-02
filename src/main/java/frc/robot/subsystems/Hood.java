@@ -85,17 +85,17 @@ public class Hood extends SubsystemBase {
     if (Robot.tD <= 188) {
       return 0;
     } else if (Robot.tD <= 288) {
-      return 5;
+      return 0;
     } else if (Robot.tD <= 338) {
-      return 13;
+      return 5;
     } else if (Robot.tD <= 388){
-      return 25;
+      return 13;
     } else if (Robot.tD <= 438) {
-      return 33;
+      return 25;
     } else if (Robot.tD <= 488) {
-      return 41;
+      return 33;
     } else if (Robot.tD <= 538) {
-      return 49;
+      return 41;
     } else {
       return 0;
     }

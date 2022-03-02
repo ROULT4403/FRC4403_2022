@@ -98,7 +98,7 @@ public class RobotContainer {
       d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.2), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.2), s_index)));
       
       // Controller Controls
-      c_X.whenHeld(new ShootBasic(s_index, s_shooter, s_hood));
+      c_X.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret));
       // Turret
       c_Start.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_shooter));
       c_Select.whenPressed(new InstantCommand(() -> s_turret.resetAngle(), s_turret));
@@ -109,6 +109,7 @@ public class RobotContainer {
       c_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
       // Light relay
       c_B.whenPressed(new InstantCommand(s_shooter::LEDToggle, s_shooter));
+      c_Y.whenPressed(new RunCommand(() -> s_index.setIndexManual(0.3), s_index));
       // return;
     // }
 
