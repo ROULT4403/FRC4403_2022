@@ -19,9 +19,7 @@ public final class Constants {
   /** 
    * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
    * TODO: Si PCM en 12V, usar para LEDs. Si no, dejar en puente.
-   * TODO: Command Group Shooter (sin tunear, solo lógica)*
    * TODO: Characterization (probar accuracy con sensor de NEO, evaluar necesidad de throug bore en drivetrain)
-   * TODO: Tuneado de controladores PIDF (shooter, susan, hood)
    * TODO: Autonomos (rutas y Command Groups)
    * TODO: Definir controles (distribución driver controller, facil acceso, espacio para escalador)
    * TODO: Check if StraightDrive works correctly

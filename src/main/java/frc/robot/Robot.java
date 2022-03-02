@@ -14,13 +14,11 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -89,7 +87,7 @@ public class Robot extends TimedRobot {
     vEntry = table.getEntry("tV");
     
     new Thread(() -> {
-      CameraServer.getInstance();
+      // CameraServer.startAutomaticCapture(1);      
       UsbCamera camera = CameraServer.startAutomaticCapture(1);
       camera.setResolution(320, 240);
       

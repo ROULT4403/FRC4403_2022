@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.GadgeteerUartClient.GadgeteerProxyType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -12,7 +11,6 @@ import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexConstants;
@@ -47,7 +45,7 @@ public class Index extends SubsystemBase {
    */
   public void setIndex (double speed) {
     boolean isCargoAvailable = isCargoAvailable();
-    boolean hasCargo = hasCargo();
+    hasCargo = hasCargo();
     if((hasCargo && isCargoAvailable) || (!hasCargo && isCargoAvailable) || (!hasCargo && !isCargoAvailable)) {
       indexMotor.set(ControlMode.PercentOutput, speed);
     } else {  
@@ -95,7 +93,7 @@ public class Index extends SubsystemBase {
   
   @Override
   public void periodic() {
-    hasCargo = hasCargo();
+    // hasCargo = hasCargo();
     SmartDashboard.putBoolean("hascargo", hasCargo());
   }
 }
