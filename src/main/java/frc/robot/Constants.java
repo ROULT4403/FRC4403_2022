@@ -38,6 +38,7 @@ public final class Constants {
 
     // Solenoid Ports
     public static final int[] dogShiftPort = {0, 1};
+    // public static final int dogShiftPort = 0;
 
     // Constants
     // Limiter Constants
@@ -93,12 +94,13 @@ public final class Constants {
     
     // Sensor Ports
     public static final int ultrasonicPort = 1;
+    public static final int limitSwitchPort = 8;
 
     // Default State Booleans
     public static final boolean indexMotorInverted = true;
 
     // Index Rotation Limits
-    public static final double indexEncoderThreshold = 0.75;
+    public static final double indexEncoderThreshold = 0.25;
   }
 
   /** Constants used in Intake Subsystem */
@@ -109,6 +111,7 @@ public final class Constants {
     
     // Solenoid Ports
     public static final int[] intakeReleasePort = {2, 3};
+    // public static final int intakeReleasePort = 1;
     
     // Constants
     // Default State Booleans
@@ -149,7 +152,7 @@ public final class Constants {
     public static final int portTurretMotor = 8;
 
     // Sensor Ports
-    public static final int[] turretEncoderPorts = {0,4};
+    public static final int[] turretEncoderPorts = {0,2};
 
     // Constants
     public static final int[] turretGears = {30,260};

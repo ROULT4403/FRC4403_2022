@@ -18,6 +18,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -47,6 +48,7 @@ public class Drivetrain extends SubsystemBase {
   // Instantiate Pneumatics
   public final DoubleSolenoid dogShift = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.dogShiftPort[0], 
                                                             DrivetrainConstants.dogShiftPort[1]);
+  // public final Solenoid dogShift = new Solenoid(PneumaticsModuleType.CTREPCM, DrivetrainConstants.dogShiftPort);
 
   // Instantiate Class Variables
   private boolean isHighGear = DrivetrainConstants.dogShiftDefault;
@@ -150,6 +152,7 @@ public class Drivetrain extends SubsystemBase {
     } else {
       dogShift.set(Value.kOff);
     }
+    // dogShift2.set(isHighGear);
     isHighGear = !isHighGear;
   }
   

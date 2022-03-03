@@ -20,6 +20,8 @@ public class Shooter extends SubsystemBase {
   //Motor Controllers
   private final TalonFX shooterMotor = new TalonFX(ShooterConstants.portShooterMotor);
 
+  // BangBangController bangController = new BangBangController(50);
+
   // Class Variables
   private int inShooterTreshold = 0;
   private double shooterErrorTreshold = 50;
@@ -55,6 +57,8 @@ public class Shooter extends SubsystemBase {
    */
   public void setShooter(double shooterSetpoint){
     shooterMotor.set(ControlMode.Velocity, shooterSetpoint * 2048 / 600);
+    // shooterMotor.set(ControlMode.PercentOutput, bangController.calculate(getShooterSpeed(), shooterSetpoint));
+    SmartDashboard.putNumber("ShooterTarget", shooterSetpoint * 2048 / 600);
   }
   
   /** 
@@ -111,6 +115,5 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run  
     SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
-    SmartDashboard.putNumber("ShooterTarget", shooterMotor.getClosedLoopTarget());
   }
 }

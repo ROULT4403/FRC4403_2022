@@ -80,29 +80,26 @@ public class Robot extends TimedRobot {
     nInst = NetworkTableInstance.getDefault();
     table = nInst.getTable("tablaCool");
 
-
     // Initialize entries
     xEntry = table.getEntry("tX");
     dEntry = table.getEntry("tD");
     vEntry = table.getEntry("tV");
     
     new Thread(() -> {
-      // CameraServer.startAutomaticCapture(1);      
-      UsbCamera camera = CameraServer.startAutomaticCapture(1);
+      UsbCamera camera = CameraServer.startAutomaticCapture(0);
       camera.setResolution(320, 240);
       
-      CvSink cvsink = CameraServer.getVideo();
-      CvSource outputstream = CameraServer.putVideo("Test", 640, 480);
+      // CvSink cvsink = CameraServer.getVideo();
+      // CvSource outputstream = CameraServer.putVideo("Test", 640, 480);
 
-      Mat source = new Mat();
-      Mat output = new Mat();
-      while (!Thread.interrupted()){
-        cvsink.grabFrame(source);
-        Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-        outputstream.putFrame(output);
-      }
+      // Mat source = new Mat();
+      // Mat output = new Mat();
+      // while (!Thread.interrupted()){
+      //   cvsink.grabFrame(source);
+      //   Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+      //   outputstream.putFrame(output);
+      // }
     }).start();
-    
   }
 
   /**

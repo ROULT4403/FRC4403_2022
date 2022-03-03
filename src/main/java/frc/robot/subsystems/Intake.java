@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,6 +23,7 @@ public class Intake extends SubsystemBase {
   // Solenoids
   private final DoubleSolenoid intakeRelease = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
                                                                   IntakeConstants.intakeReleasePort[0], IntakeConstants.intakeReleasePort[1]);
+  // private final Solenoid intakeRelease = new Solenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.intakeReleasePort);
   // Timer
   Timer intakeTimer = new Timer();
 
@@ -59,13 +61,14 @@ public class Intake extends SubsystemBase {
     } else {
       intakeRelease.set(Value.kOff);
     }
+    // intakeRelease.set(isReleased);
     isReleased = !isReleased;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("IntakeFalconTemp", intakeMotor.getTemperature());
+    SmartDashboard.putNumber("IntakeTemp", intakeMotor.getTemperature());
     // SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
     SmartDashboard.putBoolean("IntakePneumatics", isReleased);
   }

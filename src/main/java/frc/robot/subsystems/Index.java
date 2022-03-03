@@ -23,9 +23,10 @@ public class Index extends SubsystemBase {
   // Sensors
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
   private boolean hasCargo = false;
+  boolean isCargoAvailable = false;
   
   // Limit Switch
-  private final DigitalInput indexLimitSwitch = new DigitalInput(8);
+  private final DigitalInput indexLimitSwitch = new DigitalInput(IndexConstants.limitSwitchPort);
 
   // Index Encoder Variables
   public double currentRots;
@@ -44,7 +45,7 @@ public class Index extends SubsystemBase {
    * @param detectedCargo optional
    */
   public void setIndex (double speed) {
-    boolean isCargoAvailable = isCargoAvailable();
+    isCargoAvailable = isCargoAvailable();
     hasCargo = hasCargo();
     if((hasCargo && isCargoAvailable) || (!hasCargo && isCargoAvailable) || (!hasCargo && !isCargoAvailable)) {
       indexMotor.set(ControlMode.PercentOutput, speed);
@@ -53,6 +54,9 @@ public class Index extends SubsystemBase {
     }
   }
 
+  /**
+   * Manually sets index to PercentOutput
+   */
   public void setIndexManual (double speed) {
     indexMotor.set(ControlMode.PercentOutput, speed);
   }
@@ -63,37 +67,37 @@ public class Index extends SubsystemBase {
 
   /**
    * Detects if cargo has crossed the intake
-   * @return boolean if cargo is detected
+   * @return boolean cargo available to index
    */
   public boolean isCargoAvailable(){
-    // Set current encoder status
     currentRots = getRotations();
+    // 
+    if(indexLimitSwitch.get() && currentRots < IndexConstants.indexEncoderThreshold) {return true;}
 
-    // Reset timer if greater than final threshold
-    if (Math.abs(currentRots - lastRots) > IndexConstants.indexEncoderThreshold) {
-      lastRots = 0;
-    }
-    
-    // Start timer if current greater than threshold and integral value less than integral threshold
-    if(indexLimitSwitch.get() || Math.abs(lastRots) > 0) {
-      lastRots = getRotations();
-      return true; 
-    }
-
+    resetRotations();
     return false;
   }
 
   /**
    * Returns integrated sensor rotations
+   * @return double integrated sensor rotations
    */
   public double getRotations(){
     return indexMotor.getSelectedSensorPosition() / 2048;
   }
 
+  /**
+   * Sets integrated sensor rotations to 0
+   */
+  public void resetRotations(){
+    indexMotor.setSelectedSensorPosition(0);
+  }
+
   
   @Override
   public void periodic() {
-    // hasCargo = hasCargo();
+    hasCargo = hasCargo();
     SmartDashboard.putBoolean("hascargo", hasCargo());
+    SmartDashboard.putBoolean("isAvail", isCargoAvailable());
   }
 }

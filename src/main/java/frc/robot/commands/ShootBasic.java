@@ -28,15 +28,16 @@ public class ShootBasic extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooterIsFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
     shooterIsFinished = s_shooter.shooterIsFinished();
+    s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
     s_hood.setHood(s_hood.getHoodTargetAngle());
-    s_turret.setTurret(Robot.tX + s_turret.getTurretAngle());
+    // s_turret.setTurret(Robot.tX + s_turret.getTurretAngle());
 
     SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
     if (shooterIsFinished) {
@@ -47,5 +48,6 @@ public class ShootBasic extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
   }
 }
