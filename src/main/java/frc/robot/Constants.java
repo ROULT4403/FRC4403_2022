@@ -112,7 +112,7 @@ public final class Constants {
     // Solenoid Ports
     public static final int[] intakeReleasePort = {2, 3};
     // public static final int intakeReleasePort = 1;
-    
+
     // Constants
     // Default State Booleans
     public static final boolean intakeReleaseDefault = false;
@@ -188,11 +188,37 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
     
     // Robot Characterization and Drivetrain Feedforward Constants
-    public static final double ksVolts = 1.9196;
-    public static final double kvVoltSecondsPerMeter = 1.0988;
-    public static final double kaVoltSecondsSquaredPerMeter = 1.2979;
+    public static final double ksVolts = 0.23838;
+    public static final double kvVoltSecondsPerMeter = 3.2883;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.53537;
     
     // RamseteController PID Gain Constants
-    public static final double kPDriveVel = 3.5609;
+    public static final double kPDriveVel = 4.4206;
+
+    
+  }
+  public static final class ClimberConstants{
+  /** Constants used in Climber subsystem */
+  //Ports
+  //Motor Controller Ports
+  public static final int portClimberLeft = 0;
+  public static final int portClimberRight = 0;
+
+  //Solenoid Ports
+  public static final int[] climberSolenoidPorts = {0,1};
+
+  //Constants
+  //Default State Booleans
+  public static final boolean climberLeftInverted = false;
+  public static final boolean climberRightInverted = true;
+  public static final boolean climberAttatchedDefault = false;
+
+  //Treshold
+  public static final int climberTreshold = 0;
+
+  //PID Constants
+  public static final double climberkP = 0.0;
+  public static final double climberkI = 0.0;
+  public static final double climberkD = 0.0;
   }
 }
