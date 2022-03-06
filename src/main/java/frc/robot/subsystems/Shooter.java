@@ -8,23 +8,22 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj.Relay;
-
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter extends SubsystemBase {
   
   //Motor Controllers
   private final TalonFX shooterMotor = new TalonFX(ShooterConstants.portShooterMotor);
 
-  // BangBangController bangController = new BangBangController(50);
-
   // Class Variables
   private int inShooterTreshold = 0;
-  private double shooterErrorTreshold = 50;
+  private double shooterErrorTreshold = 30;
   private final int shooterSettleLoops = 25;
   
   //Relay LEDS
@@ -57,8 +56,6 @@ public class Shooter extends SubsystemBase {
    */
   public void setShooter(double shooterSetpoint){
     shooterMotor.set(ControlMode.Velocity, shooterSetpoint * 2048 / 600);
-    // shooterMotor.set(ControlMode.PercentOutput, bangController.calculate(getShooterSpeed(), shooterSetpoint));
-    SmartDashboard.putNumber("ShooterTarget", shooterSetpoint * 2048 / 600);
   }
   
   /** 
@@ -114,6 +111,14 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run  
-    SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
+
+    Shuffleboard.getTab("Match").add("Shooter Status", shooterIsFinished())
+    .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(3,0);
+    Shuffleboard.getTab("Match").add("Shooter Target",shooterMotor.getClosedLoopTarget())
+    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(3,1);
+    Shuffleboard.getTab("Match").add("Shooter Velocity",getShooterSpeed())
+    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(3,2);
+  
+    
   }
 }

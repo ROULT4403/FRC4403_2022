@@ -13,10 +13,12 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.HoodConstants;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Hood extends SubsystemBase {
 
@@ -115,7 +117,11 @@ public class Hood extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("HoodAngle", getHoodAngle());
-    SmartDashboard.putNumber("HoodTargetAngle", getHoodTargetAngle());
+   
+    Shuffleboard.getTab("Match").add("HoodAngle",getHoodAngle())
+    .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,1);
+    Shuffleboard.getTab("Match").add("HoodTargetAngle",getHoodTargetAngle())
+    .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,2);
+    
   }
 }

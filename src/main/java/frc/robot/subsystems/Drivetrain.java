@@ -22,9 +22,11 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drivetrain extends SubsystemBase {
   
@@ -278,6 +280,19 @@ public class Drivetrain extends SubsystemBase {
     m_xEntry.setNumber(translation.getX());
     m_yEntry.setNumber(translation.getY());
 
-    SmartDashboard.putNumber("GetHeading", getHeading());
+    
+    //Drivetrain SmartDashboard
+    Shuffleboard.getTab("Match").add("Gyro Drivetrain",getHeading())
+    .withWidget(BuiltInWidgets.kGyro).withSize(2,2).withPosition(0,0);
+    Shuffleboard.getTab("Match").add("Left Encoder",getLeftEncoderPositionAverage())
+    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(0,3);
+    Shuffleboard.getTab("Match").add("Right Encoder",getRightEncoderPositionAverage())
+    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(1,3);
+    Shuffleboard.getTab("Match").add("Velocity",getAverageEncoderVelocity())
+    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(0,4);
+    Shuffleboard.getTab("Match").add("Av Distance",getAverageEncoderDistance())
+    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(1,4);
+
+
   }
 }

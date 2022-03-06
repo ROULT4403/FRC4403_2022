@@ -11,10 +11,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends SubsystemBase {
   // Motor Controllers
@@ -68,8 +70,13 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("IntakeTemp", intakeMotor.getTemperature());
-    // SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent());
-    SmartDashboard.putBoolean("IntakePneumatics", isReleased);
+    // SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent())
+
+    Shuffleboard.getTab("Match").add("Intake Status", intakeRelease)
+    .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(3,0);
+    Shuffleboard.getTab("Match").add("IntakePneumatics", isReleased)
+    .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(4,1);
+    Shuffleboard.getTab("Match").add("IntakeTemp", intakeMotor.getTemperature())
+    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(4,2);
   }
 }
