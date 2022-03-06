@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture(1);
 
     // Creates trajectories to be used in autonomous
-    String trajectoryJSON = "pathplanner/generatedJSON/PathPlannerTest1.wpilib.json";
+    String trajectoryJSON = "pathplanner/generatedJSON/Auto1.1.1.wpilib.json";
     String trajectoryJSON2 = "pathplanner/generatedJSON/PathPlannerTest2.wpilib.json";
     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
     Path trajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON2);
@@ -122,7 +122,8 @@ public class Robot extends TimedRobot {
 
     // Update vision variables
     tX = xEntry.getDouble(0);    
-    tD = dEntry.getDouble(0); 
+    // tD = dEntry.getDouble(0); 
+    tD = 200; 
     tV = vEntry.getBoolean(false);
 
   }

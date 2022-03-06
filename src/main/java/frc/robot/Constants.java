@@ -53,6 +53,8 @@ public final class Constants {
     public static final double kToleranceStraightDriveAngle = 0.05;
     public static final double kToleranceStraightDriveVelocity = 0;
 
+    public static final double kToleranceDriveDistance = 0.01;
+
     // Sensor Config Booleans
     public static final boolean kGyroReversed = true;
     public static final boolean kLeftEncoderReversed = true;
@@ -60,8 +62,8 @@ public final class Constants {
     
     // Default State Booleans
     public static final boolean dogShiftDefault = true;
-    public static final boolean rightInverted = true;
-    public static final boolean leftInverted = false;
+    public static final boolean rightInverted = false;
+    public static final boolean leftInverted = true;
   }
   
   /** Constants used in Hood Subsystem */
@@ -134,10 +136,10 @@ public final class Constants {
     
     // Constants
     // PID Constants
-    public static final double shooterkP = 0.11846;
-    public static final double shooterkI = 0.00014;
+    public static final double shooterkP = 0.9;
+    public static final double shooterkI = 0;
     public static final double shooterkD = 0;
-    public static final double shooterkF = 0.0558;
+    public static final double shooterkF = 0.0475;
 
 
     // Default State Booleans
@@ -178,7 +180,7 @@ public final class Constants {
   public static final class AutoConstants {
     // Robot Kinematics Constants
     // TODO: Verificar medidas de track width y diametro
-    public static final double kTrackwidthMeters = 0.65;
+    public static final double kTrackwidthMeters = 0.61874;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
     public static final double kMaxSpeedMetersPerSecond = 5.5;
     public static final double kMaxAccelerationMetersPerSecondSquared = 1;
@@ -188,11 +190,11 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
     
     // Robot Characterization and Drivetrain Feedforward Constants
-    public static final double ksVolts = 1.9196;
-    public static final double kvVoltSecondsPerMeter = 1.0988;
-    public static final double kaVoltSecondsSquaredPerMeter = 1.2979;
+    public static final double ksVolts = 0.24004;
+    public static final double kvVoltSecondsPerMeter = 3.287;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.59243;
     
     // RamseteController PID Gain Constants
-    public static final double kPDriveVel = 3.5609;
+    public static final double kPDriveVel = 4.4911;
   }
 }

@@ -18,8 +18,8 @@ public class Auto1 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new TrajectoryFollower(s_drive , Robot.path),
-      new TrajectoryFollower(s_drive , Robot.path2).andThen(() -> s_drive.tankDriveVolts(0,0))
+      // new TrajectoryFollower(s_drive , Robot.path),
+      new TrajectoryFollower(s_drive , Robot.path).andThen(() -> s_drive.tankDriveVolts(0,0))
       );
 
       addRequirements(s_drive);

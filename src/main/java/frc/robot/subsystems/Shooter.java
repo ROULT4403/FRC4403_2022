@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.ShooterConstants;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.Relay;
 
 
@@ -30,7 +32,9 @@ public class Shooter extends SubsystemBase {
   //Relay LEDS
   private final Relay LED = new Relay(ShooterConstants.relayPort);
   private boolean isToggled = ShooterConstants.relayDefault;
-  
+
+  private final LinearFilter filter = LinearFilter.singlePoleIIR(0.1, 0.02);
+
   
   /** Creates a new Shooter. */
   public Shooter() {
@@ -49,6 +53,7 @@ public class Shooter extends SubsystemBase {
     shooterMotor.config_kI(0, ShooterConstants.shooterkI);
     shooterMotor.config_kD(0, ShooterConstants.shooterkD);
     shooterMotor.config_kF(0, ShooterConstants.shooterkF);
+
   }
   
   /** 
@@ -90,6 +95,7 @@ public class Shooter extends SubsystemBase {
    * @return Returns ShooterSpeed
    */
   public double getShooterSpeed(){
+    // return filter.calculate(shooterMotor.getSelectedSensorVelocity());
     return shooterMotor.getSelectedSensorVelocity();
   }
   
