@@ -19,11 +19,9 @@ public final class Constants {
   /** 
    * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
    * TODO: Si PCM en 12V, usar para LEDs. Si no, dejar en puente.
-   * TODO: Characterization (probar accuracy con sensor de NEO, evaluar necesidad de throug bore en drivetrain)
    * TODO: Autonomos (rutas y Command Groups)
    * TODO: Definir controles (distribución driver controller, facil acceso, espacio para escalador)
    * TODO: Check if StraightDrive works correctly
-   * TODO: Dashboard completo (pestaña prematch, match, postmatch)
    * TODO: Selector de Autónomo, modular
   */
   
