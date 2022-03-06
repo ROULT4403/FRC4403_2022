@@ -122,8 +122,7 @@ public class Robot extends TimedRobot {
 
     // Update vision variables
     tX = xEntry.getDouble(0);    
-    // tD = dEntry.getDouble(0); 
-    tD = 200; 
+    tD = dEntry.getDouble(0); 
     tV = vEntry.getBoolean(false);
 
   }

@@ -19,8 +19,8 @@ public class AutoBackUp00 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ShootBasic(s_index, s_shooter, s_hood, s_turret, s_shooter.getShooterTargetSpeed(), s_hood.getHoodTargetAngle(), Robot.tX + s_turret.getTurretAngle()).,
-      new RunCommand(() -> s_drivetrain.driveDistance(2.5), s_drivetrain)
+      new ShootBasic(s_index, s_shooter, s_hood, s_turret, s_shooter.getShooterTargetSpeed(), s_hood.getHoodTargetAngle(), Robot.tX + s_turret.getTurretAngle()),
+      new RunCommand(() -> s_drivetrain.driveDistance(-2.5), s_drivetrain).until(() -> s_drivetrain.driveDistanceIsFinished())
     );
   }
 }
