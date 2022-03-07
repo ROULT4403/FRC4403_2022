@@ -6,22 +6,21 @@ package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Robot;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoBackUp01 extends SequentialCommandGroup {
-  /** Creates a new AutoBackUp01. */
-  public AutoBackUp01(Drivetrain s_drivetrain, Index s_index, Shooter s_shooter, Hood s_hood, Turret s_turret, Intake s_intake) {
+public class AutoBackUp0 extends SequentialCommandGroup {
+  /** Creates a new AutoBackUp00. */
+  public AutoBackUp0(Drivetrain s_drivetrain, Index s_index, Shooter s_shooter, Hood s_hood, Turret s_turret) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RunCommand(() -> s_drivetrain.driveDistance(2.5), s_drivetrain).until(() -> s_drivetrain.driveDistanceIsFinished()),
-      new RunCommand(() -> s_intake.setIntake(0.3), s_intake).until(() -> s_index.isCargoAvailable()),
-      new RunCommand(() -> s_index.setIndex(0.3), s_index).until(() -> !s_index.isCargoAvailable()),
-      new Shoot(s_index, s_shooter, s_hood, s_turret, 2500, 100, 0)
+      new Shoot(s_index, s_shooter, s_hood, s_turret, s_shooter.getShooterTargetSpeed(), s_hood.getHoodTargetAngle(), Robot.tX + s_turret.getTurretAngle()),
+      new RunCommand(() -> s_drivetrain.driveDistance(-2.5), s_drivetrain).until(() -> s_drivetrain.driveDistanceIsFinished())
     );
   }
 }
