@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
 public class ShootBasic extends CommandBase {
@@ -52,10 +51,10 @@ public class ShootBasic extends CommandBase {
     s_turret.setTurret(s_turretSetpoint);
 
     SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
-     if (shooterIsFinished) {
-       s_index.setIndexManual(0.3);
-       isballShot = true;
-     }
+    if (shooterIsFinished) {
+      s_index.setIndexManual(0.3);
+      isballShot = true;
+    }
   }
 
   // Called once the command ends or is interrupted.

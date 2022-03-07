@@ -15,7 +15,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  
   /** 
    * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
    * TODO: Si PCM en 12V, usar para LEDs. Si no, dejar en puente.
@@ -127,9 +126,6 @@ public final class Constants {
   
   /** Constants used in Shooter Subsystem */
   public static final class ShooterConstants {
-
-    public static final int relayPort = 0;
-
     // Ports
     // Motor Controller Ports
     public static final int portShooterMotor = 0;

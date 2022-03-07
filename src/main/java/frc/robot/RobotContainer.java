@@ -6,7 +6,7 @@ package frc.robot;
 import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.*;
-import frc.robot.commands.Auto.Auto1;
+import frc.robot.commands.Auto.AutoTest;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -86,31 +86,28 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Dual Controller
-    // if(DriverStation.isJoystickConnected(1)){
-      // Driver Controls
-      d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
-      // Intake Release
-      d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
-      // Algorithm intake
-      d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.2), s_index)));
-      // Algorithm outake
-      d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.2), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.2), s_index)));
-      
-      // Controller Controls
-      c_X.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, s_shooter.getShooterTargetSpeed(), s_hood.getHoodTargetAngle(), Robot.tX + s_turret.getTurretAngle()));
-      // Turret
-      c_Start.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_shooter));
-      c_Select.whenPressed(new InstantCommand(() -> s_turret.resetAngle(), s_turret));
-      c_Pad90.whileHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
-      c_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
-      // Hood
-      c_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
-      c_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
-      // Light relay
-      c_B.whenPressed(new InstantCommand(s_shooter::LEDToggle, s_shooter));
-      c_Y.whenPressed(new RunCommand(() -> s_index.setIndexManual(0.3), s_index));
-      // return;
-    // }
+    // Driver Controls
+    d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
+    // Intake Release
+    d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
+    // Algorithm intake
+    d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.3), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.2), s_index)));
+    // Algorithm outake
+    d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.2), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.2), s_index)));
+
+    d_Select.whenHeld(new RunCommand(() -> s_turret.sweepTurret(true), s_turret));
+    
+    // Controller Controls
+    c_X.whenHeld(new Shoot(s_index, s_shooter, s_hood, s_turret, s_shooter.getShooterTargetSpeed(), s_hood.getHoodTargetAngle(), Robot.tX + s_turret.getTurretAngle()));
+    // Turret
+    c_Start.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_shooter));
+    c_Select.whenPressed(new InstantCommand(() -> s_turret.resetAngle(), s_turret));
+    c_Pad90.whileHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_shooter));
+    c_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
+    // Hood
+    c_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
+    c_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
+    c_Y.whenPressed(new RunCommand(() -> s_index.setIndexManual(0.3), s_index));
 
     // // Single Controller
     // // Driver Controls
@@ -146,7 +143,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-      return new Auto1(s_drive);
+      return new AutoTest(s_drive);
     }
 
   /**

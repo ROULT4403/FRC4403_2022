@@ -4,9 +4,9 @@
 
 package frc.robot.commands.Auto;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -20,7 +20,8 @@ public class AutoBackUp01 extends SequentialCommandGroup {
     addCommands(
       new RunCommand(() -> s_drivetrain.driveDistance(2.5), s_drivetrain).until(() -> s_drivetrain.driveDistanceIsFinished()),
       new RunCommand(() -> s_intake.setIntake(0.3), s_intake).until(() -> s_index.isCargoAvailable()),
-      new ParallelCommandGroup(commands)
+      new RunCommand(() -> s_index.setIndex(0.3), s_index).until(() -> !s_index.isCargoAvailable()),
+      new Shoot(s_index, s_shooter, s_hood, s_turret, 2500, 100, 0)
     );
   }
 }

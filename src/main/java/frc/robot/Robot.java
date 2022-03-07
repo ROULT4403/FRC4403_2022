@@ -7,12 +7,7 @@ package frc.robot;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
@@ -88,17 +83,6 @@ public class Robot extends TimedRobot {
     new Thread(() -> {
       UsbCamera camera = CameraServer.startAutomaticCapture(0);
       camera.setResolution(320, 240);
-      
-      // CvSink cvsink = CameraServer.getVideo();
-      // CvSource outputstream = CameraServer.putVideo("Test", 640, 480);
-
-      // Mat source = new Mat();
-      // Mat output = new Mat();
-      // while (!Thread.interrupted()){
-      //   cvsink.grabFrame(source);
-      //   Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-      //   outputstream.putFrame(output);
-      // }
     }).start();
   }
 
@@ -171,5 +155,10 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  public static boolean hasTarget() {
+    return tV;
+  }
 }
+
 
