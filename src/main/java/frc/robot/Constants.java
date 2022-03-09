@@ -193,7 +193,8 @@ public final class Constants {
     // RamseteController PID Gain Constants
     public static final double kPDriveVel = 4.4206;
 
-    
+    //Path choosing variable
+    public static final String pathChoose = "Auto1.1.2";
   }
   public static final class ClimberConstants{
   /** Constants used in Climber subsystem */
@@ -214,9 +215,5 @@ public final class Constants {
   //Treshold
   public static final int climberTreshold = 0;
 
-  //PID Constants
-  public static final double climberkP = 0.0;
-  public static final double climberkI = 0.0;
-  public static final double climberkD = 0.0;
   }
 }
