@@ -44,7 +44,7 @@ public class Shoot extends SequentialCommandGroup {
           parallel(new RunCommand(() -> turret.sweepTurret(true), turret),
                   new RunCommand(() -> shooter.setShooter(1000), shooter),
                   new RunCommand(() -> hood.setHood(10), hood)), // F2
-          () -> Robot.tA), // B2
+          () -> Robot.hasTarget()), // B2
         new PrintCommand("No Cargo Available"), // F1
         () -> index.hasCargo()) // B1
     );
