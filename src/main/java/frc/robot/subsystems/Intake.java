@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase {
    * @param counter optional boolean to enable integral control
    * */
   public void setIntake(double speed){
-    if (isReleased) {
+    if (true) {
     intakeMotor.set(ControlMode.PercentOutput, speed);
     }
   }

@@ -26,7 +26,7 @@ public class Hood extends SubsystemBase {
   // Sensors
   private final Encoder hoodEncoder = new Encoder(HoodConstants.hoodEncoderPorts[0], HoodConstants.hoodEncoderPorts[1], true, EncodingType.k4X);
 
-  private final DigitalInput hoodLimitSwitch = new DigitalInput(9);
+  private final DigitalInput hoodLimitSwitch = new DigitalInput(HoodConstants.limitSwitchPort);
 
   // PID Controllers
   private final PIDController hoodPID = new PIDController(HoodConstants.hoodkP, HoodConstants.hoodkI, 
