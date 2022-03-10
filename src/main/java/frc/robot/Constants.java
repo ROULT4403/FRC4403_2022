@@ -17,11 +17,10 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 public final class Constants {
   /** 
    * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
-   * TODO: Si PCM en 12V, usar para LEDs. Si no, dejar en puente.
-   * TODO: Autonomos (rutas y Command Groups)
+   * TODO: Autonomos (probar autos)
+   * TODO: Probar Shoot.java
    * TODO: Definir controles (distribución driver controller, facil acceso, espacio para escalador)
-   * TODO: Check if StraightDrive works correctly
-   * TODO: Selector de Autónomo, modular
+   * TODO: Selector de Autónomo
   */
   
   /** Constants used in Drivetrain Subsystem */
@@ -174,7 +173,6 @@ public final class Constants {
   /** Constants used RamseteCommand and Path Following */
   public static final class AutoConstants {
     // Robot Kinematics Constants
-    // TODO: Verificar medidas de track width y diametro
     public static final double kTrackwidthMeters = 0.61874;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
     public static final double kMaxSpeedMetersPerSecond = 5.5;
