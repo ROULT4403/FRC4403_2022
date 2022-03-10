@@ -97,5 +97,6 @@ public class Index extends SubsystemBase {
     hasCargo = hasCargo();
     SmartDashboard.putBoolean("hascargo", hasCargo());
     SmartDashboard.putBoolean("isAvail", isCargoAvailable());
+    SmartDashboard.putNumber("EncRots", getRotations());
   }
 }

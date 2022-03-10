@@ -25,6 +25,7 @@ public class RobotContainer {
   private final Shooter s_shooter = new Shooter();
   private final Hood s_hood = new Hood();
   private final Turret s_turret = new Turret();
+  private final Climber s_climber = new Climber();
 
   // Drivetrain Joystick
   Joystick driver = new Joystick(0);
@@ -79,6 +80,7 @@ public class RobotContainer {
     s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHoodManual(0), s_hood));
     // Turret Default Command
     s_turret.setDefaultCommand(new RunCommand(() -> s_turret.setTurretManual(0), s_turret));
+    s_climber.setDefaultCommand(new RunCommand(() -> s_climber.setArmsManual(controller.getRawAxis(2), controller.getRawAxis(3)), s_climber));
   }
 
   /**

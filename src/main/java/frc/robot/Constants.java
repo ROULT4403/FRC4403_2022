@@ -18,11 +18,9 @@ public final class Constants {
   /** 
    * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
    * TODO: Si PCM en 12V, usar para LEDs. Si no, dejar en puente.
-   * TODO: Characterization (probar accuracy con sensor de NEO, evaluar necesidad de throug bore en drivetrain)
    * TODO: Autonomos (rutas y Command Groups)
    * TODO: Definir controles (distribución driver controller, facil acceso, espacio para escalador)
    * TODO: Check if StraightDrive works correctly
-   * TODO: Dashboard completo (pestaña prematch, match, postmatch)
    * TODO: Selector de Autónomo, modular
   */
   
@@ -36,7 +34,7 @@ public final class Constants {
     public static final int portLeftBottom = 3;
 
     // Solenoid Ports
-    public static final int[] dogShiftPort = {0, 1};
+    public static final int[] dogShiftPort = {7, 1};
     // public static final int dogShiftPort = 0;
 
     // Constants
@@ -56,8 +54,8 @@ public final class Constants {
 
     // Sensor Config Booleans
     public static final boolean kGyroReversed = true;
-    public static final boolean kLeftEncoderReversed = true;
-    public static final boolean kRightEncoderReversed = false;
+    public static final boolean kLeftEncoderReversed = false;
+    public static final boolean kRightEncoderReversed = true;
     
     // Default State Booleans
     public static final boolean dogShiftDefault = true;
@@ -72,7 +70,8 @@ public final class Constants {
     public static final int portHoodMotor = 6;
 
     // Sensor Ports
-    public static final int[] hoodEncoderPorts = {5, 6};
+    public static final int[] hoodEncoderPorts = {2, 3};
+    public static final int limitSwitchPort = 4;
 
     // Output Constants
     public static final double hoodOutput = 0.5;
@@ -95,13 +94,13 @@ public final class Constants {
     
     // Sensor Ports
     public static final int ultrasonicPort = 1;
-    public static final int limitSwitchPort = 8;
+    public static final int limitSwitchPort = 5;
 
     // Default State Booleans
     public static final boolean indexMotorInverted = true;
 
     // Index Rotation Limits
-    public static final double indexEncoderThreshold = 0.25;
+    public static final double indexEncoderThreshold = 0.05;
   }
 
   /** Constants used in Intake Subsystem */
@@ -111,9 +110,9 @@ public final class Constants {
     public static final int portIntake = 1;
     
     // Solenoid Ports
-    public static final int[] intakeReleasePort = {2, 3};
+    public static final int[] intakeReleasePort = {6, 0};
     // public static final int intakeReleasePort = 1;
-    
+
     // Constants
     // Default State Booleans
     public static final boolean intakeReleaseDefault = false;
@@ -150,7 +149,7 @@ public final class Constants {
     public static final int portTurretMotor = 8;
 
     // Sensor Ports
-    public static final int[] turretEncoderPorts = {0,2};
+    public static final int[] turretEncoderPorts = {0,1};
 
     // Constants
     public static final int[] turretGears = {30,260};
@@ -186,11 +185,40 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
     
     // Robot Characterization and Drivetrain Feedforward Constants
-    public static final double ksVolts = 0.24004;
-    public static final double kvVoltSecondsPerMeter = 3.287;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.59243;
+    //public static final double ksVolts = 0.24004;
+    //public static final double kvVoltSecondsPerMeter = 3.287;
+    //public static final double kaVoltSecondsSquaredPerMeter = 0.59243;
     
     // RamseteController PID Gain Constants
-    public static final double kPDriveVel = 4.4911;
+    //public static final double kPDriveVel = 4.4911;
+
+    public static final double ksVolts = 0.23838;
+    public static final double kvVoltSecondsPerMeter = 3.2883;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.53537;
+    
+    // RamseteController PID Gain Constants
+    public static final double kPDriveVel = 4.4206;
+
+    //Path choosing variable
+    public static final String pathChoose = "Auto1.1.2";
+  }
+  public static final class ClimberConstants{
+  /** Constants used in Climber subsystem */
+  //Ports
+  //Motor Controller Ports
+  public static final int portClimberLeft = 9;
+  public static final int portClimberRight = 10;
+
+  //Solenoid Ports
+  public static final int[] climberSolenoidPorts = {5,2};
+
+  //Constants
+  //Default State Booleans
+  public static final boolean climberLeftInverted = false;
+  public static final boolean climberRightInverted = true;
+  public static final boolean climberAttatchedDefault = false;
+
+  //Treshold
+  public static final int climberTreshold = 12000;
   }
 }
