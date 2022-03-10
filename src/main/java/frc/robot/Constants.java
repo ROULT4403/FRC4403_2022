@@ -15,7 +15,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  
   /** 
    * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
    * TODO: Si PCM en 12V, usar para LEDs. Si no, dejar en puente.
@@ -51,6 +50,8 @@ public final class Constants {
     public static final double kToleranceStraightDriveAngle = 0.05;
     public static final double kToleranceStraightDriveVelocity = 0;
 
+    public static final double kToleranceDriveDistance = 0.01;
+
     // Sensor Config Booleans
     public static final boolean kGyroReversed = true;
     public static final boolean kLeftEncoderReversed = false;
@@ -58,8 +59,8 @@ public final class Constants {
     
     // Default State Booleans
     public static final boolean dogShiftDefault = true;
-    public static final boolean rightInverted = true;
-    public static final boolean leftInverted = false;
+    public static final boolean rightInverted = false;
+    public static final boolean leftInverted = true;
   }
   
   /** Constants used in Hood Subsystem */
@@ -124,19 +125,16 @@ public final class Constants {
   
   /** Constants used in Shooter Subsystem */
   public static final class ShooterConstants {
-
-    public static final int relayPort = 0;
-
     // Ports
     // Motor Controller Ports
     public static final int portShooterMotor = 0;
     
     // Constants
     // PID Constants
-    public static final double shooterkP = 0.11846;
-    public static final double shooterkI = 0.00014;
+    public static final double shooterkP = 0.9;
+    public static final double shooterkI = 0;
     public static final double shooterkD = 0;
-    public static final double shooterkF = 0.0558;
+    public static final double shooterkF = 0.0475;
 
 
     // Default State Booleans
@@ -177,7 +175,7 @@ public final class Constants {
   public static final class AutoConstants {
     // Robot Kinematics Constants
     // TODO: Verificar medidas de track width y diametro
-    public static final double kTrackwidthMeters = 0.65;
+    public static final double kTrackwidthMeters = 0.61874;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
     public static final double kMaxSpeedMetersPerSecond = 5.5;
     public static final double kMaxAccelerationMetersPerSecondSquared = 1;
@@ -187,6 +185,13 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
     
     // Robot Characterization and Drivetrain Feedforward Constants
+    //public static final double ksVolts = 0.24004;
+    //public static final double kvVoltSecondsPerMeter = 3.287;
+    //public static final double kaVoltSecondsSquaredPerMeter = 0.59243;
+    
+    // RamseteController PID Gain Constants
+    //public static final double kPDriveVel = 4.4911;
+
     public static final double ksVolts = 0.23838;
     public static final double kvVoltSecondsPerMeter = 3.2883;
     public static final double kaVoltSecondsSquaredPerMeter = 0.53537;
@@ -215,6 +220,5 @@ public final class Constants {
 
   //Treshold
   public static final int climberTreshold = 12000;
-
   }
 }

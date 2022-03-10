@@ -71,9 +71,7 @@ public class Index extends SubsystemBase {
    */
   public boolean isCargoAvailable(){
     currentRots = getRotations();
-    // 
     if(indexLimitSwitch.get() && currentRots < IndexConstants.indexEncoderThreshold) {return true;}
-
     resetRotations();
     return false;
   }

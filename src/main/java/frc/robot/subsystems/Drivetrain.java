@@ -59,6 +59,9 @@ public class Drivetrain extends SubsystemBase {
 	private double previousY = 0;
 	private double dy = 0.1;
 
+  // Drive Distance Variables
+  private double distanceError;
+
   NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
   NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
   
@@ -68,7 +71,8 @@ public class Drivetrain extends SubsystemBase {
     topLeftEncoder = topLeft.getEncoder();
     bottomLeftEncoder = bottomLeft.getEncoder();
     topRightEncoder = topRight.getEncoder();
-    bottomRightEncoder = bottomLeft.getEncoder();
+    bottomRightEncoder = bottomRight.getEncoder();
+
 
     // Spark Max Setup
     // Idle Mode Setup
@@ -77,27 +81,26 @@ public class Drivetrain extends SubsystemBase {
     bottomRight.setIdleMode(IdleMode.kCoast);
     topRight.setIdleMode(IdleMode.kCoast);
     
-    // Setup Follower Motors
-    bottomRight.follow(topRight);
-    bottomLeft.follow(topLeft);
-
     // Setup Inverted Motors
     bottomRight.setInverted(DrivetrainConstants.rightInverted);
     topRight.setInverted(DrivetrainConstants.rightInverted);
-    
+
     topLeft.setInverted(DrivetrainConstants.leftInverted);
     bottomLeft.setInverted(DrivetrainConstants.leftInverted);
+
+    // Setup Follower Motors
+    bottomRight.follow(topRight);
+    bottomLeft.follow(topLeft);
 
     // Differential Drive Setup
     odom = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading())); 
     drive.setDeadband(0.05);
 
     // Sensor Setup
-    topLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
-    bottomLeftEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
-    topRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
-    bottomRightEncoder.setPositionConversionFactor(0.1524*Math.PI/topLeftEncoder.getCountsPerRevolution() * 0.1591);
-
+    topLeftEncoder.setPositionConversionFactor((0.15875*Math.PI)/(topLeftEncoder.getCountsPerRevolution() / 12.85));
+    bottomLeftEncoder.setPositionConversionFactor((0.15875*Math.PI)/(bottomLeftEncoder.getCountsPerRevolution() / 12.85));
+    topRightEncoder.setPositionConversionFactor((0.15875*Math.PI)/(topRightEncoder.getCountsPerRevolution() / 12.85));
+    bottomRightEncoder.setPositionConversionFactor((0.15875*Math.PI)/(bottomRightEncoder.getCountsPerRevolution() / 12.85));
     // Sensor reset
     NavX.zeroYaw();
     resetEncoders();
@@ -128,6 +131,20 @@ public class Drivetrain extends SubsystemBase {
     previousX = x;
 
     drive.arcadeDrive(y, x);
+  }
+
+  public void driveDistance(double distance) {
+    distanceError = distance - (getRightEncoderPositionAverage() - getLeftEncoderPositionAverage() / 2);
+
+    drive(distanceError * DrivetrainConstants.kP, 0);
+  }
+
+  public boolean driveDistanceIsFinished() {
+    if (distanceError < DrivetrainConstants.kToleranceDriveDistance) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /** Toggles the Drivetrain between high and low gear */
@@ -198,7 +215,7 @@ public class Drivetrain extends SubsystemBase {
    * @return double left position
    */
   public double getLeftEncoderPositionAverage() {
-    return topLeftEncoder.getPosition() + bottomLeftEncoder.getPosition();
+    return (topLeftEncoder.getPosition() + bottomLeftEncoder.getPosition()) / 2.0;
   }
 
   /**
@@ -206,7 +223,7 @@ public class Drivetrain extends SubsystemBase {
    * @return double right position
    */
   public double getRightEncoderPositionAverage() {
-    return topRightEncoder.getPosition() + bottomRightEncoder.getPosition();
+    return (topRightEncoder.getPosition() + bottomRightEncoder.getPosition()) / 2.0;
   }
   
   /**
@@ -222,7 +239,7 @@ public class Drivetrain extends SubsystemBase {
    * @return double left velocity
    */
   public double getLeftEncoderVelocityAverage() {
-    return topRightEncoder.getPosition() + bottomRightEncoder.getPosition();
+    return (topRightEncoder.getPosition() + bottomRightEncoder.getPosition()) / 2.0;
   }
 
   /**
@@ -230,7 +247,7 @@ public class Drivetrain extends SubsystemBase {
    * @return double Right velocity
    */
   public double getRightEncoderVelocityAverage() {
-    return topRightEncoder.getPosition() + bottomRightEncoder.getPosition();
+    return (topRightEncoder.getPosition() + bottomRightEncoder.getPosition()) / 2.0;
   }
   
     /**
@@ -278,5 +295,11 @@ public class Drivetrain extends SubsystemBase {
     m_yEntry.setNumber(translation.getY());
 
     SmartDashboard.putNumber("GetHeading", getHeading());
+    SmartDashboard.putNumber("leftEncs", getLeftEncoderPositionAverage());
+    SmartDashboard.putNumber("rightEncs", getRightEncoderPositionAverage());
+    SmartDashboard.putNumber("RightA", bottomRightEncoder.getPosition());
+    SmartDashboard.putNumber("RightB", topRightEncoder.getPosition());
+    SmartDashboard.putNumber("LeftA", bottomLeftEncoder.getPosition());
+    SmartDashboard.putNumber("LeftB", topLeftEncoder.getPosition());
   }
 }

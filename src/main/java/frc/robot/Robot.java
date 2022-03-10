@@ -100,8 +100,6 @@ public class Robot extends TimedRobot {
     String fileAuto2_1JSON = "pathplanner/generatedJSON/Auto2.1.wpilib.json";
     String fileAuto2_1_1JSON = "pathplanner/generatedJSON/Auto2.1.1.wpilib.json";
 
-
-
     /**Creates paths to be used in autonomous*/
     //Test paths
     Path Path = Filesystem.getDeployDirectory().toPath().resolve(fileJSON);
@@ -186,17 +184,6 @@ public class Robot extends TimedRobot {
     new Thread(() -> {
       UsbCamera camera = CameraServer.startAutomaticCapture(0);
       camera.setResolution(320, 240);
-      
-      // CvSink cvsink = CameraServer.getVideo();
-      // CvSource outputstream = CameraServer.putVideo("Test", 640, 480);
-
-      // Mat source = new Mat();
-      // Mat output = new Mat();
-      // while (!Thread.interrupted()){
-      //   cvsink.grabFrame(source);
-      //   Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-      //   outputstream.putFrame(output);
-      // }
     }).start();
   }
 
@@ -269,5 +256,10 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  public static boolean hasTarget() {
+    return tV;
+  }
 }
+
 
