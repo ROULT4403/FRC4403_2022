@@ -55,9 +55,9 @@ public class Drivetrain extends SubsystemBase {
   private double x;
   private double y;
   private double previousX = 0;
-	private double dx = 0.1;
+	private double dx = 0.05;
 	private double previousY = 0;
-	private double dy = 0.1;
+	private double dy = 0.05;
 
   // Drive Distance Variables
   private double distanceError;

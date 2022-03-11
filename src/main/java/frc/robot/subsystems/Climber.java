@@ -28,6 +28,9 @@ public class Climber extends SubsystemBase {
   public boolean isAttatched = ClimberConstants.climberAttatchedDefault;
 
   public Climber() {
+    climberLeft.configFactoryDefault();
+    climberRight.configFactoryDefault();
+
     climberLeft.setNeutralMode(NeutralMode.Brake);
     climberRight.setNeutralMode(NeutralMode.Brake);
 
@@ -40,8 +43,8 @@ public class Climber extends SubsystemBase {
 
   }
 
-  public void setArmsManual(double speedA, double speedB) {
-    climberLeft.set(ControlMode.PercentOutput, -speedA + speedB);
+  public void setArmsManual(double speed) {
+    climberLeft.set(ControlMode.PercentOutput, speed);
   }
 
 

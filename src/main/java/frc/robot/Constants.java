@@ -212,8 +212,8 @@ public final class Constants {
 
   //Constants
   //Default State Booleans
-  public static final boolean climberLeftInverted = false;
-  public static final boolean climberRightInverted = true;
+  public static final boolean climberLeftInverted = true;
+  public static final boolean climberRightInverted = false;
   public static final boolean climberAttatchedDefault = false;
 
   //Treshold

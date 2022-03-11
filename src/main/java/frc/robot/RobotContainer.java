@@ -6,7 +6,7 @@ package frc.robot;
 import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.*;
-import frc.robot.commands.Auto.AutoTest;
+import frc.robot.commands.Auto.AutoBackUp0;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -69,7 +69,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     // Default Drive Command
-    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(driver.getRawAxis(1), driver.getRawAxis(4)), s_drive));
+    s_drive.setDefaultCommand(new RunCommand(() -> s_drive.drive(-driver.getRawAxis(1), -driver.getRawAxis(4)), s_drive));
     // Intake Default Command
     s_intake.setDefaultCommand(new RunCommand(() -> s_intake.setIntake(0), s_intake));
     // Index Default Command
@@ -80,7 +80,9 @@ public class RobotContainer {
     s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHoodManual(0), s_hood));
     // Turret Default Command
     s_turret.setDefaultCommand(new RunCommand(() -> s_turret.setTurretManual(0), s_turret));
-    s_climber.setDefaultCommand(new RunCommand(() -> s_climber.setArmsManual(controller.getRawAxis(2), controller.getRawAxis(3)), s_climber));
+    // Climber Default Command
+    // s_climber.setDefaultCommand(new RunCommand(() -> s_climber.setArmsManual(controller.getRawAxis(5)), s_climber));
+    s_climber.setDefaultCommand(new RunCommand(() -> s_climber.setArmsManual(0), s_climber));
   }
 
   /**
@@ -100,7 +102,8 @@ public class RobotContainer {
     d_Select.whenHeld(new RunCommand(() -> s_turret.sweepTurret(true), s_turret));
     
     // Controller Controls
-    c_X.whenHeld(new Shoot(s_index, s_shooter, s_hood, s_turret, s_shooter.getShooterTargetSpeed(), s_hood.getHoodTargetAngle(), Robot.tX + s_turret.getTurretAngle()));
+    c_X.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, s_shooter.getShooterTargetSpeed(), s_hood.getHoodTargetAngle(), Robot.tX + s_turret.getTurretAngle()));
+    // c_X.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, 2000, 10, 0));
     // Turret
     c_Start.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_shooter));
     c_Select.whenPressed(new InstantCommand(() -> s_turret.resetAngle(), s_turret));
@@ -110,6 +113,12 @@ public class RobotContainer {
     c_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
     c_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
     c_Y.whenPressed(new RunCommand(() -> s_index.setIndexManual(0.3), s_index));
+    // Climber
+    c_RSClick.whenPressed(new InstantCommand(s_climber::climberAttatch, s_climber));
+    // c_RB.whenHeld(new RunCommand(() -> s_climber.setAltitude(0.5), s_climber));
+    // c_LB.whenHeld(new RunCommand(() -> s_climber.setAltitude(-0.5), s_climber));
+    c_RB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(0.5), s_climber));
+    c_LB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(-0.5), s_climber));
 
     // // Single Controller
     // // Driver Controls
@@ -145,7 +154,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-      return new AutoTest(s_drive);
+      return new AutoBackUp0(s_drive, s_index, s_shooter, s_hood, s_turret);
     }
 
   /**
