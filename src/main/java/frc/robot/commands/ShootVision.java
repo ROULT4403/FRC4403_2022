@@ -6,9 +6,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.*;
 
-public class ShootBasic extends CommandBase {
+public class ShootVision extends CommandBase {
   /** Creates a new ShootBasic. */
   public Index s_index;
   public Shooter s_shooter;
@@ -17,20 +18,12 @@ public class ShootBasic extends CommandBase {
   public boolean shooterIsFinished;
   public boolean isballShot;
 
-  public double s_shooterSetpoint;
-  public double s_hoodSetpoint;
-  public double s_turretSetpoint;
-
-  public ShootBasic(Index index, Shooter shooter, Hood hood, Turret turret, double shooterSetpoint, double hoodSetpoint, double turretSetpoint) {
+  public ShootVision(Index index, Shooter shooter, Hood hood, Turret turret) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.s_index = index; 
     this.s_shooter = shooter; 
     this.s_hood = hood;
-    this.s_turret = turret;
-
-    this.s_shooterSetpoint = shooterSetpoint;
-    this.s_hoodSetpoint = hoodSetpoint;
-    this.s_turretSetpoint = turretSetpoint;      
+    this.s_turret = turret;    
   }
 
   // Called when the command is initially scheduled.
@@ -46,20 +39,19 @@ public class ShootBasic extends CommandBase {
     shooterIsFinished = s_shooter.shooterIsFinished();
     isballShot = false;
 
-    s_shooter.setShooter(s_shooterSetpoint);
-    s_hood.setHood(s_hoodSetpoint);
-    s_turret.setTurret(s_turretSetpoint);
+    s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
+    s_hood.setHood(s_hood.getHoodTargetAngle());
+    s_turret.setTurret(Robot.tX + s_turret.getTurretAngle());
 
     SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
     if (shooterIsFinished) {
-      s_index.setIndexManual(0.3);
+      s_index.setIndexManual(0.5);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterIsFinished = false;
   }
 
   // Returns true when the command should end.

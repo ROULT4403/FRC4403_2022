@@ -20,7 +20,7 @@ public class Shooter extends SubsystemBase {
 
   // Class Variables
   private int inShooterTreshold = 0;
-  private double shooterErrorTreshold = 50;
+  private double shooterErrorTreshold = 35;
   private final int shooterSettleLoops = 25;
 
   /** Creates a new Shooter. */
@@ -87,12 +87,32 @@ public class Shooter extends SubsystemBase {
    * @return Returns ShooterSpeed
    */
   public double getShooterTargetSpeed(){
-    return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
+    if (Robot.tD <= 120) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
+    } else if (Robot.tD <= 288) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + 5;
+    } else if (Robot.tD <= 338) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
+    } else if (Robot.tD <= 388){
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
+    } else if (Robot.tD <= 438) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
+    } else if (Robot.tD <= 488) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
+    } else if (Robot.tD <= 538) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
+    } else {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
+    }
   }
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run  
     SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
+    SmartDashboard.putNumber("ShooterTarget", getShooterTargetSpeed());
+
+    SmartDashboard.putNumber("Distance", Robot.tD);
+    SmartDashboard.putNumber("VisionYaw", Robot.tX);
   }
 }
