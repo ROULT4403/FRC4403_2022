@@ -58,15 +58,19 @@ public class Drivetrain extends SubsystemBase {
   private double x;
   private double y;
   private double previousX = 0;
-	private double dx = 0.1;
+	private double dx = 0.2;
 	private double previousY = 0;
-	private double dy = 0.1;
+	private double dy = 0.05;
 
   // Drive Distance Variables
   private double distanceError;
 
+  // Turn Angle Variables
+  private double angleError;
+
   NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
   NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
+  private double kP = 0.011;
   
   /** Susbsystem class for Drivetain, extends SubsystemBase */
   public Drivetrain() {
@@ -100,10 +104,16 @@ public class Drivetrain extends SubsystemBase {
     drive.setDeadband(0.05);
 
     // Sensor Setup
-    topLeftEncoder.setPositionConversionFactor((0.15875*Math.PI)/(topLeftEncoder.getCountsPerRevolution() / 12.85));
-    bottomLeftEncoder.setPositionConversionFactor((0.15875*Math.PI)/(bottomLeftEncoder.getCountsPerRevolution() / 12.85));
-    topRightEncoder.setPositionConversionFactor((0.15875*Math.PI)/(topRightEncoder.getCountsPerRevolution() / 12.85));
-    bottomRightEncoder.setPositionConversionFactor((0.15875*Math.PI)/(bottomRightEncoder.getCountsPerRevolution() / 12.85));
+    // topLeftEncoder.setPositionConversionFactor(1/42 * 0.0777777 * 0.15875 * Math.PI);
+    // topRightEncoder.setPositionConversionFactor(1/42 * 0.0777777 * 0.15875 * Math.PI);
+    // bottomLeftEncoder.setPositionConversionFactor(1/42 * 0.0777777 * 0.15875 * Math.PI);
+    // bottomRightEncoder.setPositionConversionFactor(1/42 * 0.0777777 * 0.15875 * Math.PI);
+
+    bottomRightEncoder.setPositionConversionFactor(1/24.36);
+    bottomLeftEncoder.setPositionConversionFactor(1/24.36);
+    topLeftEncoder.setPositionConversionFactor(1/24.36);
+    topRightEncoder.setPositionConversionFactor(1/24.36);
+
     // Sensor reset
     NavX.zeroYaw();
     resetEncoders();
@@ -137,9 +147,9 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void driveDistance(double distance) {
-    distanceError = distance - (getRightEncoderPositionAverage() - getLeftEncoderPositionAverage() / 2);
+    distanceError = distance - getAverageEncoderDistance();
 
-    drive(distanceError * DrivetrainConstants.kP, 0);
+    drive(Math.abs(distanceError * DrivetrainConstants.kP) > 1 ? 1 : distanceError * DrivetrainConstants.kP, 0);
   }
 
   public boolean driveDistanceIsFinished() {
@@ -284,6 +294,19 @@ public class Drivetrain extends SubsystemBase {
   public void resetOdometry(Pose2d pose){
     resetEncoders();
     odom.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+  }
+
+  public void turnToAngle(double setpoint) {
+    angleError = setpoint - getYaw();
+    drive(0, angleError * -kP);
+  }
+
+  public boolean turnToAngleIsFinished() {
+    if (angleError < DrivetrainConstants.kToleranceTurnAngle) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override

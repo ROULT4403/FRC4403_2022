@@ -88,10 +88,6 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     CameraServer.startAutomaticCapture(1);
 
-    //Test JSON
-    String fileJSON = "pathplanner/generatedJSON/PathPlannerTest1.wpilib.json";
-    String fileJSON2 = "pathplanner/generatedJSON/PathPlannerTest2.wpilib.json";
-
     //Start JSON
     String fileStartJSON = "pathplanner/generatedJSON/AutoStart.wpilib.json";
     //Auto1.1 file JSON variables
@@ -109,9 +105,6 @@ public class Robot extends TimedRobot {
     String fileAuto2_1_1JSON = "pathplanner/generatedJSON/Auto2.1.1.wpilib.json";
 
     /**Creates paths to be used in autonomous*/
-    //Test paths
-    Path Path = Filesystem.getDeployDirectory().toPath().resolve(fileJSON);
-    Path Path2 = Filesystem.getDeployDirectory().toPath().resolve(fileJSON2);
     //Auto start path
     Path pathStart = Filesystem.getDeployDirectory().toPath().resolve(fileStartJSON);
     //Auto1.1 path variables

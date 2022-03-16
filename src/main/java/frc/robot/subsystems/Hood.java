@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.HoodConstants;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Hood extends SubsystemBase {
 
@@ -34,11 +34,35 @@ public class Hood extends SubsystemBase {
   private final PIDController hoodPID = new PIDController(HoodConstants.hoodkP, HoodConstants.hoodkI, 
                                                           HoodConstants.hoodkD);
 
+  // Hood Angles
+  double newHoodAngle1;
+  double previousHoodAngle1 = 0;
+  double newHoodAngle2;
+  double previousHoodAngle2 = 0;
+  double newHoodAngle3;
+  double previousHoodAngle3 = 5;
+  double newHoodAngle4;
+  double previousHoodAngle4 = 13;
+  double newHoodAngle5;
+  double previousHoodAngle5 = 25;
+  double newHoodAngle6;
+  double previousHoodAngle6 = 33;
+  double newHoodAngle7;
+  double previousHoodAngle7 = 41;
+
   /** Creates a new Hood. */
   public Hood() {
     // Set inverted motor
     hoodMotor.setInverted(HoodConstants.hoodMotorInverted);
     hoodMotor.setNeutralMode(NeutralMode.Brake);
+
+    SmartDashboard.putNumber("HoodAngle1", newHoodAngle1);
+    SmartDashboard.putNumber("HoodAngle2", newHoodAngle2);
+    SmartDashboard.putNumber("HoodAngle3", newHoodAngle3);
+    SmartDashboard.putNumber("HoodAngle4", newHoodAngle4);
+    SmartDashboard.putNumber("HoodAngle5", newHoodAngle5);
+    SmartDashboard.putNumber("HoodAngle6", newHoodAngle6);
+    SmartDashboard.putNumber("HoodAngle7", newHoodAngle7);
   }
   /** 
    * PID Control for hood output
@@ -83,21 +107,21 @@ public class Hood extends SubsystemBase {
    *  Get hood angle
    * @return Returns Hood Position
    */
-  public int getHoodTargetAngle(){
-    if (Robot.tD <= 188) {
-      return 0;
+  public double getHoodTargetAngle(){
+    if (Robot.tD <= 120) {
+      return previousHoodAngle1;
     } else if (Robot.tD <= 288) {
-      return 0;
+      return previousHoodAngle2;
     } else if (Robot.tD <= 338) {
-      return 5;
+      return previousHoodAngle3;
     } else if (Robot.tD <= 388){
-      return 13;
+      return previousHoodAngle4;
     } else if (Robot.tD <= 438) {
-      return 25;
+      return previousHoodAngle5;
     } else if (Robot.tD <= 488) {
-      return 33;
+      return previousHoodAngle6;
     } else if (Robot.tD <= 538) {
-      return 41;
+      return previousHoodAngle7;
     } else {
       return 0;
     }

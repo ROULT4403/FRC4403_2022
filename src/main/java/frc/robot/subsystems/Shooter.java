@@ -27,6 +27,22 @@ public class Shooter extends SubsystemBase {
   private double shooterErrorTreshold = 30;
   private final int shooterSettleLoops = 25;
 
+  // Shooter gains
+  double newShooterConstant1;
+  double previousShooterConstant1 = 0;
+  double newShooterConstant2;
+  double previousShooterConstant2 = 0;
+  double newShooterConstant3;
+  double previousShooterConstant3 = 0;
+  double newShooterConstant4;
+  double previousShooterConstant4 = 0;
+  double newShooterConstant5;
+  double previousShooterConstant5 = 0;
+  double newShooterConstant6;
+  double previousShooterConstant6 = 0;
+  double newShooterConstant7;
+  double previousShooterConstant7 = 0;
+
   /** Creates a new Shooter. */
   public Shooter() {
     // Set inverted motor
@@ -42,6 +58,14 @@ public class Shooter extends SubsystemBase {
     shooterMotor.config_kI(0, ShooterConstants.shooterkI);
     shooterMotor.config_kD(0, ShooterConstants.shooterkD);
     shooterMotor.config_kF(0, ShooterConstants.shooterkF);
+
+    SmartDashboard.putNumber("ShooterConstant1", newShooterConstant1);
+    SmartDashboard.putNumber("ShooterConstant2", newShooterConstant2);
+    SmartDashboard.putNumber("ShooterConstant3", newShooterConstant3);
+    SmartDashboard.putNumber("ShooterConstant4", newShooterConstant4);
+    SmartDashboard.putNumber("ShooterConstant5", newShooterConstant5);
+    SmartDashboard.putNumber("ShooterConstant6", newShooterConstant6);
+    SmartDashboard.putNumber("ShooterConstant7", newShooterConstant7);
   }
   
   /** 
@@ -93,7 +117,23 @@ public class Shooter extends SubsystemBase {
    * @return Returns ShooterSpeed
    */
   public double getShooterTargetSpeed(){
-    return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
+    if (Robot.tD <= 120) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant1;
+    } else if (Robot.tD <= 288) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant2;
+    } else if (Robot.tD <= 338) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant3;
+    } else if (Robot.tD <= 388){
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant4;
+    } else if (Robot.tD <= 438) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant5;
+    } else if (Robot.tD <= 488) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant6;
+    } else if (Robot.tD <= 538) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant7;
+    } else {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
+    }
   }
   
   @Override
