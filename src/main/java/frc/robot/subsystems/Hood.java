@@ -82,10 +82,10 @@ public class Hood extends SubsystemBase {
    * @return Returns Hood Position
    */
   public int getHoodTargetAngle(){
-    if (Robot.tD <= 188) {
-      return 0;
+    if (Robot.tD <= 120) {
+      return 60;
     } else if (Robot.tD <= 288) {
-      return 0;
+      return 3;
     } else if (Robot.tD <= 338) {
       return 5;
     } else if (Robot.tD <= 388){
@@ -116,6 +116,6 @@ public class Hood extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("HoodAngle", getHoodAngle());
-    SmartDashboard.putNumber("HoodTargetAngle", getHoodTargetAngle());
+    // SmartDashboard.putNumber("HoodTargetAngle", getHoodTargetAngle());
   }
 }
