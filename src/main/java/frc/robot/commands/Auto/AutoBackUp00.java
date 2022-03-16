@@ -20,8 +20,10 @@ public class AutoBackUp00 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(s_drivetrain::resetEncoders, s_drivetrain),
+      new InstantCommand(s_drivetrain::resetGyro, s_drivetrain),
       new RunCommand(() -> s_drivetrain.driveDistance(AutoConstants.autoDistance), s_drivetrain).until(() -> s_drivetrain.driveDistanceIsFinished()),
-      new RunCommand(() -> s_drivetrain.turnToAngle(AutoConstants.autoAngle + s_drivetrain.getYaw()), s_drivetrain).until(() -> s_drivetrain.turnToAngleIsFinished())
+      new RunCommand(() -> s_drivetrain.turnToAngle(AutoConstants.autoAngle), s_drivetrain).until(() -> s_drivetrain.turnToAngleIsFinished())
+      
     );
 
   }

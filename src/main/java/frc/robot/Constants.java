@@ -52,7 +52,7 @@ public final class Constants {
     public static final double kToleranceStraightDriveVelocity = 0;
 
     public static final double kToleranceDriveDistance = 0.2;
-    public static final double kToleranceTurnAngle = 0.01;
+    public static final double kToleranceTurnAngle = 1;
 
     // Sensor Config Booleans
     public static final boolean kGyroReversed = true;
