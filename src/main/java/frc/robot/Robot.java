@@ -13,8 +13,6 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
@@ -28,6 +26,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.AutoConstants;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -35,10 +34,35 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+
+  //PDP 
+  public static PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
+  
+  //AUTO
+  //Instantiate trayectories
+  //Test trajectories
   public static Trajectory path;
   public static Trajectory path2;
-  public static PowerDistribution pdp = new PowerDistribution(0, ModuleType.kCTRE);
+  //Start trajectory
+  public static Trajectory trajectoryStart;
+  //Auto 1.1 trayectories
+  public static Trajectory trajectoryAuto1_1;
+  public static Trajectory trajectoryAuto1_1_1;
+  public static Trajectory trajectoryAuto1_1_2;
+  //Auto 1.2 trajectories
+  public static Trajectory trajectoryAuto1_2;
+  public static Trajectory trajectoryAuto1_2_1;
+  public static Trajectory trajectoryAuto1_2_2Option1;
+  public static Trajectory trajectoryAuto1_2_2Option2;
+  public static Trajectory trajectoryAuto1_2_2_1Option2;
+  //Auto 2.1 trajectories
+  public static Trajectory trajectoryAuto2_1;
+  public static Trajectory trajectoryAuto2_1_1;
 
+  //Path generation boolean
+  boolean pathGenerated = false;
+
+  //VISION
   // Instantiate NetworkTables
   NetworkTable table;
   NetworkTableInstance nInst;
@@ -64,18 +88,93 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     CameraServer.startAutomaticCapture(1);
 
-    // Creates trajectories to be used in autonomous
-    String trajectoryJSON = "pathplanner/generatedJSON/PathPlannerTest1.wpilib.json";
-    String trajectoryJSON2 = "pathplanner/generatedJSON/PathPlannerTest2.wpilib.json";
-    Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-    Path trajectoryPath2 = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON2);
+    //Test JSON
+    String fileJSON = "pathplanner/generatedJSON/PathPlannerTest1.wpilib.json";
+    String fileJSON2 = "pathplanner/generatedJSON/PathPlannerTest2.wpilib.json";
 
+    //Start JSON
+    String fileStartJSON = "pathplanner/generatedJSON/AutoStart.wpilib.json";
+    //Auto1.1 file JSON variables
+    String fileAuto1_1JSON = "pathplanner/generatedJSON/Auto1.1.wpilib.json";
+    String fileAuto1_1_1JSON = "pathplanner/generatedJSON/Auto1.1.1.wpilib.json";
+    String fileAuto1_1_2JSON = "pathplanner/generatedJSON/Auto1.1.2.wpilib.json";
+    //Auto1.2 file JSON varibales
+    String fileAuto1_2JSON = "pathplanner/generatedJSON/Auto1.2.wpilib.json";
+    String fileAuto1_2_1JSON = "pathplanner/generatedJSON/Auto1.2.1.wpilib.json";
+    String fileAuto1_2_2Option1JSON = "pathplanner/generatedJSON/Auto1.2.2(option #1).wpilib.json";
+    String fileAuto1_2_2Option2JSON = "pathplanner/generatedJSON/Auto1.2.2(option #2).wpilib.json";
+    String fileAuto1_2_2_1Option2JSON = "pathplanner/generatedJSON/Auto1.2.2.1(option #2).wpilib.json";
+    //Auto2.1 file JSON variables
+    String fileAuto2_1JSON = "pathplanner/generatedJSON/Auto2.1.wpilib.json";
+    String fileAuto2_1_1JSON = "pathplanner/generatedJSON/Auto2.1.1.wpilib.json";
+
+    /**Creates paths to be used in autonomous*/
+    //Test paths
+    Path Path = Filesystem.getDeployDirectory().toPath().resolve(fileJSON);
+    Path Path2 = Filesystem.getDeployDirectory().toPath().resolve(fileJSON2);
+    //Auto start path
+    Path pathStart = Filesystem.getDeployDirectory().toPath().resolve(fileStartJSON);
+    //Auto1.1 path variables
+    Path pathAuto1_1 = Filesystem.getDeployDirectory().toPath().resolve(fileAuto1_1JSON);
+    Path pathAuto1_1_1 = Filesystem.getDeployDirectory().toPath().resolve(fileAuto1_1_1JSON);
+    Path pathAuto1_1_2 = Filesystem.getDeployDirectory().toPath().resolve(fileAuto1_1_2JSON);
+    //Auto1.2 path variables
+    Path pathAuto1_2 = Filesystem.getDeployDirectory().toPath().resolve(fileAuto1_2JSON);
+    Path pathAuto1_2_1 = Filesystem.getDeployDirectory().toPath().resolve(fileAuto1_2_1JSON);
+    Path pathAuto1_2_2Option1 = Filesystem.getDeployDirectory().toPath().resolve(fileAuto1_2_2Option1JSON);
+    Path pathAuto1_2_2Option2 = Filesystem.getDeployDirectory().toPath().resolve(fileAuto1_2_2Option2JSON);
+    Path pathAuto1_2_2_1Option2 = Filesystem.getDeployDirectory().toPath().resolve(fileAuto1_2_2_1Option2JSON);
+    //Auto 2.1 path variables
+    Path pathAuto2_1 = Filesystem.getDeployDirectory().toPath().resolve(fileAuto2_1JSON);
+    Path pathAuto2_1_1 = Filesystem.getDeployDirectory().toPath().resolve(fileAuto2_1_1JSON);
+
+    
     // Uses try to catch IOException caused by inexistent file or wrong path
     try {
-      path = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      path2 = TrajectoryUtil.fromPathweaverJson(trajectoryPath2);
-    
-    } catch (IOException e) {
+      trajectoryStart = TrajectoryUtil.fromPathweaverJson(pathStart);
+      /**Path generation chooser switch structure*/
+      switch (AutoConstants.pathChoose) {
+        //Path case 1.1.2 generation
+        case "Auto1.1.2":
+          trajectoryAuto1_1 = TrajectoryUtil.fromPathweaverJson(pathAuto1_1);
+          trajectoryAuto1_1_1 = TrajectoryUtil.fromPathweaverJson(pathAuto1_1_1);
+          trajectoryAuto1_1_2 = TrajectoryUtil.fromPathweaverJson(pathAuto1_1_2);
+          pathGenerated = true;
+          break;
+        //Path case 1.2.1 generation
+        case "Auto1.2.1":
+          trajectoryAuto1_1 = TrajectoryUtil.fromPathweaverJson(pathAuto1_1);
+          trajectoryAuto1_2 = TrajectoryUtil.fromPathweaverJson(pathAuto1_2);
+          trajectoryAuto1_2_1 = TrajectoryUtil.fromPathweaverJson(pathAuto1_2_1);
+          pathGenerated = true;
+          break;
+        //Path case 1.2.2Option1 generation
+        case "Auto1.2.2Option1":
+          trajectoryAuto1_1 = TrajectoryUtil.fromPathweaverJson(pathAuto1_1);
+          trajectoryAuto1_2 = TrajectoryUtil.fromPathweaverJson(pathAuto1_2);
+          trajectoryAuto1_2_2Option1 = TrajectoryUtil.fromPathweaverJson(pathAuto1_2_2Option1);
+          pathGenerated = true;
+          break;
+        //Path case 1.2.2.1Option2 generation
+        case "Auto1_2_2_1Option2":
+          trajectoryAuto1_1 = TrajectoryUtil.fromPathweaverJson(pathAuto1_1);
+          trajectoryAuto1_2 = TrajectoryUtil.fromPathweaverJson(pathAuto1_2);
+          trajectoryAuto1_2_2Option2 = TrajectoryUtil.fromPathweaverJson(pathAuto1_2_2Option2);
+          trajectoryAuto1_2_2_1Option2 = TrajectoryUtil.fromPathweaverJson(pathAuto1_2_2_1Option2);
+          pathGenerated = true;
+          break;
+        //Path case 2.1.1 generation
+        case "Auto2.1.1":
+          trajectoryAuto2_1 = TrajectoryUtil.fromPathweaverJson(pathAuto2_1);
+          trajectoryAuto2_1_1 = TrajectoryUtil.fromPathweaverJson(pathAuto2_1_1);
+          pathGenerated = true;
+          break;
+        //Default outcome in case of error on pathChoose constant
+        default:
+          pathGenerated = false;
+        }
+
+    }catch (IOException e) {
       System.out.println("Error loading path");
       System.out.println(e);
       SmartDashboard.putString("PathStatus", "Error Loading Path");
@@ -93,17 +192,6 @@ public class Robot extends TimedRobot {
     new Thread(() -> {
       UsbCamera camera = CameraServer.startAutomaticCapture(0);
       camera.setResolution(320, 240);
-      
-      // CvSink cvsink = CameraServer.getVideo();
-      // CvSource outputstream = CameraServer.putVideo("Test", 640, 480);
-
-      // Mat source = new Mat();
-      // Mat output = new Mat();
-      // while (!Thread.interrupted()){
-      //   cvsink.grabFrame(source);
-      //   Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-      //   outputstream.putFrame(output);
-      // }
     }).start();
   }
 
@@ -181,8 +269,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove this line or comment it out.
+    /** This makes sure that the autonomous stops running when teleop starts running. If you want the autonomous to
+     * continue until interrupted by another command, remove this line or comment it out.*/ 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -201,5 +289,10 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  public static boolean hasTarget() {
+    return tV;
+  }
 }
+
 

@@ -14,7 +14,8 @@ import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class Shooter extends SubsystemBase {
   
@@ -25,18 +26,11 @@ public class Shooter extends SubsystemBase {
   private int inShooterTreshold = 0;
   private double shooterErrorTreshold = 30;
   private final int shooterSettleLoops = 25;
-  
-  //Relay LEDS
-  private final Relay LED = new Relay(ShooterConstants.relayPort);
-  private boolean isToggled = ShooterConstants.relayDefault;
-  
-  
+
   /** Creates a new Shooter. */
   public Shooter() {
     // Set inverted motor
     shooterMotor.setInverted(ShooterConstants.shooterMotorInverted);
-    
-    LED.set(Relay.Value.kForward);
     
     //Configure Talon FX 
     shooterMotor.configFactoryDefault();
@@ -56,6 +50,9 @@ public class Shooter extends SubsystemBase {
    */
   public void setShooter(double shooterSetpoint){
     shooterMotor.set(ControlMode.Velocity, shooterSetpoint * 2048 / 600);
+
+    SmartDashboard.putNumber("ShooterTarget", shooterSetpoint * 2048 / 600);
+
   }
   
   /** 
@@ -87,6 +84,7 @@ public class Shooter extends SubsystemBase {
    * @return Returns ShooterSpeed
    */
   public double getShooterSpeed(){
+    // return filter.calculate(shooterMotor.getSelectedSensorVelocity());
     return shooterMotor.getSelectedSensorVelocity();
   }
   
@@ -96,16 +94,6 @@ public class Shooter extends SubsystemBase {
    */
   public double getShooterTargetSpeed(){
     return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
-  }
-  
-  public void LEDToggle() {
-    // LED.set(Relay.Value.kForward);
-    if (!isToggled) {
-      LED.set(Relay.Value.kForward);
-    } else {
-      LED.set(Relay.Value.kReverse);
-    }
-    isToggled = !isToggled;
   }
   
   @Override

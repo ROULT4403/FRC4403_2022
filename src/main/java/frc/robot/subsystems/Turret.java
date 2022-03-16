@@ -140,22 +140,22 @@ public class Turret extends SubsystemBase {
     Shuffleboard.getTab("Match").add("Turret Angle",getTurretAngle())
     .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(2,1);
 
-    // newKP = SmartDashboard.getNumber("kP", 0.0);
-    // if (newKP != previousKP){
-    //   turretPID.setP(newKP);
-    //   previousKP = newKP;
-    // }
+    newKP = SmartDashboard.getNumber("kP", 0.0);
+    if (newKP != previousKP){
+      turretPID.setP(newKP);
+      previousKP = newKP;
+    }
     
-    // newKI = SmartDashboard.getNumber("kI", 0.0);
-    // if (newKI != previousKI){
-    //   turretPID.setI(newKI);
-    //   previousKI = newKI;
-    // }
+    newKI = SmartDashboard.getNumber("kI", 0.0);
+    if (newKI != previousKI){
+      turretPID.setI(newKI);
+      previousKI = newKI;
+    }
 
-    // newKD = SmartDashboard.getNumber("kD", 0.0);
-    // if (newKD != previousKD){
-    //   turretPID.setD(newKD);
-    //   previousKD = newKD;
-    // }
+    newKD = SmartDashboard.getNumber("kD", 0.0);
+    if (newKD != previousKD){
+      turretPID.setD(newKD);
+      previousKD = newKD;
+    }
   }
 }

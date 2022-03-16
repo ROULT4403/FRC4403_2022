@@ -13,9 +13,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexConstants;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Index extends SubsystemBase {
 
@@ -73,9 +74,7 @@ public class Index extends SubsystemBase {
    */
   public boolean isCargoAvailable(){
     currentRots = getRotations();
-    // 
     if(indexLimitSwitch.get() && currentRots < IndexConstants.indexEncoderThreshold) {return true;}
-
     resetRotations();
     return false;
   }
@@ -106,5 +105,10 @@ public class Index extends SubsystemBase {
     Shuffleboard.getTab("Match").add("IndexIsAvail",isCargoAvailable())
     .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(6,1);
   
+
+    SmartDashboard.putBoolean("hascargo", hasCargo());
+    SmartDashboard.putBoolean("isAvail", isCargoAvailable());
+    SmartDashboard.putNumber("EncRots", getRotations());
+
   }
 }

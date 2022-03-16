@@ -9,14 +9,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
-import edu.wpi.first.wpilibj.Timer;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends SubsystemBase {
   // Motor Controllers
@@ -26,8 +23,6 @@ public class Intake extends SubsystemBase {
   private final DoubleSolenoid intakeRelease = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
                                                                   IntakeConstants.intakeReleasePort[0], IntakeConstants.intakeReleasePort[1]);
   // private final Solenoid intakeRelease = new Solenoid(PneumaticsModuleType.CTREPCM, IntakeConstants.intakeReleasePort);
-  // Timer
-  Timer intakeTimer = new Timer();
 
   // Class variables
   public boolean detectedCargoIntake;
@@ -49,7 +44,7 @@ public class Intake extends SubsystemBase {
    * @param counter optional boolean to enable integral control
    * */
   public void setIntake(double speed){
-    if (isReleased) {
+    if (true) {
     intakeMotor.set(ControlMode.PercentOutput, speed);
     }
   }
