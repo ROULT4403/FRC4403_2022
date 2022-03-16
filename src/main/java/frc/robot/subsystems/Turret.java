@@ -43,9 +43,9 @@ public class Turret extends SubsystemBase {
     turretMotor.setInverted(TurretConstants.turretMotorInverted);
 
     // turretEncoder.setDistancePerPulse(TurretConstants.turretReduction);
-    SmartDashboard.putNumber("kP", newKP);
-    SmartDashboard.putNumber("kI", newKI);
-    SmartDashboard.putNumber("kD", newKD);
+    // SmartDashboard.putNumber("kP", newKP);
+    // SmartDashboard.putNumber("kI", newKI);
+    // SmartDashboard.putNumber("kD", newKD);
   }
 
     /**
@@ -133,24 +133,24 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("TurretAngle", getTurretAngle());
-    SmartDashboard.putBoolean("turretIsFinished", turretIsFinished());
+    // SmartDashboard.putBoolean("turretIsFinished", turretIsFinished());
 
-    newKP = SmartDashboard.getNumber("kP", 0.0);
-    if (newKP != previousKP){
-      turretPID.setP(newKP);
-      previousKP = newKP;
-    }
+    // newKP = SmartDashboard.getNumber("kP", 0.0);
+    // if (newKP != previousKP){
+    //   turretPID.setP(newKP);
+    //   previousKP = newKP;
+    // }
     
-    newKI = SmartDashboard.getNumber("kI", 0.0);
-    if (newKI != previousKI){
-      turretPID.setI(newKI);
-      previousKI = newKI;
-    }
+    // newKI = SmartDashboard.getNumber("kI", 0.0);
+    // if (newKI != previousKI){
+    //   turretPID.setI(newKI);
+    //   previousKI = newKI;
+    // }
 
-    newKD = SmartDashboard.getNumber("kD", 0.0);
-    if (newKD != previousKD){
-      turretPID.setD(newKD);
-      previousKD = newKD;
-    }
+    // newKD = SmartDashboard.getNumber("kD", 0.0);
+    // if (newKD != previousKD){
+    //   turretPID.setD(newKD);
+    //   previousKD = newKD;
+    // }
   }
 }
