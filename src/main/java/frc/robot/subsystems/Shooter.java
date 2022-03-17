@@ -26,6 +26,10 @@ public class Shooter extends SubsystemBase {
   // Shooter gains
   double newShooterConstant1;
   double previousShooterConstant1 = 0;
+  double newShooterConstant1_25;
+  double previousShooterConstant1_25 = 0;
+  double newShooterConstant1_5;
+  double previousShooterConstant1_5 = 0;
   double newShooterConstant2;
   double previousShooterConstant2 = 0;
   double newShooterConstant3;
@@ -56,6 +60,8 @@ public class Shooter extends SubsystemBase {
     shooterMotor.config_kF(0, ShooterConstants.shooterkF);
 
     SmartDashboard.putNumber("ShooterConstant1", newShooterConstant1);
+    SmartDashboard.putNumber("ShooterConstant1_25", newShooterConstant1_25);
+    SmartDashboard.putNumber("ShooterConstant1_5", newShooterConstant1_5);
     SmartDashboard.putNumber("ShooterConstant2", newShooterConstant2);
     SmartDashboard.putNumber("ShooterConstant3", newShooterConstant3);
     SmartDashboard.putNumber("ShooterConstant4", newShooterConstant4);
@@ -111,8 +117,12 @@ public class Shooter extends SubsystemBase {
    * @return Returns ShooterSpeed
    */
   public double getShooterTargetSpeed(){
-    if (Robot.tD <= 120) {
+    if (Robot.tD <= 130) {
       return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant1;
+    } else if (Robot.tD <= 170) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant1_25;
+    } else if (Robot.tD <= 220) {
+      return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant1_5;
     } else if (Robot.tD <= 288) {
       return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458 + previousShooterConstant2;
     } else if (Robot.tD <= 338) {
@@ -135,6 +145,7 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run  
     SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
     SmartDashboard.putNumber("ShooterTarget", getShooterTargetSpeed());
+    SmartDashboard.putBoolean("ShooterIsFinishedInShooter", shooterIsFinished());
 
     SmartDashboard.putNumber("Distance", Robot.tD);
     SmartDashboard.putNumber("VisionYaw", Robot.tX);
@@ -143,6 +154,16 @@ public class Shooter extends SubsystemBase {
     newShooterConstant1 = SmartDashboard.getNumber("ShooterConstant1", 0.0);
     if (newShooterConstant1 != previousShooterConstant1){
       previousShooterConstant1 = newShooterConstant1;
+    }
+
+    newShooterConstant1_25 = SmartDashboard.getNumber("ShooterConstant1_25", 0.0);
+    if (newShooterConstant1_25 != previousShooterConstant1_25){
+      previousShooterConstant1_25 = newShooterConstant1_25;
+    }
+
+    newShooterConstant1_5 = SmartDashboard.getNumber("ShooterConstant1_5", 0.0);
+    if (newShooterConstant1_5 != previousShooterConstant1_5){
+      previousShooterConstant1_5 = newShooterConstant1_5;
     }
     
     newShooterConstant2 = SmartDashboard.getNumber("ShooterConstant2", 0.0);

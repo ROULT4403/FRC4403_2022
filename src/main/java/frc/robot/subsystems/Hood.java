@@ -33,20 +33,24 @@ public class Hood extends SubsystemBase {
                                                           HoodConstants.hoodkD);
 
   // Hood Angles
-  double newHoodAngle1;
-  double previousHoodAngle1 = 0;
-  double newHoodAngle2;
-  double previousHoodAngle2 = 0;
-  double newHoodAngle3;
-  double previousHoodAngle3 = 5;
-  double newHoodAngle4;
-  double previousHoodAngle4 = 13;
-  double newHoodAngle5;
-  double previousHoodAngle5 = 25;
-  double newHoodAngle6;
-  double previousHoodAngle6 = 33;
-  double newHoodAngle7;
-  double previousHoodAngle7 = 41;
+  double newHoodAngle1 = 0;
+  int previousHoodAngle1 = 0;
+  double newHoodAngle1_25 = 0;
+  int previousHoodAngle1_25 = 0;
+  double newHoodAngle1_5 = 0;
+  int previousHoodAngle1_5 = 0;
+  double newHoodAngle2 = 0;
+  int previousHoodAngle2 = 0;
+  double newHoodAngle3 = 5;
+  int previousHoodAngle3 = 5;
+  double newHoodAngle4 = 13;
+  int previousHoodAngle4 = 13;
+  double newHoodAngle5 = 25;
+  int previousHoodAngle5 = 25;
+  double newHoodAngle6 = 33;
+  int previousHoodAngle6 = 33;
+  double newHoodAngle7 = 41;
+  int previousHoodAngle7 = 41;
 
   /** Creates a new Hood. */
   public Hood() {
@@ -55,6 +59,8 @@ public class Hood extends SubsystemBase {
     hoodMotor.setNeutralMode(NeutralMode.Brake);
 
     SmartDashboard.putNumber("HoodAngle1", newHoodAngle1);
+    SmartDashboard.putNumber("HoodAngle1_25", newHoodAngle1_25);
+    SmartDashboard.putNumber("HoodAngle1_5", newHoodAngle1_5);
     SmartDashboard.putNumber("HoodAngle2", newHoodAngle2);
     SmartDashboard.putNumber("HoodAngle3", newHoodAngle3);
     SmartDashboard.putNumber("HoodAngle4", newHoodAngle4);
@@ -105,9 +111,13 @@ public class Hood extends SubsystemBase {
    *  Get hood angle
    * @return Returns Hood Position
    */
-  public double getHoodTargetAngle(){
-    if (Robot.tD <= 120) {
+  public int getHoodTargetAngle(){
+    if (Robot.tD <= 130) {
       return previousHoodAngle1;
+    } else if (Robot.tD <= 170) {
+      return previousHoodAngle1_25;
+    } else if (Robot.tD <= 220) {
+      return previousHoodAngle1_5;
     } else if (Robot.tD <= 288) {
       return previousHoodAngle2;
     } else if (Robot.tD <= 338) {
@@ -145,37 +155,47 @@ public class Hood extends SubsystemBase {
     // Tune hood values in Shuffleboard
     newHoodAngle1 = SmartDashboard.getNumber("HoodAngle1", 0.0);
     if (newHoodAngle1 != previousHoodAngle1){
-      previousHoodAngle1 = newHoodAngle1;
+      previousHoodAngle1 = (int)newHoodAngle1;
+    }
+
+    newHoodAngle1_25 = SmartDashboard.getNumber("HoodAngle1_25", 0.0);
+    if (newHoodAngle1_25 != previousHoodAngle1_25){
+      previousHoodAngle1_25 = (int)newHoodAngle1_25;
+    }
+
+    newHoodAngle1_5 = SmartDashboard.getNumber("HoodAngle1_5", 0.0);
+    if (newHoodAngle1_5 != previousHoodAngle1_5){
+      previousHoodAngle1_5 = (int)newHoodAngle1_5;
     }
     
     newHoodAngle2 = SmartDashboard.getNumber("HoodAngle2", 0.0);
     if (newHoodAngle2 != previousHoodAngle2){
-      previousHoodAngle2 = newHoodAngle2;
+      previousHoodAngle2 = (int)newHoodAngle2;
     }
 
     newHoodAngle3 = SmartDashboard.getNumber("HoodAngle3", 0.0);
     if (newHoodAngle3 != previousHoodAngle3){
-      previousHoodAngle3 = newHoodAngle3;
+      previousHoodAngle3 = (int)newHoodAngle3;
     }
 
     newHoodAngle4 = SmartDashboard.getNumber("HoodAngle4", 0.0);
     if (newHoodAngle4 != previousHoodAngle4){
-      previousHoodAngle4 = newHoodAngle4;
+      previousHoodAngle4 = (int)newHoodAngle4;
     }
 
     newHoodAngle5 = SmartDashboard.getNumber("HoodAngle5", 0.0);
     if (newHoodAngle5 != previousHoodAngle5){
-      previousHoodAngle5 = newHoodAngle5;
+      previousHoodAngle5 = (int)newHoodAngle5;
     }
 
     newHoodAngle6 = SmartDashboard.getNumber("HoodAngle6", 0.0);
     if (newHoodAngle6 != previousHoodAngle6){
-      previousHoodAngle6 = newHoodAngle6;
+      previousHoodAngle6 = (int)newHoodAngle6;
     }
 
     newHoodAngle7 = SmartDashboard.getNumber("HoodAngle7", 0.0);
     if (newHoodAngle7 != previousHoodAngle7){
-      previousHoodAngle7 = newHoodAngle7;
+      previousHoodAngle7 = (int)newHoodAngle7;
     }
   }
 }

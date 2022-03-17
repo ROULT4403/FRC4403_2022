@@ -77,7 +77,8 @@ public class RobotContainer {
     // Index Default Command
     s_index.setDefaultCommand(new RunCommand(() -> s_index.setIndexManual(0), s_index));
     // Shooter Default Command
-    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooter(1700), s_shooter));
+    // s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooter(1700), s_shooter));
+    s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooterManual(0.3), s_shooter));
     // Hood Default Command
     s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHoodManual(0), s_hood));
     // Turret Default Command

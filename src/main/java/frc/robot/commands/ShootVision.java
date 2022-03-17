@@ -48,10 +48,12 @@ public class ShootVision extends CommandBase {
       s_index.setIndexManual(0.5);
     }
   }
-
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    shooterIsFinished = false;
+    SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
   }
 
   // Returns true when the command should end.
