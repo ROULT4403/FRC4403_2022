@@ -19,10 +19,9 @@ public final class Constants {
    * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
    * TODO: Lógica index
    * TODO: Probar lógica escalador
-   * TODO: Autonomos (probar autos, backup)
-   * TODO: ELegir entre vision y manual en auto
-   * TODO: Definir controles (distribución driver controller, facil acceso, espacio para escalador)
+   * TODO: Autos con Rutas
    * TODO: Selector de Autónomo
+   * TODO: Tunear Tiros
   */
   
   /** Constants used in Drivetrain Subsystem */

@@ -8,10 +8,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.ShooterConstants;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class Shooter extends SubsystemBase {
   
@@ -20,7 +24,7 @@ public class Shooter extends SubsystemBase {
 
   // Class Variables
   private int inShooterTreshold = 0;
-  private double shooterErrorTreshold = 35;
+  private double shooterErrorTreshold = 30;
   private final int shooterSettleLoops = 25;
 
   // Shooter gains
@@ -76,7 +80,9 @@ public class Shooter extends SubsystemBase {
    */
   public void setShooter(double shooterSetpoint){
     shooterMotor.set(ControlMode.Velocity, shooterSetpoint * 2048 / 600);
+
     SmartDashboard.putNumber("ShooterTarget", shooterSetpoint * 2048 / 600);
+
   }
   
   /** 
@@ -165,35 +171,14 @@ public class Shooter extends SubsystemBase {
     if (newShooterConstant1_5 != previousShooterConstant1_5){
       previousShooterConstant1_5 = newShooterConstant1_5;
     }
+
+    Shuffleboard.getTab("Match").add("Shooter Status", shooterIsFinished())
+    .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(3,0);
+    Shuffleboard.getTab("Match").add("Shooter Target",shooterMotor.getClosedLoopTarget())
+    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(3,1);
+    Shuffleboard.getTab("Match").add("Shooter Velocity",getShooterSpeed())
+    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(3,2);
+  
     
-    newShooterConstant2 = SmartDashboard.getNumber("ShooterConstant2", 0.0);
-    if (newShooterConstant2 != previousShooterConstant2){
-      previousShooterConstant2 = newShooterConstant2;
-    }
-
-    newShooterConstant3 = SmartDashboard.getNumber("ShooterConstant3", 0.0);
-    if (newShooterConstant3 != previousShooterConstant3){
-      previousShooterConstant3 = newShooterConstant3;
-    }
-
-    newShooterConstant4 = SmartDashboard.getNumber("ShooterConstant4", 0.0);
-    if (newShooterConstant4 != previousShooterConstant4){
-      previousShooterConstant4 = newShooterConstant4;
-    }
-
-    newShooterConstant5 = SmartDashboard.getNumber("ShooterConstant5", 0.0);
-    if (newShooterConstant5 != previousShooterConstant5){
-      previousShooterConstant5 = newShooterConstant5;
-    }
-
-    newShooterConstant6 = SmartDashboard.getNumber("ShooterConstant6", 0.0);
-    if (newShooterConstant6 != previousShooterConstant6){
-      previousShooterConstant6 = newShooterConstant6;
-    }
-
-    newShooterConstant7 = SmartDashboard.getNumber("ShooterConstant7", 0.0);
-    if (newShooterConstant7 != previousShooterConstant7){
-      previousShooterConstant7 = newShooterConstant7;
-    }
   }
 }

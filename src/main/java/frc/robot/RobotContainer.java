@@ -6,9 +6,7 @@ package frc.robot;
 import frc.robot.Constants.HoodConstants;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.*;
-import frc.robot.commands.Auto.AutoBackUp0;
-import frc.robot.commands.Auto.AutoBackUp00;
-import frc.robot.commands.Auto.AutoBackUp1;
+import frc.robot.commands.Auto.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -164,7 +162,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutoBackUp00(s_drive, s_index, s_shooter, s_hood, s_turret);  
+    return new AutoBackUp1(s_drive, s_index, s_shooter, s_hood, s_turret, s_intake);  
     //return new AutoBackUp0(s_drive, s_index, s_shooter, s_hood, s_turret
       //);
     }
