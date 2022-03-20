@@ -48,11 +48,11 @@ public class ShootBasic extends CommandBase {
 
     s_shooter.setShooter(s_shooterSetpoint);
     s_hood.setHood(s_hoodSetpoint);
-    s_turret.setTurret(s_turretSetpoint);
+    // s_turret.setTurret(s_turretSetpoint);
 
     SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
     if (shooterIsFinished) {
-      s_index.setIndexManual(0.3);
+      s_index.setIndexManual(0.5);
     }
   }
 

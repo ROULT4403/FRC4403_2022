@@ -67,11 +67,11 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
     // SmartDashboard.putNumber("IntakeMotorOutput", intakeMotor.getMotorOutputPercent())
 
-    Shuffleboard.getTab("Match").add("Intake Status", intakeRelease)
-    .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(3,0);
-    Shuffleboard.getTab("Match").add("IntakePneumatics", isReleased)
-    .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(4,1);
-    Shuffleboard.getTab("Match").add("IntakeTemp", intakeMotor.getTemperature())
-    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(4,2);
+    // Shuffleboard.getTab("Match").add("Intake Status", intakeRelease)
+    // .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(3,0);
+    // Shuffleboard.getTab("Match").add("IntakePneumatics", isReleased)
+    // .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(4,1);
+    // Shuffleboard.getTab("Match").add("IntakeTemp", intakeMotor.getTemperature())
+    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(4,2);
   }
 }

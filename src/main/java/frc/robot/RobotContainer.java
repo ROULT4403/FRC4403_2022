@@ -102,7 +102,7 @@ public class RobotContainer {
     // Controller Controls
     // Shooter
     c_X.whenHeld(new ShootVision(s_index, s_shooter, s_hood, s_turret));
-    c_Y.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, 2300, 10, 0));
+    c_Y.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, 2000, 40, 0));
     
     // Turret
     c_Pad90.whileHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_turret));
@@ -120,13 +120,13 @@ public class RobotContainer {
     c_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_hood));
 
     // Climber
-    c_LB.whenPressed(new InstantCommand(s_climber::climberExtend, s_climber));
-    c_RB.whenPressed(new InstantCommand(s_climber::climberFlex, s_climber));
+    // c_LB.whenPressed(new InstantCommand(s_climber::climberExtend, s_climber));
+    c_RSClick.whenPressed(new InstantCommand(s_climber::climberFlex, s_climber));
     // c_LB.whenHeld(new RunCommand(() -> s_climber.setAltitude(-0.5), s_climber));
     // c_RB.whenHeld(new RunCommand(() -> s_climber.setAltitude(0.5), s_climber));
     c_LSClick.whenPressed(new InstantCommand(s_climber::resetPosition, s_climber));
-    // c_RB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(0.5), s_climber));
-    // c_LB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(-0.5), s_climber));
+    c_RB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(0.5), s_climber));
+    c_LB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(-0.5), s_climber));
 
     // // Single Controller
     // // Driver Controls

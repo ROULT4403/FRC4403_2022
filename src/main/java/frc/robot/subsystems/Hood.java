@@ -200,10 +200,10 @@ public class Hood extends SubsystemBase {
       previousHoodAngle7 = (int)newHoodAngle7;
     }
    
-    Shuffleboard.getTab("Match").add("HoodAngle",getHoodAngle())
-    .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,1);
-    Shuffleboard.getTab("Match").add("HoodTargetAngle",getHoodTargetAngle())
-    .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,2);
+    // Shuffleboard.getTab("Match").add("HoodAngle",getHoodAngle())
+    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,1);
+    // Shuffleboard.getTab("Match").add("HoodTargetAngle",getHoodTargetAngle())
+    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,2);
     
   }
 }

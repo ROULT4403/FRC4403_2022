@@ -7,11 +7,6 @@ package frc.robot;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -27,7 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.AutoConstants;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
@@ -203,16 +197,16 @@ public class Robot extends TimedRobot {
     //Shuffleboard.getTab("Pre-Match").add("Auto Mode",).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0); // place it in the top-left corner
     
     
-    Shuffleboard.getTab("Pre-Match").add("Voltage",pdp.getVoltage())
-    .withWidget(BuiltInWidgets.kVoltageView).withSize(2,1).withPosition(2,0);
-    Shuffleboard.getTab("Pre-Match").add("CurrentIntake",pdp.getCurrent(9))
-    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(4,0);
-    Shuffleboard.getTab("Pre-Match").add("FalconIntake temp",pdp.getTemperature())
-    .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,0);
-    Shuffleboard.getTab("Pre-Match").add("FalconShooter temp",pdp.getTemperature())
-    .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(6,0);
-    Shuffleboard.getTab("Pre-Match").add("FalconIndex temp",pdp.getTemperature())
-    .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(7,0);
+    // Shuffleboard.getTab("Pre-Match").add("Voltage",pdp.getVoltage())
+    // .withWidget(BuiltInWidgets.kVoltageView).withSize(2,1).withPosition(2,0);
+    // Shuffleboard.getTab("Pre-Match").add("CurrentIntake",pdp.getCurrent(9))
+    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(4,0);
+    // Shuffleboard.getTab("Pre-Match").add("FalconIntake temp",pdp.getTemperature())
+    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,0);
+    // Shuffleboard.getTab("Pre-Match").add("FalconShooter temp",pdp.getTemperature())
+    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(6,0);
+    // Shuffleboard.getTab("Pre-Match").add("FalconIndex temp",pdp.getTemperature())
+    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(7,0);
 
     // SmartDashboard.putNumber("CurrenttopLeft", pdp.getCurrent(15));
     // SmartDashboard.putNumber("CurrenttopRight", pdp.getCurrent(14));
@@ -233,16 +227,16 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
 
-    Shuffleboard.getTab("Post-Match").add("Voltage",pdp.getVoltage())
-    .withWidget(BuiltInWidgets.kVoltageView).withSize(2,1).withPosition(0,0);
-    Shuffleboard.getTab("Post-Match").add("CurrentIntake",pdp.getCurrent(9))
-    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(2,0);
-    Shuffleboard.getTab("Post-Match").add("FalconIntake temp",pdp.getTemperature())
-    .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(3,0);
-    Shuffleboard.getTab("Post-Match").add("FalconShooter",pdp.getTemperature())
-    .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(4,0);
-    Shuffleboard.getTab("Post-Match").add("FalconIndex temp",pdp.getTemperature())
-    .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,0);
+    // Shuffleboard.getTab("Post-Match").add("VoltagePost",pdp.getVoltage())
+    // .withWidget(BuiltInWidgets.kVoltageView).withSize(2,1).withPosition(0,0);
+    // Shuffleboard.getTab("Post-Match").add("CurrentIntakePost",pdp.getCurrent(9))
+    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(2,0);
+    // Shuffleboard.getTab("Post-Match").add("FalconIntake tempPost",pdp.getTemperature())
+    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(3,0);
+    // Shuffleboard.getTab("Post-Match").add("FalconShooterPost",pdp.getTemperature())
+    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(4,0);
+    // Shuffleboard.getTab("Post-Match").add("FalconIndex tempPost",pdp.getTemperature())
+    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,0);
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */

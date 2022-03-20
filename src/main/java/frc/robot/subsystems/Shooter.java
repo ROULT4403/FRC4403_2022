@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.ShooterConstants;
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -172,12 +171,12 @@ public class Shooter extends SubsystemBase {
       previousShooterConstant1_5 = newShooterConstant1_5;
     }
 
-    Shuffleboard.getTab("Match").add("Shooter Status", shooterIsFinished())
-    .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(3,0);
-    Shuffleboard.getTab("Match").add("Shooter Target",shooterMotor.getClosedLoopTarget())
-    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(3,1);
-    Shuffleboard.getTab("Match").add("Shooter Velocity",getShooterSpeed())
-    .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(3,2);
+    // Shuffleboard.getTab("Match").add("Shooter Status", shooterIsFinished())
+    // .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(3,0);
+    // Shuffleboard.getTab("Match").add("Shooter Target",shooterMotor.getClosedLoopTarget())
+    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(3,1);
+    // Shuffleboard.getTab("Match").add("Shooter Velocity",getShooterSpeed())
+    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(3,2);
   
     
   }

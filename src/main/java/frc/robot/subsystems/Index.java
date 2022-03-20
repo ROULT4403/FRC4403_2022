@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexConstants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Index extends SubsystemBase {
 
@@ -100,10 +99,10 @@ public class Index extends SubsystemBase {
 
     hasCargo = hasCargo();
 
-    Shuffleboard.getTab("Match").add("IndexHasCargo",hasCargo())
-    .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(6,0);
-    Shuffleboard.getTab("Match").add("IndexIsAvail",isCargoAvailable())
-    .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(6,1);
+    // Shuffleboard.getTab("Match").add("IndexHasCargo",hasCargo())
+    // .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(6,0);
+    // Shuffleboard.getTab("Match").add("IndexIsAvail",isCargoAvailable())
+    // .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(6,1);
   
 
     SmartDashboard.putBoolean("hascargo", hasCargo());

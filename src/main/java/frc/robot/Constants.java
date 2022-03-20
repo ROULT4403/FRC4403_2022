@@ -39,7 +39,7 @@ public final class Constants {
 
     // Constants
     // Limiter Constants
-    public static final double driveLimiter = 0.8;
+    public static final double driveLimiter = 1;
     public static final double rotLimiter = 0.8; 
     
     // PID Constants
@@ -71,8 +71,8 @@ public final class Constants {
     public static final int portHoodMotor = 6;
 
     // Sensor Ports
-    public static final int[] hoodEncoderPorts = {2, 3};
-    public static final int limitSwitchPort = 4;
+    public static final int[] hoodEncoderPorts = {5, 4};
+    public static final int limitSwitchPort = 0;
 
     // Output Constants
     public static final double hoodOutput = 0.5;
@@ -95,7 +95,7 @@ public final class Constants {
     
     // Sensor Ports
     public static final int ultrasonicPort = 1;
-    public static final int limitSwitchPort = 6;
+    public static final int limitSwitchPort = 8;
 
     // Default State Booleans
     public static final boolean indexMotorInverted = true;
@@ -150,7 +150,7 @@ public final class Constants {
     public static final int portTurretMotor = 8;
 
     // Sensor Ports
-    public static final int[] turretEncoderPorts = {0,1};
+    public static final int[] turretEncoderPorts = {2,1};
 
     // Constants
     public static final int[] turretGears = {30,260};
@@ -210,8 +210,7 @@ public final class Constants {
   /** Constants used in Climber subsystem */
   //Ports
   //Motor Controller Ports
-  public static final int portClimberLeft = 9;
-  public static final int portClimberRight = 10;
+  public static final int portClimber = 9;
 
   //Solenoid Ports
   public static final int[] climberSolenoidPorts = {5,2};
