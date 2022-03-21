@@ -171,6 +171,35 @@ public class Shooter extends SubsystemBase {
       previousShooterConstant1_5 = newShooterConstant1_5;
     }
 
+    newShooterConstant2 = SmartDashboard.getNumber("ShooterConstant2", 0.0);
+    if (newShooterConstant2 != previousShooterConstant2){
+      previousShooterConstant2 = newShooterConstant2;
+    }
+
+    newShooterConstant3 = SmartDashboard.getNumber("ShooterConstant3", 0.0);
+    if (newShooterConstant3 != previousShooterConstant3){
+      previousShooterConstant3 = newShooterConstant3;
+    }
+
+    newShooterConstant4 = SmartDashboard.getNumber("ShooterConstant4", 0.0);
+    if (newShooterConstant4 != previousShooterConstant4){
+      previousShooterConstant4 = newShooterConstant4;
+    }
+
+    newShooterConstant5 = SmartDashboard.getNumber("ShooterConstant5", 0.0);
+    if (newShooterConstant5 != previousShooterConstant5){
+      previousShooterConstant5 = newShooterConstant5;
+    }
+
+    newShooterConstant6 = SmartDashboard.getNumber("ShooterConstant6", 0.0);
+    if (newShooterConstant6 != previousShooterConstant6){
+      previousShooterConstant6 = newShooterConstant6;
+    }
+
+    newShooterConstant7 = SmartDashboard.getNumber("ShooterConstant7", 0.0);
+    if (newShooterConstant7 != previousShooterConstant7){
+      previousShooterConstant7 = newShooterConstant7;
+    }
     // Shuffleboard.getTab("Match").add("Shooter Status", shooterIsFinished())
     // .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(3,0);
     // Shuffleboard.getTab("Match").add("Shooter Target",shooterMotor.getClosedLoopTarget())
