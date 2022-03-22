@@ -29,7 +29,7 @@ public class AutoBackUpGamma extends SequentialCommandGroup {
       parallel(
         new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterTargetSpeed()), s_shooter),
         new RunCommand(() -> s_hood.setHood(10), s_hood),
-        new RunCommand(() -> s_turret.setTurret(-90), s_turret),
+        new RunCommand(() -> s_turret.setTurret(90), s_turret),
         new WaitCommand(5).andThen(new RunCommand(() -> s_index.setIndexManual(0.3), s_index))
       )
     );

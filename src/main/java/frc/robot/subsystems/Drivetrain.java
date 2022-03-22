@@ -62,14 +62,14 @@ public class Drivetrain extends SubsystemBase {
 	private double dy = 0.05;
 
   // Drive Distance Variables
-  private double distanceError;
+  private double distanceError = 100;
 
   // Turn Angle Variables
   private double angleError;
 
   NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
   NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
-  private double kP = 0.011;
+  private double kP = 0.019;
   
   /** Susbsystem class for Drivetain, extends SubsystemBase */
   public Drivetrain() {
@@ -147,8 +147,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void driveDistance(double distance) {
     distanceError = distance - getAverageEncoderDistance();
-
-    drive(Math.abs(distanceError * DrivetrainConstants.kP) > 1 ? 1 : distanceError * DrivetrainConstants.kP, 0);
+    drive(distanceError * DrivetrainConstants.kP, 0);
   }
 
   public boolean driveDistanceIsFinished() {
@@ -333,9 +332,11 @@ public class Drivetrain extends SubsystemBase {
     // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(1,4);
 
 
-    // SmartDashboard.putNumber("GetHeading", getHeading());
+    SmartDashboard.putNumber("GetYaw", getYaw());
+    SmartDashboard.putNumber("AngleError", angleError);
     // SmartDashboard.putNumber("leftEncs", getLeftEncoderPositionAverage());
-    // SmartDashboard.putNumber("rightEncs", getRightEncoderPositionAverage());
+    SmartDashboard.putNumber("rightEncs", getAverageEncoderDistance());
+    SmartDashboard.putBoolean("DriveDistanceIsFinished", driveDistanceIsFinished());
     // SmartDashboard.putNumber("RightA", bottomRightEncoder.getPosition());
     // SmartDashboard.putNumber("RightB", topRightEncoder.getPosition());
     // SmartDashboard.putNumber("LeftA", bottomLeftEncoder.getPosition());

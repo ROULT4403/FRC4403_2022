@@ -31,16 +31,16 @@ public final class Constants {
     public static final int portLeftBottom = 3;
 
     // Solenoid Ports
-    public static final int[] dogShiftPort = {7, 1};
+    public static final int[] dogShiftPort = {3, 4};
     // public static final int dogShiftPort = 0;
 
     // Constants
     // Limiter Constants
-    public static final double driveLimiter = 1;
+    public static final double driveLimiter = 0.8;
     public static final double rotLimiter = 0.8; 
     
     // PID Constants
-    public static final double kP = 1.5;
+    public static final double kP = 1.1;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
@@ -108,7 +108,7 @@ public final class Constants {
     public static final int portIntake = 1;
     
     // Solenoid Ports
-    public static final int[] intakeReleasePort = {6, 0};
+    public static final int[] intakeReleasePort = {7, 1};
     // public static final int intakeReleasePort = 1;
 
     // Constants
@@ -222,7 +222,7 @@ public final class Constants {
     public static final String pathChoose = "Auto1.1.2";
 
     //Backup Constants
-    public static final double autoDistance = 1;
+    public static final double autoDistance = 2;
     public static final double autoAngle = 90;
 
     public static final double autoTwoDistance = 0.7;

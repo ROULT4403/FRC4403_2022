@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
@@ -33,7 +34,7 @@ public class Climber extends SubsystemBase {
     climberMotor.setNeutralMode(NeutralMode.Brake);
 
     // //Setup Inverted Motors
-    // climberLeft.setInverted(ClimberConstants.climberLeftInverted);
+    climberMotor.setInverted(ClimberConstants.climberMotorInverted);
 
     resetPosition();
   }
@@ -48,7 +49,7 @@ public class Climber extends SubsystemBase {
    */
   public void setAltitude(double speed){
     if (climberMotor.getSelectedSensorPosition() < ClimberConstants.climberMinPositioon){
-    climberMotor.set(ControlMode.PercentOutput, Math.abs(speed));
+      climberMotor.set(ControlMode.PercentOutput, Math.abs(speed));
     } else if (climberMotor.getSelectedSensorPosition() > ClimberConstants.climberMaxPos) {
       climberMotor.set(ControlMode.PercentOutput, -Math.abs(speed));
     } else {
@@ -85,6 +86,6 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("ClimberEncoder", climberLeft.getSelectedSensorPosition());
+    SmartDashboard.putNumber("ClimberEncoder", climberMotor.getSelectedSensorPosition());
   }
 }

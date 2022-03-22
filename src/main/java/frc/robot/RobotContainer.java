@@ -124,8 +124,11 @@ public class RobotContainer {
     // c_LB.whenHeld(new RunCommand(() -> s_climber.setAltitude(-0.5), s_climber));
     // c_RB.whenHeld(new RunCommand(() -> s_climber.setAltitude(0.5), s_climber));
     c_LSClick.whenPressed(new InstantCommand(s_climber::resetPosition, s_climber));
-    c_RB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(0.5), s_climber));
-    c_LB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(-0.5), s_climber));
+
+    c_RB.whenHeld(new RunCommand(() -> s_climber.setAltitude(0.95), s_climber));
+    c_LB.whenHeld(new RunCommand(() -> s_climber.setAltitude(-0.95), s_climber));
+    // c_RB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(0.95), s_climber));
+    // c_LB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(-0.95), s_climber));
   }
 
   /**
