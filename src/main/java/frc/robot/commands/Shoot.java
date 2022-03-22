@@ -14,24 +14,6 @@ import frc.robot.subsystems.*;
 public class Shoot extends SequentialCommandGroup {
   /** Creates a new Shoot. */
   public Shoot(Index index, Shooter shooter, Hood hood, Turret turret, double shooterSetpoint, double hoodSetpoint, double turretSetpoint) {
-    // addCommands(
-    //   new ConditionalCommand( // CC1
-    //     new RunCommand(() -> index.setIndexManual(0.3), index),  // T1
-    //     new ConditionalCommand( // CC2 F1
-    //       new ConditionalCommand( // CC3 T2
-    //         parallel(new RunCommand(() -> turret.setTurret(turretSetpoint), turret), 
-    //                 new RunCommand(() -> hood.setHood(hoodSetpoint), hood), 
-    //                 new RunCommand(() -> shooter.setShooter(shooterSetpoint), shooter)), // T3
-    //         parallel(new RunCommand(() -> turret.sweepTurret(true), turret),
-    //                 new RunCommand(() -> shooter.setShooter(1000), shooter)),  // F3
-    //         () -> Robot.hasTarget()), // B3
-    //       parallel(new RunCommand(() -> turret.setTurret(0), turret), 
-    //               new RunCommand(() -> hood.setHood(100), hood), 
-    //               new RunCommand(() -> shooter.setShooter(1000), shooter)), // F2
-    //       () -> index.hasCargo()), // B2
-    //     () -> shooter.shooterIsFinished() && turret.turretIsFinished()) // B1
-    // );
-
     addCommands(
       new ConditionalCommand( // C1
         new ConditionalCommand( // T1 C2

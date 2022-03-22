@@ -17,11 +17,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 public final class Constants {
   /** 
    * * Este orden no es opcional, si desean cambiarlo hablenlo conmigo primero
-   * TODO: Lógica index
-   * TODO: Probar lógica escalador
    * TODO: Autos con Rutas
    * TODO: Selector de Autónomo
-   * TODO: Tunear Tiros
   */
   
   /** Constants used in Drivetrain Subsystem */
@@ -116,7 +113,7 @@ public final class Constants {
 
     // Constants
     // Default State Booleans
-    public static final boolean intakeReleaseDefault = false;
+    public static final boolean intakeReleaseDefault = true;
     public static final boolean intakeMotorInverted = false;
     
     //Intake Current Detection
@@ -172,6 +169,28 @@ public final class Constants {
     public static final boolean turretMotorInverted = true;
   }
   
+  public static final class ClimberConstants{
+  /** Constants used in Climber subsystem */
+  //Ports
+  //Motor Controller Ports
+  public static final int portClimber = 9;
+
+  //Solenoid Ports
+  public static final int[] climberSolenoidPorts = {5,2};
+  public static final int[] climberSolenoidPortsB = {4,3};
+
+  //Constants
+  //Default State Booleans
+  public static final boolean climberLeftInverted = true;
+  public static final boolean climberRightInverted = false;
+  public static final boolean climberAttatchedDefault = true;
+  public static final boolean climberExtendedDefault = false;
+
+  //Treshold
+  public static final int climberMinPositioon = 200;
+  public static final int climberMaxPos = 30000;
+  }
+
   /** Constants used RamseteCommand and Path Following */
   public static final class AutoConstants {
     // Robot Kinematics Constants
@@ -205,26 +224,8 @@ public final class Constants {
     //Backup Constants
     public static final double autoDistance = 1;
     public static final double autoAngle = 90;
-  }
-  public static final class ClimberConstants{
-  /** Constants used in Climber subsystem */
-  //Ports
-  //Motor Controller Ports
-  public static final int portClimber = 9;
 
-  //Solenoid Ports
-  public static final int[] climberSolenoidPorts = {5,2};
-  public static final int[] climberSolenoidPortsB = {4,3};
-
-  //Constants
-  //Default State Booleans
-  public static final boolean climberLeftInverted = true;
-  public static final boolean climberRightInverted = false;
-  public static final boolean climberAttatchedDefault = true;
-  public static final boolean climberExtendedDefault = false;
-
-  //Treshold
-  public static final int climberMinPositioon = 200;
-  public static final int climberMaxPos = 30000;
+    public static final double autoTwoDistance = 0.7;
+    public static final double autoTwoAngle = 110;
   }
 }

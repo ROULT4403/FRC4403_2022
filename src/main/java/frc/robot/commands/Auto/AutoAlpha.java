@@ -9,12 +9,12 @@ import frc.robot.Robot;
 import frc.robot.commands.TrajectoryFollower;
 import frc.robot.subsystems.Drivetrain;
 
-public class AutoTest extends SequentialCommandGroup {
+public class AutoAlpha extends SequentialCommandGroup {
   
   /** Follows two trajectories
    * @param s_drive Drivetrain subsystem
    */
-  public AutoTest(Drivetrain s_drive) {
+  public AutoAlpha(Drivetrain s_drive) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

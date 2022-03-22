@@ -152,7 +152,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public boolean driveDistanceIsFinished() {
-    if (distanceError < DrivetrainConstants.kToleranceDriveDistance) {
+    if (Math.abs(distanceError) < DrivetrainConstants.kToleranceDriveDistance) {
       return true;
     } else {
       return false;
@@ -301,7 +301,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public boolean turnToAngleIsFinished() {
-    if (angleError < DrivetrainConstants.kToleranceTurnAngle) {
+    if (Math.abs(angleError) < DrivetrainConstants.kToleranceTurnAngle) {
       return true;
     } else {
       return false;

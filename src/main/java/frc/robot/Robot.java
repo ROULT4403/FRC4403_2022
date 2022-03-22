@@ -191,33 +191,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-  
     CommandScheduler.getInstance().run();
-
-    //Shuffleboard.getTab("Pre-Match").add("Auto Mode",).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0); // place it in the top-left corner
     
-    
-    // Shuffleboard.getTab("Pre-Match").add("Voltage",pdp.getVoltage())
-    // .withWidget(BuiltInWidgets.kVoltageView).withSize(2,1).withPosition(2,0);
-    // Shuffleboard.getTab("Pre-Match").add("CurrentIntake",pdp.getCurrent(9))
-    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(4,0);
-    // Shuffleboard.getTab("Pre-Match").add("FalconIntake temp",pdp.getTemperature())
-    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,0);
-    // Shuffleboard.getTab("Pre-Match").add("FalconShooter temp",pdp.getTemperature())
-    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(6,0);
-    // Shuffleboard.getTab("Pre-Match").add("FalconIndex temp",pdp.getTemperature())
-    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(7,0);
-
-    // SmartDashboard.putNumber("CurrenttopLeft", pdp.getCurrent(15));
-    // SmartDashboard.putNumber("CurrenttopRight", pdp.getCurrent(14));
-    // SmartDashboard.putNumber("CurrentbottomLeft", pdp.getCurrent(0));
-    // SmartDashboard.putNumber("CurrentbottomRight", pdp.getCurrent(1));
-
     // Update vision variables
     tX = xEntry.getDouble(0);    
     tD = dEntry.getDouble(0); 
     tV = vEntry.getBoolean(false);
-
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -225,19 +204,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {
-
-    // Shuffleboard.getTab("Post-Match").add("VoltagePost",pdp.getVoltage())
-    // .withWidget(BuiltInWidgets.kVoltageView).withSize(2,1).withPosition(0,0);
-    // Shuffleboard.getTab("Post-Match").add("CurrentIntakePost",pdp.getCurrent(9))
-    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(2,0);
-    // Shuffleboard.getTab("Post-Match").add("FalconIntake tempPost",pdp.getTemperature())
-    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(3,0);
-    // Shuffleboard.getTab("Post-Match").add("FalconShooterPost",pdp.getTemperature())
-    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(4,0);
-    // Shuffleboard.getTab("Post-Match").add("FalconIndex tempPost",pdp.getTemperature())
-    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,0);
-  }
+  public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override

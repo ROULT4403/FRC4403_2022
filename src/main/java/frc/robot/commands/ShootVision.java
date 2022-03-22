@@ -17,6 +17,7 @@ public class ShootVision extends CommandBase {
   public Turret s_turret;
   public boolean shooterIsFinished;
   public boolean isballShot;
+  public double counterVariable;
 
   public ShootVision(Index index, Shooter shooter, Hood hood, Turret turret) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,6 +32,7 @@ public class ShootVision extends CommandBase {
   public void initialize() {
     shooterIsFinished = false;
     isballShot = false;
+    counterVariable = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,13 +41,18 @@ public class ShootVision extends CommandBase {
     shooterIsFinished = s_shooter.shooterIsFinished();
     isballShot = false;
 
+    if (counterVariable > 10) {
+      counterVariable = 0;
+    } 
+
     s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
     s_hood.setHood(s_hood.getHoodTargetAngle());
     s_turret.setTurret(Robot.tX + s_turret.getTurretAngle());
 
     SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
-    if (shooterIsFinished) {
+    if (shooterIsFinished || counterVariable > 0) {
       s_index.setIndexManual(0.5);
+      counterVariable++;
     }
   }
   

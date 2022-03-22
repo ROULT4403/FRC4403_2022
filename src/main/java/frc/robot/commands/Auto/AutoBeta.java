@@ -12,9 +12,9 @@ import frc.robot.commands.Shoot;
 import frc.robot.commands.TrajectoryFollower;
 import frc.robot.subsystems.*;
 
-public class OneTrajectoryAuto extends SequentialCommandGroup {
+public class AutoBeta extends SequentialCommandGroup {
   /** Creates a new OneTrajectoryAuto. */
-  public OneTrajectoryAuto(Trajectory path, Drivetrain s_drive, Hood s_hood, Index s_index, Intake s_intake, Shooter s_shooter,  Turret s_turret) {
+  public AutoBeta(Trajectory path, Drivetrain s_drive, Hood s_hood, Index s_index, Intake s_intake, Shooter s_shooter,  Turret s_turret) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

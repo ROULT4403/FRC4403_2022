@@ -82,8 +82,7 @@ public class RobotContainer {
     // Turret Default Command
     s_turret.setDefaultCommand(new RunCommand(() -> s_turret.setTurretManual(0), s_turret));
     // Climber Default Command
-    // s_climber.setDefaultCommand(new RunCommand(() -> s_climber.setArmsManual(controller.getRawAxis(5)), s_climber));
-    s_climber.setDefaultCommand(new RunCommand(() -> s_climber.setArmsManual(0), s_climber));
+    s_climber.setDefaultCommand(new RunCommand(() -> s_climber.setArmsManual(controller.getRawAxis(5)), s_climber));
   }
 
   /**
@@ -127,34 +126,6 @@ public class RobotContainer {
     c_LSClick.whenPressed(new InstantCommand(s_climber::resetPosition, s_climber));
     c_RB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(0.5), s_climber));
     c_LB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(-0.5), s_climber));
-
-    // // Single Controller
-    // // Driver Controls
-    // d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
-
-    // // Shooter Commands
-    // // Manual Hood
-    // d_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_shooter));
-    // d_Pad180.whileHeld(new RunCommand(() -> s_hood.setHoodManual(-HoodConstants.hoodOutput), s_shooter));
-    // // Manual Turret
-    // d_Start.whenPressed(new RunCommand(() -> s_turret.setTurret(Robot.tx + s_turret.getTurretAngle()), s_shooter));
-    // d_Pad90.whenPressed(new RunCommand(() -> s_turret.setTurret(-TurretConstants.turretOutput), s_shooter));
-    // d_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_shooter));
-    // // Shooting Algorithm
-    // d_X.whenHeld(new ShootBasic(s_index, s_shooter, s_hood));
-    
-    // // Intake & Index
-    // // Intake Release
-    // d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
-    // // Algorithm intake
-    // d_RB.whileHeld(new RunCommand(() -> s_intake.setIntakeManual(0.3, true), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.25, s_intake.detectedCargoIntake), s_index)));
-    // // Algorith Outake
-    // d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.4, false), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.25), s_index)));
-    // // Manual Intake & Index
-    // d_B.whileHeld(new RunCommand(() -> s_intake.setIntake(controller.getRawAxis(5))));
-    // d_B.whileHeld(new RunCommand(() -> s_index.setIndex(controller.getRawAxis(0))));
-
-    // d_Select.whenPressed(new InstantCommand(s_turret::resetAngle, s_turret));
   }
 
   /**
@@ -162,9 +133,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutoBackUp1(s_drive, s_index, s_shooter, s_hood, s_turret, s_intake);  
-    //return new AutoBackUp0(s_drive, s_index, s_shooter, s_hood, s_turret
-      //);
+    return new AutoBackUpGamma(s_drive, s_index, s_shooter, s_hood, s_turret, s_intake);  
     }
 
   /**
