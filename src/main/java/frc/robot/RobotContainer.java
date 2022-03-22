@@ -82,8 +82,7 @@ public class RobotContainer {
     // Turret Default Command
     s_turret.setDefaultCommand(new RunCommand(() -> s_turret.setTurretManual(0), s_turret));
     // Climber Default Command
-    // s_climber.setDefaultCommand(new RunCommand(() -> s_climber.setArmsManual(controller.getRawAxis(5)), s_climber));
-    s_climber.setDefaultCommand(new RunCommand(() -> s_climber.setArmsManual(0), s_climber));
+    s_climber.setDefaultCommand(new RunCommand(() -> s_climber.setArmsManual(controller.getRawAxis(5)), s_climber));
   }
 
   /**
@@ -125,8 +124,10 @@ public class RobotContainer {
     // c_LB.whenHeld(new RunCommand(() -> s_climber.setAltitude(-0.5), s_climber));
     // c_RB.whenHeld(new RunCommand(() -> s_climber.setAltitude(0.5), s_climber));
     c_LSClick.whenPressed(new InstantCommand(s_climber::resetPosition, s_climber));
-    c_RB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(0.5), s_climber));
-    c_LB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(-0.5), s_climber));
+    c_RB.whenHeld(new RunCommand(() -> s_climber.setAltitude(0.95), s_climber));
+    c_LB.whenHeld(new RunCommand(() -> s_climber.setAltitude(-0.95), s_climber));
+    // c_RB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(0.95), s_climber));
+    // c_LB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(-0.95), s_climber));
 
     // // Single Controller
     // // Driver Controls

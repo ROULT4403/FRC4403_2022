@@ -21,7 +21,6 @@ public class AutoBackUp1 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(s_intake::toggleIntakeRelease, s_intake),
-      new InstantCommand(s_intake::toggleIntakeRelease, s_intake),
       new RunCommand(() -> s_drivetrain.driveDistance(AutoConstants.autoDistance), s_drivetrain)
       .alongWith(new RunCommand(() -> s_intake.setIntake(0.3), s_intake))
       .alongWith(new RunCommand(() -> s_index.setIndex(0.3), s_index).withTimeout(3))
@@ -30,7 +29,7 @@ public class AutoBackUp1 extends SequentialCommandGroup {
       parallel(
         new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterTargetSpeed()), s_shooter),
         new RunCommand(() -> s_hood.setHood(10), s_hood),
-        new RunCommand(() -> s_turret.setTurret(-90), s_turret),
+        new RunCommand(() -> s_turret.setTurret(90), s_turret),
         new WaitCommand(5).andThen(new RunCommand(() -> s_index.setIndexManual(0.3), s_index))
       )
     );
