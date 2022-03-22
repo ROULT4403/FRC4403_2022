@@ -11,8 +11,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
@@ -135,10 +133,6 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("TurretAngle", getTurretAngle());
-    // Shuffleboard.getTab("Match").add("Turret Status",turretIsFinished())
-    // .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(2,0);
-    // Shuffleboard.getTab("Match").add("Turret Angle",getTurretAngle())
-    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(2,1);
 
     // newKP = SmartDashboard.getNumber("kP", 0.0);
     // if (newKP != previousKP){

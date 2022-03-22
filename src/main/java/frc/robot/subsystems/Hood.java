@@ -13,8 +13,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.HoodConstants;
@@ -135,8 +133,6 @@ public class Hood extends SubsystemBase {
     } else {
       return 0;
     }
-
-    // return 0.0002499 * Math.pow(Robot.tD, 2) + Robot.tD * -0.0439 + 2.02;
   }
 
   /**
@@ -199,11 +195,5 @@ public class Hood extends SubsystemBase {
     if (newHoodAngle7 != previousHoodAngle7){
       previousHoodAngle7 = (int)newHoodAngle7;
     }
-   
-    // Shuffleboard.getTab("Match").add("HoodAngle",getHoodAngle())
-    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,1);
-    // Shuffleboard.getTab("Match").add("HoodTargetAngle",getHoodTargetAngle())
-    // .withWidget(BuiltInWidgets.kDial).withSize(1,1).withPosition(5,2);
-    
   }
 }

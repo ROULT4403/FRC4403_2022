@@ -11,8 +11,6 @@ import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexConstants;
@@ -96,18 +94,10 @@ public class Index extends SubsystemBase {
   
   @Override
   public void periodic() {
-
     hasCargo = hasCargo();
-
-    // Shuffleboard.getTab("Match").add("IndexHasCargo",hasCargo())
-    // .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(6,0);
-    // Shuffleboard.getTab("Match").add("IndexIsAvail",isCargoAvailable())
-    // .withWidget(BuiltInWidgets.kBooleanBox).withSize(1,1).withPosition(6,1);
-  
 
     SmartDashboard.putBoolean("hascargo", hasCargo());
     SmartDashboard.putBoolean("isAvail", isCargoAvailable());
     SmartDashboard.putNumber("EncRots", getRotations());
-
   }
 }

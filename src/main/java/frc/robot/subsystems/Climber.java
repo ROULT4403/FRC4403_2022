@@ -22,18 +22,15 @@ public class Climber extends SubsystemBase {
   //Solenoids
   public DoubleSolenoid climberSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
                                                             ClimberConstants.climberSolenoidPorts[0], ClimberConstants.climberSolenoidPorts[1]);
-  // public DoubleSolenoid climberSolenoidB = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
-  //                                                           ClimberConstants.climberSolenoidPortsB[0], ClimberConstants.climberSolenoidPortsB[1]);
 
   //Class constants
   public boolean isFlexed = ClimberConstants.climberAttatchedDefault;
-  // public boolean isExtended = ClimberConstants.climberExtendedDefault;
 
   public Climber() {
     // Set Break Mode
     climberMotor.setNeutralMode(NeutralMode.Brake);
 
-    // //Setup Inverted Motors
+    //Setup Inverted Motors
     climberMotor.setInverted(ClimberConstants.climberMotorInverted);
 
     resetPosition();
@@ -67,17 +64,6 @@ public class Climber extends SubsystemBase {
     }
     isFlexed = !isFlexed;
   }
-
-  // public void climberExtend(){
-  //   if (!isExtended) {
-  //     climberSolenoidB.set(Value.kReverse);
-  //   } else if (isExtended) {
-  //     climberSolenoidB.set(Value.kForward);
-  //   } else {
-  //     climberSolenoidB.set(Value.kOff);
-  //   }
-  //   isExtended = !isExtended;
-  // }
 
   public void resetPosition() {
     climberMotor.setSelectedSensorPosition(0);

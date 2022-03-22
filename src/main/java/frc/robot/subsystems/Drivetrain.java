@@ -311,36 +311,15 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // Update the odometry in the periodic block
-
     odom.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderPositionAverage(), getRightEncoderPositionAverage());
     
     var translation = odom.getPoseMeters().getTranslation();
     m_xEntry.setNumber(translation.getX());
     m_yEntry.setNumber(translation.getY());
 
-    
-    //Drivetrain SmartDashboard
-    // Shuffleboard.getTab("Match").add("Gyro Drivetrain",getHeading())
-    // .withWidget(BuiltInWidgets.kGyro).withSize(2,2).withPosition(0,0);
-    // Shuffleboard.getTab("Match").add("Left Encoder",getLeftEncoderPositionAverage())
-    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(0,3);
-    // Shuffleboard.getTab("Match").add("Right Encoder",getRightEncoderPositionAverage())
-    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(1,3);
-    // Shuffleboard.getTab("Match").add("Velocity",getAverageEncoderVelocity())
-    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(0,4);
-    // Shuffleboard.getTab("Match").add("Av Distance",getAverageEncoderDistance())
-    // .withWidget(BuiltInWidgets.kTextView).withSize(1,1).withPosition(1,4);
-
-
     SmartDashboard.putNumber("GetYaw", getYaw());
     SmartDashboard.putNumber("AngleError", angleError);
-    // SmartDashboard.putNumber("leftEncs", getLeftEncoderPositionAverage());
-    SmartDashboard.putNumber("rightEncs", getAverageEncoderDistance());
+    SmartDashboard.putNumber("AvgDistance", getAverageEncoderDistance());
     SmartDashboard.putBoolean("DriveDistanceIsFinished", driveDistanceIsFinished());
-    // SmartDashboard.putNumber("RightA", bottomRightEncoder.getPosition());
-    // SmartDashboard.putNumber("RightB", topRightEncoder.getPosition());
-    // SmartDashboard.putNumber("LeftA", bottomLeftEncoder.getPosition());
-    // SmartDashboard.putNumber("LeftB", topLeftEncoder.getPosition());
-
   }
 }
