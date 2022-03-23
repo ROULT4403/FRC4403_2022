@@ -109,7 +109,6 @@ public final class Constants {
     
     // Solenoid Ports
     public static final int[] intakeReleasePort = {7, 1};
-    // public static final int intakeReleasePort = 1;
 
     // Constants
     // Default State Booleans
@@ -177,7 +176,6 @@ public final class Constants {
 
   //Solenoid Ports
   public static final int[] climberSolenoidPorts = {5,2};
-  public static final int[] climberSolenoidPortsB = {4,3};
 
   //Constants
   //Default State Booleans
@@ -185,8 +183,8 @@ public final class Constants {
   public static final boolean climberAttatchedDefault = true;
 
   //Treshold
-  public static final int climberMinPositioon = 200;
-  public static final int climberMaxPos = 30000;
+  public static final int climberMinPositioon = 0;
+  public static final int climberMaxPos = 25000;
   }
 
   /** Constants used RamseteCommand and Path Following */
