@@ -90,7 +90,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Dual Controller
-    // Driver Controls
+    // Driver
     d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
     // Intake Controls
     d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
@@ -98,7 +98,7 @@ public class RobotContainer {
     d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.2), s_index)));
     d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.35), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.2), s_index)));
     
-    // Controller Controls
+    // Controller
     // Shooter
     c_X.whenHeld(new ShootVision(s_index, s_shooter, s_hood, s_turret));
     c_Y.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, 2000, 40, 0));
@@ -106,9 +106,7 @@ public class RobotContainer {
     // Turret
     c_Pad90.whileHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_turret));
     c_Pad270.whileHeld(new RunCommand(() -> s_turret.setTurretManual(TurretConstants.turretOutput), s_turret));
-
     c_Select.whenPressed(new InstantCommand(() -> s_turret.resetAngle(), s_turret));
-    c_Start.whenHeld(new RunCommand(() -> s_turret.setTurret(Robot.tX + s_turret.getTurretAngle()), s_turret));
     c_A.whenHeld(new RunCommand(() -> s_turret.setTurret(0), s_turret));
 
     // Index
@@ -124,8 +122,6 @@ public class RobotContainer {
 
     c_RB.whenHeld(new RunCommand(() -> s_climber.setAltitude(0.95), s_climber));
     c_LB.whenHeld(new RunCommand(() -> s_climber.setAltitude(-0.95), s_climber));
-    // c_RB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(0.95), s_climber));
-    // c_LB.whenHeld(new RunCommand(() -> s_climber.setArmsManual(-0.95), s_climber));
   }
 
   /**
