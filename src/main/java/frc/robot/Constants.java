@@ -112,7 +112,7 @@ public final class Constants {
 
     // Constants
     // Default State Booleans
-    public static final boolean intakeReleaseDefault = true;
+    public static final boolean intakeReleaseDefault = false;
     public static final boolean intakeMotorInverted = false;
     
     //Intake Current Detection
@@ -175,7 +175,7 @@ public final class Constants {
   public static final int portClimber = 9;
 
   //Solenoid Ports
-  public static final int[] climberSolenoidPorts = {5,2};
+  public static final int[] climberSolenoidPorts = {6,0};
 
   //Constants
   //Default State Booleans
@@ -184,7 +184,7 @@ public final class Constants {
 
   //Treshold
   public static final int climberMinPositioon = 0;
-  public static final int climberMaxPos = 25000;
+  public static final int climberMaxPos = 450000;
   }
 
   /** Constants used RamseteCommand and Path Following */

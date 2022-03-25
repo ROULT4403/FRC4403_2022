@@ -16,7 +16,6 @@ public class ShootVision extends CommandBase {
   public Hood s_hood;
   public Turret s_turret;
   public boolean shooterIsFinished;
-  public boolean isballShot;
   public double counterVariable;
 
   public ShootVision(Index index, Shooter shooter, Hood hood, Turret turret) {
@@ -31,36 +30,37 @@ public class ShootVision extends CommandBase {
   @Override
   public void initialize() {
     shooterIsFinished = false;
-    isballShot = false;
-    counterVariable = 0;
+    counterVariable = -5;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterIsFinished = s_shooter.shooterIsFinished();
-    isballShot = false;
-
-    if (counterVariable > 10) {
-      counterVariable = 0;
-    } 
-
+    // if (counterVariable > 20) {
+    //   counterVariable = -5;
+    // } 
+    
     s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
-    s_hood.setHood(s_hood.getHoodTargetAngle());
+    // s_hood.setHood(s_hood.getHoodTargetAngle());
     s_turret.setTurret(Robot.tX + s_turret.getTurretAngle());
-
+    
     SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
-    if (shooterIsFinished || counterVariable > 0) {
+    SmartDashboard.putBoolean("shooterCounter", counterVariable > 0);
+    if (shooterIsFinished/* || counterVariable > 0*/) {
       s_index.setIndexManual(0.5);
-      counterVariable++;
+      // ++counterVariable;
     }
+    shooterIsFinished = s_shooter.getShooterIsFinished();
   }
   
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooterIsFinished = false;
+    counterVariable = -5;
+    SmartDashboard.putBoolean("shooterCounter", counterVariable > 0);
     SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
+    SmartDashboard.putNumber("ShooterTargetSpeed", s_shooter.getShooterTargetSpeed());
   }
 
   // Returns true when the command should end.

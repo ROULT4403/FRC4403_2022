@@ -33,23 +33,23 @@ public class Hood extends SubsystemBase {
                                                           HoodConstants.hoodkD);
 
   // Hood Angles
-  double newHoodAngle1 = 0;
-  int previousHoodAngle1 = 0;
-  double newHoodAngle1_25 = 0;
-  int previousHoodAngle1_25 = 0;
-  double newHoodAngle1_5 = 0;
-  int previousHoodAngle1_5 = 0;
-  double newHoodAngle2 = 0;
-  int previousHoodAngle2 = 0;
-  double newHoodAngle3 = 5;
-  int previousHoodAngle3 = 5;
-  double newHoodAngle4 = 13;
-  int previousHoodAngle4 = 13;
-  double newHoodAngle5 = 25;
+  // double newHoodAngle1 = 0;
+  int previousHoodAngle1 = 0;//que perra mamada es esta
+  // double newHoodAngle1_25 = 0;
+  int previousHoodAngle1_25 = 0; //doneish
+  // double newHoodAngle1_5 = 0;
+  int previousHoodAngle1_5 = 5; // donr
+  // double newHoodAngle2 = 0;
+  int previousHoodAngle2 = 14; //done
+  // double newHoodAngle3 = 5;
+  int previousHoodAngle3 = 27; // doneish
+  // double newHoodAngle4 = 13;
+  int previousHoodAngle4 = 30;
+  // double newHoodAngle5 = 25;
   int previousHoodAngle5 = 25;
-  double newHoodAngle6 = 33;
+  // double newHoodAngle6 = 33;
   int previousHoodAngle6 = 33;
-  double newHoodAngle7 = 41;
+  // double newHoodAngle7 = 41;
   int previousHoodAngle7 = 41;
 
   /** Creates a new Hood. */
@@ -58,15 +58,6 @@ public class Hood extends SubsystemBase {
     hoodMotor.setInverted(HoodConstants.hoodMotorInverted);
     hoodMotor.setNeutralMode(NeutralMode.Brake);
 
-    SmartDashboard.putNumber("HoodAngle1", newHoodAngle1);
-    SmartDashboard.putNumber("HoodAngle1_25", newHoodAngle1_25);
-    SmartDashboard.putNumber("HoodAngle1_5", newHoodAngle1_5);
-    SmartDashboard.putNumber("HoodAngle2", newHoodAngle2);
-    SmartDashboard.putNumber("HoodAngle3", newHoodAngle3);
-    SmartDashboard.putNumber("HoodAngle4", newHoodAngle4);
-    SmartDashboard.putNumber("HoodAngle5", newHoodAngle5);
-    SmartDashboard.putNumber("HoodAngle6", newHoodAngle6);
-    SmartDashboard.putNumber("HoodAngle7", newHoodAngle7);
   }
   /** 
    * PID Control for hood output
@@ -151,49 +142,49 @@ public class Hood extends SubsystemBase {
     SmartDashboard.putNumber("HoodTargetAngle", getHoodTargetAngle());
 
     // Tune hood values in Shuffleboard
-    newHoodAngle1 = SmartDashboard.getNumber("HoodAngle1", 0.0);
-    if (newHoodAngle1 != previousHoodAngle1){
-      previousHoodAngle1 = (int)newHoodAngle1;
-    }
+    // newHoodAngle1 = SmartDashboard.getNumber("HoodAngle1", 0.0);
+    // if (newHoodAngle1 != previousHoodAngle1){
+    //   previousHoodAngle1 = (int)newHoodAngle1;
+    // }
 
-    newHoodAngle1_25 = SmartDashboard.getNumber("HoodAngle1_25", 0.0);
-    if (newHoodAngle1_25 != previousHoodAngle1_25){
-      previousHoodAngle1_25 = (int)newHoodAngle1_25;
-    }
+    // newHoodAngle1_25 = SmartDashboard.getNumber("HoodAngle1_25", 0.0);
+    // if (newHoodAngle1_25 != previousHoodAngle1_25){
+    //   previousHoodAngle1_25 = (int)newHoodAngle1_25;
+    // }
 
-    newHoodAngle1_5 = SmartDashboard.getNumber("HoodAngle1_5", 0.0);
-    if (newHoodAngle1_5 != previousHoodAngle1_5){
-      previousHoodAngle1_5 = (int)newHoodAngle1_5;
-    }
+    // newHoodAngle1_5 = SmartDashboard.getNumber("HoodAngle1_5", 0.0);
+    // if (newHoodAngle1_5 != previousHoodAngle1_5){
+    //   previousHoodAngle1_5 = (int)newHoodAngle1_5;
+    // }
     
-    newHoodAngle2 = SmartDashboard.getNumber("HoodAngle2", 0.0);
-    if (newHoodAngle2 != previousHoodAngle2){
-      previousHoodAngle2 = (int)newHoodAngle2;
-    }
+    // newHoodAngle2 = SmartDashboard.getNumber("HoodAngle2", 0.0);
+    // if (newHoodAngle2 != previousHoodAngle2){
+    //   previousHoodAngle2 = (int)newHoodAngle2;
+    // }
 
-    newHoodAngle3 = SmartDashboard.getNumber("HoodAngle3", 0.0);
-    if (newHoodAngle3 != previousHoodAngle3){
-      previousHoodAngle3 = (int)newHoodAngle3;
-    }
+    // newHoodAngle3 = SmartDashboard.getNumber("HoodAngle3", 0.0);
+    // if (newHoodAngle3 != previousHoodAngle3){
+    //   previousHoodAngle3 = (int)newHoodAngle3;
+    // }
 
-    newHoodAngle4 = SmartDashboard.getNumber("HoodAngle4", 0.0);
-    if (newHoodAngle4 != previousHoodAngle4){
-      previousHoodAngle4 = (int)newHoodAngle4;
-    }
+    // newHoodAngle4 = SmartDashboard.getNumber("HoodAngle4", 0.0);
+    // if (newHoodAngle4 != previousHoodAngle4){
+    //   previousHoodAngle4 = (int)newHoodAngle4;
+    // }
 
-    newHoodAngle5 = SmartDashboard.getNumber("HoodAngle5", 0.0);
-    if (newHoodAngle5 != previousHoodAngle5){
-      previousHoodAngle5 = (int)newHoodAngle5;
-    }
+    // newHoodAngle5 = SmartDashboard.getNumber("HoodAngle5", 0.0);
+    // if (newHoodAngle5 != previousHoodAngle5){
+    //   previousHoodAngle5 = (int)newHoodAngle5;
+    // }
 
-    newHoodAngle6 = SmartDashboard.getNumber("HoodAngle6", 0.0);
-    if (newHoodAngle6 != previousHoodAngle6){
-      previousHoodAngle6 = (int)newHoodAngle6;
-    }
+    // newHoodAngle6 = SmartDashboard.getNumber("HoodAngle6", 0.0);
+    // if (newHoodAngle6 != previousHoodAngle6){
+    //   previousHoodAngle6 = (int)newHoodAngle6;
+    // }
 
-    newHoodAngle7 = SmartDashboard.getNumber("HoodAngle7", 0.0);
-    if (newHoodAngle7 != previousHoodAngle7){
-      previousHoodAngle7 = (int)newHoodAngle7;
-    }
+    // newHoodAngle7 = SmartDashboard.getNumber("HoodAngle7", 0.0);
+    // if (newHoodAngle7 != previousHoodAngle7){
+    //   previousHoodAngle7 = (int)newHoodAngle7;
+    // }
   }
 }

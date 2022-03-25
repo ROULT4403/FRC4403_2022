@@ -78,7 +78,8 @@ public class RobotContainer {
     // s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooter(1700), s_shooter));
     s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooterManual(0.3), s_shooter));
     // Hood Default Command
-    s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHoodManual(0), s_hood));
+    // s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHood(s_hood.getHoodTargetAngle()), s_hood));
+    s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHood(0), s_hood));
     // Turret Default Command
     s_turret.setDefaultCommand(new RunCommand(() -> s_turret.setTurretManual(0), s_turret));
     // Climber Default Command
@@ -91,16 +92,15 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Dual Controller
     // Driver
-    d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
+    // d_RSClick.whenPressed(new InstantCommand(s_drive::toggleDogShift, s_drive));
     // Intake Controls
     d_LB.whenPressed(new InstantCommand(s_intake::toggleIntakeRelease, s_intake));
-    
     d_RB.whileHeld(new RunCommand(() -> s_intake.setIntake(0.4), s_intake).alongWith(new RunCommand(() -> s_index.setIndex(0.2), s_index)));
     d_LSClick.whileHeld(new RunCommand(() -> s_intake.setIntake(-0.35), s_intake).alongWith(new RunCommand(() -> s_index.setIndexManual(-0.2), s_index)));
     
     // Controller
     // Shooter
-    c_X.whenHeld(new ShootVision(s_index, s_shooter, s_hood, s_turret));
+    c_X.whenHeld(new ShootVision(s_index, s_shooter, s_hood, s_turret)).whenReleased(new InstantCommand(s_shooter::setShooterIsFinished, s_shooter));
     c_Y.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, 2000, 40, 0));
     
     // Turret
@@ -110,7 +110,7 @@ public class RobotContainer {
     c_A.whenHeld(new RunCommand(() -> s_turret.setTurret(0), s_turret));
 
     // Index
-    c_B.whenPressed(new RunCommand(() -> s_index.setIndexManual(0.3), s_index));
+    c_B.whenPressed(new RunCommand(() -> s_index.setIndexManual(0.5), s_index));
     
     // Hood
     c_Pad0.whileHeld(new RunCommand(() -> s_hood.setHoodManual(HoodConstants.hoodOutput), s_hood));
@@ -129,7 +129,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutoBackUpGamma(s_drive, s_index, s_shooter, s_hood, s_turret, s_intake);  
+    return new AutoBackUpAlpha(s_drive, s_index, s_shooter, s_hood, s_turret);  
     }
 
   /**

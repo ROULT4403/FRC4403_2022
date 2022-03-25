@@ -43,7 +43,7 @@ public class ShootBasic extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterIsFinished = s_shooter.shooterIsFinished();
+    shooterIsFinished = s_shooter.getShooterIsFinished();
     isballShot = false;
 
     s_shooter.setShooter(s_shooterSetpoint);

@@ -22,7 +22,7 @@ public class Shoot extends SequentialCommandGroup {
             parallel(new RunCommand(() -> turret.setTurret(turretSetpoint), turret), 
                     new RunCommand(() -> hood.setHood(hoodSetpoint), hood), 
                     new RunCommand(() -> shooter.setShooter(shooterSetpoint), shooter)), // F3
-            () -> shooter.shooterIsFinished() && turret.turretIsFinished()), // B3
+            () -> shooter.getShooterIsFinished() && turret.turretIsFinished()), // B3
           parallel(new RunCommand(() -> turret.sweepTurret(true), turret),
                   new RunCommand(() -> shooter.setShooter(1000), shooter),
                   new RunCommand(() -> hood.setHood(10), hood)), // F2

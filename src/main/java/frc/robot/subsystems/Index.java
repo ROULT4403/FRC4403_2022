@@ -94,10 +94,9 @@ public class Index extends SubsystemBase {
   
   @Override
   public void periodic() {
-    hasCargo = hasCargo();
 
-    SmartDashboard.putBoolean("hascargo", hasCargo());
-    SmartDashboard.putBoolean("isAvail", isCargoAvailable());
-    SmartDashboard.putNumber("EncRots", getRotations());
+    SmartDashboard.putBoolean("hascargo", hasCargo);
+    // SmartDashboard.putBoolean("isAvail", isCargoAvailable());
+    // SmartDashboard.putNumber("EncRots", getRotations());
   }
 }

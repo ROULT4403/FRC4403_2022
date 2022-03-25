@@ -57,7 +57,7 @@ public class Drivetrain extends SubsystemBase {
   private double x;
   private double y;
   private double previousX = 0;
-	private double dx = 0.2;
+	private double dx = 0.5;
 	private double previousY = 0;
 	private double dy = 0.05;
 
@@ -65,7 +65,7 @@ public class Drivetrain extends SubsystemBase {
   private double distanceError = 100;
 
   // Turn Angle Variables
-  private double angleError;
+  private double angleError = 100;
 
   NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
   NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
@@ -318,8 +318,10 @@ public class Drivetrain extends SubsystemBase {
     m_yEntry.setNumber(translation.getY());
 
     SmartDashboard.putNumber("GetYaw", getYaw());
+    SmartDashboard.putNumber("GetHeading", getHeading());
     SmartDashboard.putNumber("AngleError", angleError);
     SmartDashboard.putNumber("AvgDistance", getAverageEncoderDistance());
     SmartDashboard.putBoolean("DriveDistanceIsFinished", driveDistanceIsFinished());
+    SmartDashboard.putBoolean("TurnisFinished", turnToAngleIsFinished());
   }
 }

@@ -21,28 +21,29 @@ public class Shooter extends SubsystemBase {
 
   // Class Variables
   private int inShooterTreshold = 0;
-  private double shooterErrorTreshold = 30;
-  private final int shooterSettleLoops = 25;
+  private double shooterErrorTreshold = 35;
+  private final int shooterSettleLoops = 50;
+  private boolean isFinished = false;
 
   // Shooter gains
-  double newShooterConstant1;
-  double previousShooterConstant1 = 0;
-  double newShooterConstant1_25;
-  double previousShooterConstant1_25 = 0;
-  double newShooterConstant1_5;
-  double previousShooterConstant1_5 = 0;
-  double newShooterConstant2;
-  double previousShooterConstant2 = 0;
-  double newShooterConstant3;
-  double previousShooterConstant3 = 0;
-  double newShooterConstant4;
-  double previousShooterConstant4 = 0;
-  double newShooterConstant5;
-  double previousShooterConstant5 = 0;
-  double newShooterConstant6;
-  double previousShooterConstant6 = 0;
-  double newShooterConstant7;
-  double previousShooterConstant7 = 0;
+  // double newShooterConstant1;
+  double previousShooterConstant1 = 0; //done
+  // double newShooterConstant1_25;
+  double previousShooterConstant1_25 = -45; //done
+  // double newShooterConstant1_5;
+  double previousShooterConstant1_5 = -100; //done
+  // double newShooterConstant2;
+  double previousShooterConstant2 = -100; //done
+  // double newShooterConstant3;
+  double previousShooterConstant3 = -150; //doneish
+  // double newShooterConstant4;
+  double previousShooterConstant4 = -15; // In progress
+  // double newShooterConstant5;
+  double previousShooterConstant5 = -130; // Not final
+  // double newShooterConstant6;
+  double previousShooterConstant6 = -100; // Not final
+  // double newShooterConstant7;
+  double previousShooterConstant7 = -100; // Not final
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -60,15 +61,15 @@ public class Shooter extends SubsystemBase {
     shooterMotor.config_kD(0, ShooterConstants.shooterkD);
     shooterMotor.config_kF(0, ShooterConstants.shooterkF);
 
-    SmartDashboard.putNumber("ShooterConstant1", newShooterConstant1);
-    SmartDashboard.putNumber("ShooterConstant1_25", newShooterConstant1_25);
-    SmartDashboard.putNumber("ShooterConstant1_5", newShooterConstant1_5);
-    SmartDashboard.putNumber("ShooterConstant2", newShooterConstant2);
-    SmartDashboard.putNumber("ShooterConstant3", newShooterConstant3);
-    SmartDashboard.putNumber("ShooterConstant4", newShooterConstant4);
-    SmartDashboard.putNumber("ShooterConstant5", newShooterConstant5);
-    SmartDashboard.putNumber("ShooterConstant6", newShooterConstant6);
-    SmartDashboard.putNumber("ShooterConstant7", newShooterConstant7);
+    // SmartDashboard.putNumber("ShooterConstant1", newShooterConstant1);
+    // SmartDashboard.putNumber("ShooterConstant1_25", newShooterConstant1_25);
+    // SmartDashboard.putNumber("ShooterConstant1_5", newShooterConstant1_5);
+    // SmartDashboard.putNumber("ShooterConstant2", newShooterConstant2);
+    // SmartDashboard.putNumber("ShooterConstant3", newShooterConstant3);
+    // SmartDashboard.putNumber("ShooterConstant4", newShooterConstant4);
+    // SmartDashboard.putNumber("ShooterConstant5", newShooterConstant5);
+    // SmartDashboard.putNumber("ShooterConstant6", newShooterConstant6);
+    // SmartDashboard.putNumber("ShooterConstant7", newShooterConstant7);
   }
   
   /** 
@@ -94,16 +95,25 @@ public class Shooter extends SubsystemBase {
    *  Returns whether controller is at reference
    * @return Returns boolean true if closed loop control is at target 
    */
-  public boolean shooterIsFinished() {
-    if(shooterMotor.getClosedLoopError() < shooterErrorTreshold && shooterMotor.getClosedLoopError() > -shooterErrorTreshold) {
+  // public boolean shooterIsFinished() {
+  //   if(shooterMotor.getClosedLoopError() < shooterErrorTreshold && shooterMotor.getClosedLoopError() > -shooterErrorTreshold) {
+  //     ++inShooterTreshold;
+  //   } else {
+  //     inShooterTreshold = 0;
+  //     return false;
+  //   }
+    
+  //   return inShooterTreshold > shooterSettleLoops;
+  // }
+  public void shooterIsFinished() {
+    if(Math.abs(shooterMotor.getClosedLoopError()) < shooterErrorTreshold) {
       ++inShooterTreshold;
     } else {
       inShooterTreshold = 0;
-      return false;
+      isFinished = false;
     }
     
-    return inShooterTreshold > shooterSettleLoops;
-    // return false;
+    isFinished = inShooterTreshold > shooterSettleLoops;
   }
   
   /**
@@ -142,61 +152,70 @@ public class Shooter extends SubsystemBase {
       return 0.001365 * Math.pow(Robot.tD, 2) + Robot.tD * 1.175 + 1458;
     }
   }
+
+  public void setShooterIsFinished() {
+    isFinished = false;
+  }
+
+  public boolean getShooterIsFinished() {
+    return isFinished;
+  }
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run  
+    shooterIsFinished();
     SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
-    SmartDashboard.putNumber("ShooterTarget", getShooterTargetSpeed());
-    SmartDashboard.putBoolean("ShooterIsFinishedInShooter", shooterIsFinished());
+    // SmartDashboard.putNumber("ShooterTarget", getShooterTargetSpeed());
+    // SmartDashboard.putBoolean("ShooterIsFinishedInShooter", isFinished);
 
     SmartDashboard.putNumber("Distance", Robot.tD);
     SmartDashboard.putNumber("VisionYaw", Robot.tX);
 
     // Tune hood values in Shuffleboard
-    newShooterConstant1 = SmartDashboard.getNumber("ShooterConstant1", 0.0);
-    if (newShooterConstant1 != previousShooterConstant1){
-      previousShooterConstant1 = newShooterConstant1;
-    }
+    // newShooterConstant1 = SmartDashboard.getNumber("ShooterConstant1", 0.0);
+    // if (newShooterConstant1 != previousShooterConstant1){
+    //   previousShooterConstant1 = newShooterConstant1;
+    // }
 
-    newShooterConstant1_25 = SmartDashboard.getNumber("ShooterConstant1_25", 0.0);
-    if (newShooterConstant1_25 != previousShooterConstant1_25){
-      previousShooterConstant1_25 = newShooterConstant1_25;
-    }
+    // newShooterConstant1_25 = SmartDashboard.getNumber("ShooterConstant1_25", 0.0);
+    // if (newShooterConstant1_25 != previousShooterConstant1_25){
+    //   previousShooterConstant1_25 = newShooterConstant1_25;
+    // }
 
-    newShooterConstant1_5 = SmartDashboard.getNumber("ShooterConstant1_5", 0.0);
-    if (newShooterConstant1_5 != previousShooterConstant1_5){
-      previousShooterConstant1_5 = newShooterConstant1_5;
-    }
+    // newShooterConstant1_5 = SmartDashboard.getNumber("ShooterConstant1_5", 0.0);
+    // if (newShooterConstant1_5 != previousShooterConstant1_5){
+    //   previousShooterConstant1_5 = newShooterConstant1_5;
+    // }
 
-    newShooterConstant2 = SmartDashboard.getNumber("ShooterConstant2", 0.0);
-    if (newShooterConstant2 != previousShooterConstant2){
-      previousShooterConstant2 = newShooterConstant2;
-    }
+    // newShooterConstant2 = SmartDashboard.getNumber("ShooterConstant2", 0.0);
+    // if (newShooterConstant2 != previousShooterConstant2){
+    //   previousShooterConstant2 = newShooterConstant2;
+    // }
 
-    newShooterConstant3 = SmartDashboard.getNumber("ShooterConstant3", 0.0);
-    if (newShooterConstant3 != previousShooterConstant3){
-      previousShooterConstant3 = newShooterConstant3;
-    }
+    // newShooterConstant3 = SmartDashboard.getNumber("ShooterConstant3", 0.0);
+    // if (newShooterConstant3 != previousShooterConstant3){
+    //   previousShooterConstant3 = newShooterConstant3;
+    // }
 
-    newShooterConstant4 = SmartDashboard.getNumber("ShooterConstant4", 0.0);
-    if (newShooterConstant4 != previousShooterConstant4){
-      previousShooterConstant4 = newShooterConstant4;
-    }
+    // newShooterConstant4 = SmartDashboard.getNumber("ShooterConstant4", 0.0);
+    // if (newShooterConstant4 != previousShooterConstant4){
+    //   previousShooterConstant4 = newShooterConstant4;
+    // }
 
-    newShooterConstant5 = SmartDashboard.getNumber("ShooterConstant5", 0.0);
-    if (newShooterConstant5 != previousShooterConstant5){
-      previousShooterConstant5 = newShooterConstant5;
-    }
+    // newShooterConstant5 = SmartDashboard.getNumber("ShooterConstant5", 0.0);
+    // if (newShooterConstant5 != previousShooterConstant5){
+    //   previousShooterConstant5 = newShooterConstant5;
+    // }
 
-    newShooterConstant6 = SmartDashboard.getNumber("ShooterConstant6", 0.0);
-    if (newShooterConstant6 != previousShooterConstant6){
-      previousShooterConstant6 = newShooterConstant6;
-    }
+    // newShooterConstant6 = SmartDashboard.getNumber("ShooterConstant6", 0.0);
+    // if (newShooterConstant6 != previousShooterConstant6){
+    //   previousShooterConstant6 = newShooterConstant6;
+    // }
 
-    newShooterConstant7 = SmartDashboard.getNumber("ShooterConstant7", 0.0);
-    if (newShooterConstant7 != previousShooterConstant7){
-      previousShooterConstant7 = newShooterConstant7;
-    }
+    // newShooterConstant7 = SmartDashboard.getNumber("ShooterConstant7", 0.0);
+    // if (newShooterConstant7 != previousShooterConstant7){
+    //   previousShooterConstant7 = newShooterConstant7;
+    // }
   }
 }
