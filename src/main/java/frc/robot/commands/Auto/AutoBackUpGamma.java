@@ -20,11 +20,10 @@ public class AutoBackUpGamma extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(s_intake::toggleIntakeRelease, s_intake),
-      new RunCommand(() -> s_drivetrain.driveDistance(AutoConstants.autoDistance), s_drivetrain)
+      // new InstantCommand(s_intake::toggleIntakeRelease, s_intake),
+      new RunCommand(() -> s_drivetrain.drive(-0.5, 0), s_drivetrain).withTimeout(2)
       .alongWith(new RunCommand(() -> s_intake.setIntake(0.3), s_intake))
-      .alongWith(new RunCommand(() -> s_index.setIndex(0.3), s_index).withTimeout(3))
-      .until(() -> s_drivetrain.driveDistanceIsFinished()),
+      .alongWith(new RunCommand(() -> s_index.setIndex(0.3), s_index).withTimeout(3)),
       new RunCommand(() -> s_drivetrain.turnToAngle(AutoConstants.autoAngle), s_drivetrain).until(() -> s_drivetrain.turnToAngleIsFinished()),
       parallel(
         new RunCommand(() -> s_shooter.setShooter(s_shooter.getShooterTargetSpeed()), s_shooter),

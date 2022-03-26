@@ -31,7 +31,7 @@ public final class Constants {
     public static final int portLeftBottom = 3;
 
     // Solenoid Ports
-    public static final int[] dogShiftPort = {3, 4};
+    public static final int[] dogShiftPort = {4,3};
     // public static final int dogShiftPort = 0;
 
     // Constants
@@ -68,7 +68,7 @@ public final class Constants {
     public static final int portHoodMotor = 6;
 
     // Sensor Ports
-    public static final int[] hoodEncoderPorts = {5, 4};
+    public static final int[] hoodEncoderPorts = {3, 5};
     public static final int limitSwitchPort = 0;
 
     // Output Constants
@@ -108,7 +108,7 @@ public final class Constants {
     public static final int portIntake = 1;
     
     // Solenoid Ports
-    public static final int[] intakeReleasePort = {7, 1};
+    public static final int[] intakeReleasePort = {1,5};
 
     // Constants
     // Default State Booleans
@@ -175,7 +175,7 @@ public final class Constants {
   public static final int portClimber = 9;
 
   //Solenoid Ports
-  public static final int[] climberSolenoidPorts = {6,0};
+  public static final int[] climberSolenoidPorts = {7,6};
 
   //Constants
   //Default State Booleans
@@ -184,7 +184,7 @@ public final class Constants {
 
   //Treshold
   public static final int climberMinPositioon = 0;
-  public static final int climberMaxPos = 450000;
+  public static final int climberMaxPos = 380000;
   }
 
   /** Constants used RamseteCommand and Path Following */

@@ -78,8 +78,8 @@ public class RobotContainer {
     // s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooter(1700), s_shooter));
     s_shooter.setDefaultCommand(new RunCommand(() -> s_shooter.setShooterManual(0.3), s_shooter));
     // Hood Default Command
-    // s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHood(s_hood.getHoodTargetAngle()), s_hood));
-    s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHood(0), s_hood));
+    // s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHood(0), s_hood));
+    s_hood.setDefaultCommand(new RunCommand(() -> s_hood.setHoodManual(0), s_hood));
     // Turret Default Command
     s_turret.setDefaultCommand(new RunCommand(() -> s_turret.setTurretManual(0), s_turret));
     // Climber Default Command
@@ -101,7 +101,9 @@ public class RobotContainer {
     // Controller
     // Shooter
     c_X.whenHeld(new ShootVision(s_index, s_shooter, s_hood, s_turret)).whenReleased(new InstantCommand(s_shooter::setShooterIsFinished, s_shooter));
-    c_Y.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, 2000, 40, 0));
+    c_Y.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, 1950, 40, 0));
+    // c_Y.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, 2300, 25, 0));
+    // c_Y.whenHeld(new ShootBasic(s_index, s_shooter, s_hood, s_turret, 2300, 10, 0));
     
     // Turret
     c_Pad90.whileHeld(new RunCommand(() -> s_turret.setTurretManual(-TurretConstants.turretOutput), s_turret));
@@ -129,7 +131,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutoBackUpAlpha(s_drive, s_index, s_shooter, s_hood, s_turret);  
+    return new AutoBackUpGamma(s_drive, s_index, s_shooter, s_hood, s_turret, s_intake);  
     }
 
   /**

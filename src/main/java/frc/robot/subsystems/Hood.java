@@ -140,6 +140,7 @@ public class Hood extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("HoodAngle", getHoodAngle());
     SmartDashboard.putNumber("HoodTargetAngle", getHoodTargetAngle());
+    SmartDashboard.putBoolean("HoodLimitSwitch", hoodLimitSwitch.get());
 
     // Tune hood values in Shuffleboard
     // newHoodAngle1 = SmartDashboard.getNumber("HoodAngle1", 0.0);

@@ -37,7 +37,7 @@ public class Shooter extends SubsystemBase {
   // double newShooterConstant3;
   double previousShooterConstant3 = -150; //doneish
   // double newShooterConstant4;
-  double previousShooterConstant4 = -15; // In progress
+  double previousShooterConstant4 = -67; // In progress
   // double newShooterConstant5;
   double previousShooterConstant5 = -130; // Not final
   // double newShooterConstant6;
@@ -78,7 +78,7 @@ public class Shooter extends SubsystemBase {
    */
   public void setShooter(double shooterSetpoint){
     shooterMotor.set(ControlMode.Velocity, shooterSetpoint * 2048 / 600);
-
+    shooterIsFinished();
     SmartDashboard.putNumber("ShooterTarget", shooterSetpoint * 2048 / 600);
 
   }
@@ -155,6 +155,7 @@ public class Shooter extends SubsystemBase {
 
   public void setShooterIsFinished() {
     isFinished = false;
+    inShooterTreshold = 0;
   }
 
   public boolean getShooterIsFinished() {
@@ -164,10 +165,10 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run  
-    shooterIsFinished();
     SmartDashboard.putNumber("ShooterVelocity", getShooterSpeed());
+    SmartDashboard.putNumber("ClosedLoopError", shooterMotor.getClosedLoopError());
     // SmartDashboard.putNumber("ShooterTarget", getShooterTargetSpeed());
-    // SmartDashboard.putBoolean("ShooterIsFinishedInShooter", isFinished);
+    SmartDashboard.putBoolean("ShooterIsFinishedInShooter", isFinished);
 
     SmartDashboard.putNumber("Distance", Robot.tD);
     SmartDashboard.putNumber("VisionYaw", Robot.tX);

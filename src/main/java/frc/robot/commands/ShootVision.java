@@ -41,10 +41,10 @@ public class ShootVision extends CommandBase {
     // } 
     
     s_shooter.setShooter(s_shooter.getShooterTargetSpeed());
-    // s_hood.setHood(s_hood.getHoodTargetAngle());
+    s_hood.setHood(s_hood.getHoodTargetAngle());
     s_turret.setTurret(Robot.tX + s_turret.getTurretAngle());
     
-    SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
+    // SmartDashboard.putBoolean("SBshooterIsFinished", shooterIsFinished);
     SmartDashboard.putBoolean("shooterCounter", counterVariable > 0);
     if (shooterIsFinished/* || counterVariable > 0*/) {
       s_index.setIndexManual(0.5);
