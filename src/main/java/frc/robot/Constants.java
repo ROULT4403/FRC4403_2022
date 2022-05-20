@@ -184,7 +184,7 @@ public final class Constants {
 
   //Treshold
   public static final int climberMinPositioon = 0;
-  public static final int climberMaxPos = 380000;
+  public static final int climberMaxPos = 345000;
   }
 
   /** Constants used RamseteCommand and Path Following */

@@ -122,8 +122,8 @@ public class RobotContainer {
     c_RSClick.whenPressed(new InstantCommand(s_climber::climberFlex, s_climber));
     c_LSClick.whenPressed(new InstantCommand(s_climber::resetPosition, s_climber));
 
-    c_RB.whenHeld(new RunCommand(() -> s_climber.setAltitude(0.95), s_climber));
-    c_LB.whenHeld(new RunCommand(() -> s_climber.setAltitude(-0.95), s_climber));
+    c_RB.whenHeld(new RunCommand(() -> s_climber.setAltitude(0.8), s_climber));
+    c_LB.whenHeld(new RunCommand(() -> s_climber.setAltitude(-0.8), s_climber));
   }
 
   /**
@@ -131,7 +131,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutoBackUpGamma(s_drive, s_index, s_shooter, s_hood, s_turret, s_intake);  
+    return new AutoBackUpBeta(s_drive, s_index, s_shooter, s_hood, s_turret, s_intake);  
     }
 
   /**
